@@ -1,5 +1,8 @@
 package ch.supsi.minesweeper.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class GameModel extends AbstractModel implements GameEventHandler, PlayerEventHandler {
@@ -12,7 +15,9 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private boolean gameStarted;
     private boolean gameOver;
     private boolean gameWon;
-    private static final int DEFAULT_MINE_COUNT = 10;
+    private static final int DEFAULT_MINE_COUNT = 20;
+    private static final int CLUSTER_DIM = 4;
+
 
     public static final int GRID_SIZE = 9;
     public static final int MAX_MINES = GRID_SIZE * GRID_SIZE - 1;
@@ -90,25 +95,70 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
     public void placeMines() {
-        // Posiziona le mine in modo casuale
         Random random = new Random();
         int minesPlaced = 0;
 
+        // Creates clusters of bombs
         while (minesPlaced < mineCount) {
+            // Select a random position for a potential cluster center
             int row = random.nextInt(GRID_SIZE);
             int col = random.nextInt(GRID_SIZE);
+
 
             if (!board[row][col].isMine()) {
                 board[row][col].setMine(true);
                 minesPlaced++;
+
+                int maxAdditionalMines = Math.min(CLUSTER_DIM, mineCount - minesPlaced);
+                int numBombsAround = (maxAdditionalMines > 0) ? random.nextInt(maxAdditionalMines + 1) : 0;
+
+                // Place additional mines in a cluster around this one
+                if (numBombsAround > 0) {
+                    int additionalMines = placeMinesAround(row, col, numBombsAround);
+                    minesPlaced += additionalMines;
+                }
             }
         }
 
-        // Calcola il numero di mine adiacenti per ogni cella
         calculateAdjacentMines();
-
         gameStarted = true;
     }
+
+    private int placeMinesAround(int row, int col, int numBombsAround) {
+        Random random = new Random();
+        int bombsPlaced = 0;
+
+        List<int[]> validCells = new ArrayList<>();
+
+        // Check all 8 positions around the current cell
+        for (int i = Math.max(0, row - 1); i <= Math.min(GRID_SIZE - 1, row + 1); i++) {
+            for (int j = Math.max(0, col - 1); j <= Math.min(GRID_SIZE - 1, col + 1); j++) {
+
+                // Skipping the center of the cluster
+                if (i == row && j == col) {
+                    continue;
+                }
+
+                if (!board[i][j].isMine()) {
+                    validCells.add(new int[]{i, j});
+                }
+            }
+        }
+
+        Collections.shuffle(validCells);
+
+        // Place as many as possible
+        int minesToPlace = Math.min(numBombsAround, validCells.size());
+
+        for (int i = 0; i < minesToPlace; i++) {
+            int[] cell = validCells.get(i);
+            board[cell[0]][cell[1]].setMine(true);
+            bombsPlaced++;
+        }
+
+        return bombsPlaced;
+    }
+
 
     private void calculateAdjacentMines() {
         for (int i = 0; i < GRID_SIZE; i++) {
