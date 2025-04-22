@@ -17,7 +17,6 @@ import java.util.Date;
 public class UserFeedbackViewFxml implements UncontrolledFxView {
 
     private static UserFeedbackViewFxml myself;
-
     private GameModel gameModel;
 
     @FXML
@@ -60,15 +59,23 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
 
     @Override
     public void update() {
-        // get your data from the model, if needed
-        // then update this view here
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date date = new Date(System.currentTimeMillis());
-        this.userFeedbackBar.setText(" updated..." + dateFormat.format(date));
+        if (gameModel.isGameStarted() && !gameModel.isGameOver()) {
+            this.userFeedbackBar.setText("Mine rimanenti: " + gameModel.getRemainingMines());
+        }
     }
 
     @Override
     public void newGameMessage() {
-        this.userFeedbackBar.setText("New Game Created");
+        this.userFeedbackBar.setText("Nuovo gioco creato con " + gameModel.getMineCount() + " mine.");
+    }
+
+    @Override
+    public void flagUpdateMessage(int remainingMines) {
+        this.userFeedbackBar.setText("Mine rimanenti: " + remainingMines);
+    }
+
+    @Override
+    public void gameOverMessage(String message) {
+        this.userFeedbackBar.setText(message);
     }
 }

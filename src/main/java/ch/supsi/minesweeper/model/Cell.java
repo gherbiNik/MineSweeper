@@ -3,7 +3,7 @@ package ch.supsi.minesweeper.model;
 public class Cell {
     private final int row;
     private final int col;
-    private final boolean isMine;
+    private boolean isMine;
     private boolean isRevealed;
     private boolean isFlagged;
     private int adjacentMines;
@@ -15,6 +15,44 @@ public class Cell {
         this.isRevealed = false;
         this.isFlagged = false;
         this.adjacentMines = 0;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public void setMine(boolean mine) {
+        isMine = mine;
+    }
+
+    public boolean isRevealed() {
+        return isRevealed;
+    }
+
+    public void setRevealed(boolean revealed) {
+        isRevealed = revealed;
+    }
+
+    public boolean isFlagged() {
+        return isFlagged;
+    }
+
+    public void toggleFlag() {
+        if (!isRevealed) {
+            isFlagged = !isFlagged;
+        }
+    }
+
+    public int getAdjacentMines() {
+        return adjacentMines;
     }
 
     public void setAdjacentMines(int adjacentMines) {

@@ -10,12 +10,10 @@ import java.util.List;
 public class GameController implements GameEventHandler, PlayerEventHandler {
 
     private static GameController myself;
-
     private GameModel gameModel;
-
     private List<DataView> views;
 
-    private GameController () {
+    private GameController() {
         this.gameModel = GameModel.getInstance();
     }
 
@@ -23,7 +21,6 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         if (myself == null) {
             myself = new GameController();
         }
-
         return myself;
     }
 
@@ -33,28 +30,37 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
 
     @Override
     public void newGame() {
-        // do whatever you must do to start a new game
-
-        // then update your views
-        this.views.forEach(DataView::newGameMessage);
-
+        gameModel.newGame();
+        String message = "Nuovo gioco avviato con " + gameModel.getMineCount() + " bombe!";
+        this.views.forEach(view -> view.newGameMessage());
     }
 
     @Override
     public void save() {
-        // do whatever you must do to start a new game
-
-        // then update your views
+        gameModel.save();
         this.views.forEach(DataView::update);
     }
 
-    // add all the relevant methods to handle all those defined by the GameEventHandler interface
-    // ...
-
     @Override
     public void move() {
-        this.gameModel.move();
-        views.forEach(DataView::update);
+        // Metodo generico, non utilizzato direttamente
     }
 
+    @Override
+    public void move(int row, int col, boolean isRightClick) {
+        gameModel.move(row, col, isRightClick);
+
+        // Aggiorna le viste con lo stato attuale
+        if (gameModel.isGameOver()) {
+            if (gameModel.isGameWon()) {
+                this.views.forEach(view -> view.gameOverMessage("Complimenti! Hai vinto!"));
+            } else {
+                this.views.forEach(view -> view.gameOverMessage("Game Over! Hai perso."));
+            }
+        } else if (isRightClick) {
+            this.views.forEach(view -> view.flagUpdateMessage(gameModel.getRemainingMines()));
+        } else {
+            this.views.forEach(DataView::update);
+        }
+    }
 }

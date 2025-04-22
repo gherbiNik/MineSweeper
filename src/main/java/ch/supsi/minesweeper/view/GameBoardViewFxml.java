@@ -2,13 +2,16 @@ package ch.supsi.minesweeper.view;
 
 import ch.supsi.minesweeper.controller.EventHandler;
 import ch.supsi.minesweeper.model.AbstractModel;
+import ch.supsi.minesweeper.model.Cell;
 import ch.supsi.minesweeper.model.GameModel;
 import ch.supsi.minesweeper.model.PlayerEventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,11 +22,8 @@ import java.util.Date;
 public class GameBoardViewFxml implements ControlledFxView {
 
     private static GameBoardViewFxml myself;
-
     private PlayerEventHandler playerEventHandler;
-
     private GameModel gameModel;
-
     private Button[][] cells;
 
     @FXML
@@ -38,7 +38,7 @@ public class GameBoardViewFxml implements ControlledFxView {
     @FXML private Button cell60, cell61, cell62, cell63, cell64, cell65, cell66, cell67, cell68;
     @FXML private Button cell70, cell71, cell72, cell73, cell74, cell75, cell76, cell77, cell78;
     @FXML private Button cell80, cell81, cell82, cell83, cell84, cell85, cell86, cell87, cell88;
-    
+
     private GameBoardViewFxml() {
         cells = new Button[9][9];
     }
@@ -66,7 +66,6 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     private void populateCellsMatrix() {
-
         cells[0][0] = cell00; cells[0][1] = cell01; cells[0][2] = cell02;
         cells[0][3] = cell03; cells[0][4] = cell04; cells[0][5] = cell05;
         cells[0][6] = cell06; cells[0][7] = cell07; cells[0][8] = cell08;
@@ -112,16 +111,17 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     private void createBehaviour() {
+        for (int i = 0; i < GameModel.GRID_SIZE; i++) {
+            for (int j = 0; j < GameModel.GRID_SIZE; j++) {
+                final int row = i;
+                final int col = j;
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                this.cells[i][j].setOnAction(event -> this.playerEventHandler.move());
+                this.cells[i][j].setOnMouseClicked(event -> {
+                    boolean isRightClick = event.getButton() == MouseButton.SECONDARY;
+                    this.playerEventHandler.move(row, col, isRightClick);
+                });
             }
-
         }
-
-        // add event handlers for all necessary buttons
-        // ...
     }
 
     @Override
@@ -131,15 +131,66 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     @Override
     public void update() {
-        // get your data from the model, if needed
-        // then update this view here
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date date = new Date(System.currentTimeMillis());
-        System.out.println(this.getClass().getSimpleName() + " updated..." + dateFormat.format(date));
+        // Aggiorna la visualizzazione della griglia in base allo stato del modello
+        for (int i = 0; i < GameModel.GRID_SIZE; i++) {
+            for (int j = 0; j < GameModel.GRID_SIZE; j++) {
+                updateCellView(i, j);
+            }
+        }
+    }
+
+    private void updateCellView(int row, int col) {
+        Button button = cells[row][col];
+        Cell cell = gameModel.getCell(row, col);
+
+        if (cell == null) return;
+
+        if (cell.isRevealed()) {
+            if (cell.isMine()) {
+                button.setText("💣");
+                button.setStyle("-fx-background-color: #FF8888;");
+            } else {
+                int mines = cell.getAdjacentMines();
+                if (mines > 0) {
+                    button.setText(String.valueOf(mines));
+
+                    // Colori diversi per numeri diversi
+                    switch (mines) {
+                        case 1: button.setStyle("-fx-text-fill: blue;"); break;
+                        case 2: button.setStyle("-fx-text-fill: green;"); break;
+                        case 3: button.setStyle("-fx-text-fill: red;"); break;
+                        case 4: button.setStyle("-fx-text-fill: purple;"); break;
+                        default: button.setStyle("-fx-text-fill: black;"); break;
+                    }
+                } else {
+                    button.setText("");
+                }
+                button.setStyle(button.getStyle() + " -fx-background-color: #DDDDDD;");
+            }
+        } else if (cell.isFlagged()) {
+            button.setText("🚩");
+            button.setStyle("-fx-background-color: #FFFFFF;");
+        } else {
+            button.setText("");
+            button.setStyle("-fx-background-color: #BBBBBB;");
+        }
     }
 
     @Override
     public void newGameMessage() {
         System.out.println("New Game Created");
+        update();
+    }
+
+    @Override
+    public void flagUpdateMessage(int remainingMines) {
+        System.out.println("Remaining mines: " + remainingMines);
+        update();
+    }
+
+    @Override
+    public void gameOverMessage(String message) {
+        System.out.println(message);
+        update();
     }
 }
