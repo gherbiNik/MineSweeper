@@ -67,4 +67,8 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
         this.userFeedbackBar.setText(" updated..." + dateFormat.format(date));
     }
 
+    @Override
+    public void newGameMessage() {
+        this.userFeedbackBar.setText("New Game Created");
+    }
 }

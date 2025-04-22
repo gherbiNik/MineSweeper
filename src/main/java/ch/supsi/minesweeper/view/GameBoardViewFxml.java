@@ -324,4 +324,8 @@ public class GameBoardViewFxml implements ControlledFxView {
         System.out.println(this.getClass().getSimpleName() + " updated..." + dateFormat.format(date));
     }
 
+    @Override
+    public void newGameMessage() {
+        System.out.println("New Game Created");
+    }
 }
