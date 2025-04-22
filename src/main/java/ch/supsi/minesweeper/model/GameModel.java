@@ -59,11 +59,11 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         // Implementation here
     }
 
-    public boolean revealCell(int row, int col) {
-        // Logic to reveal a cell
-        // Return true if successful, false if mine
-        // Implementation here
-    }
+//    public boolean revealCell(int row, int col) {
+//        // Logic to reveal a cell
+//        // Return true if successful, false if mine
+//        // Implementation here
+//    }
 
     public void toggleFlag(int row, int col) {
         // Logic to flag/unflag a cell
