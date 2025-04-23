@@ -7,6 +7,8 @@ import ch.supsi.minesweeper.model.GameModel;
 import ch.supsi.minesweeper.model.PlayerEventHandler;
 import ch.supsi.minesweeper.view.*;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -20,9 +22,11 @@ public class MainFx extends Application {
     private final AbstractModel gameModel;
     private final ControlledFxView menuBarView;
     private final ControlledFxView gameBoardView;
+    private final UncontrolledFxView welcomeView;
     private final UncontrolledFxView userFeedbackView;
     private final GameEventHandler gameEventHandler;
     private final PlayerEventHandler playerEventHandler;
+    private BorderPane mainBorderPane;
 
     public MainFx() {
         // GAME MODEL
@@ -32,6 +36,7 @@ public class MainFx extends Application {
         this.menuBarView = MenuBarViewFxml.getInstance();
         this.gameBoardView = GameBoardViewFxml.getInstance();
         this.userFeedbackView = UserFeedbackViewFxml.getInstance();
+        this.welcomeView = WelcomeViewFxml.getInstance();
 
         // CONTROLLERS
         this.gameEventHandler = GameController.getInstance();
@@ -41,11 +46,23 @@ public class MainFx extends Application {
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel);
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel);
         this.userFeedbackView.initialize(this.gameModel);
-        GameController.getInstance().initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
+        this.welcomeView.initialize(this.gameModel);
+        GameController.getInstance().setMainFx(this);
+        GameController.getInstance().initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView, this.welcomeView));
+
+    }
+
+    public  void switchGameBoard() {
+        mainBorderPane.setCenter(this.gameBoardView.getNode());
     }
 
     @Override
     public void start(Stage primaryStage) {
+//        Parent root = FXMLLoader.load(getClass().getResource("/view/WelcomeView.fxml"));
+//        primaryStage.setTitle("Welcome Page");
+//        primaryStage.setScene(new Scene(root));
+//        primaryStage.show();
+
         // handle the main window close request
         // in real life, this event should not be dealt with here!
         // it should actually be delegated to a suitable ExitController!
@@ -62,9 +79,9 @@ public class MainFx extends Application {
         );
 
         // SCAFFOLDING OF MAIN PANE
-        BorderPane mainBorderPane = new BorderPane();
+        mainBorderPane = new BorderPane();
         mainBorderPane.setTop(this.menuBarView.getNode());
-        mainBorderPane.setCenter(this.gameBoardView.getNode());
+        mainBorderPane.setCenter(this.welcomeView.getNode());
         mainBorderPane.setBottom(this.userFeedbackView.getNode());
 
         // SCENE

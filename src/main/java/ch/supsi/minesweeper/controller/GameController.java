@@ -1,5 +1,6 @@
 package ch.supsi.minesweeper.controller;
 
+import ch.supsi.minesweeper.MainFx;
 import ch.supsi.minesweeper.model.GameEventHandler;
 import ch.supsi.minesweeper.model.GameModel;
 import ch.supsi.minesweeper.model.PlayerEventHandler;
@@ -12,6 +13,7 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     private static GameController myself;
     private GameModel gameModel;
     private List<DataView> views;
+    private MainFx mainFx;
 
     private GameController() {
         this.gameModel = GameModel.getInstance();
@@ -28,10 +30,14 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         this.views = views;
     }
 
+    public void setMainFx(MainFx mainFx) {
+        this.mainFx = mainFx;
+    }
+
     @Override
     public void newGame() {
         gameModel.newGame();
-        String message = "Nuovo gioco avviato con " + gameModel.getMineCount() + " bombe!";
+        mainFx.switchGameBoard();
         this.views.forEach(view -> view.newGameMessage());
     }
 
