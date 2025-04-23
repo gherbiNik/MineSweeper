@@ -2,6 +2,7 @@ package ch.supsi.minesweeper.model;
 
 import ch.supsi.minesweeper.controller.PropertiesController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private boolean gameStarted;
     private boolean gameOver;
     private boolean gameWon;
-    private static final int DEFAULT_MINE_COUNT = 20;
+    public static final int DEFAULT_MINE_COUNT = 20;
     private static final int CLUSTER_DIM = 2;
 
 
@@ -28,8 +29,14 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     private GameModel() {
 
-        values = PropertiesController.readFileProperties();
+        try {
+            values = PropertiesController.readFileProperties();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         int tmp = Integer.parseInt(values[0]);
+
         this.mineCount = tmp > 81 || tmp < 1 ? DEFAULT_MINE_COUNT : tmp;
         gameStarted = false;
         gameOver = false;
