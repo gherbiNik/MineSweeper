@@ -18,8 +18,9 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private boolean gameStarted;
     private boolean gameOver;
     private boolean gameWon;
-    private static final int DEFAULT_MINE_COUNT = 10;
-    private static final int CLUSTER_DIM = 4;
+    private static final int DEFAULT_MINE_COUNT = 20;
+    private static final int CLUSTER_DIM = 2;
+
 
     public static final int GRID_SIZE = 9;
     public static final int MAX_MINES = GRID_SIZE * GRID_SIZE - 1;
