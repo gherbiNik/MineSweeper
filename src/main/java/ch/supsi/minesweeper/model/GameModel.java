@@ -1,5 +1,7 @@
 package ch.supsi.minesweeper.model;
 
+import ch.supsi.minesweeper.controller.PropertiesController;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,25 +11,29 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     private static GameModel myself;
     private Cell[][] board;
+    private String[] values;
     private int mineCount;
     private int revealedCellCount;
     private int flaggedCellCount;
     private boolean gameStarted;
     private boolean gameOver;
     private boolean gameWon;
-    private static final int DEFAULT_MINE_COUNT = 20;
+    private static final int DEFAULT_MINE_COUNT = 10;
     private static final int CLUSTER_DIM = 4;
-
 
     public static final int GRID_SIZE = 9;
     public static final int MAX_MINES = GRID_SIZE * GRID_SIZE - 1;
     public static final int MIN_MINES = 1;
 
     private GameModel() {
-        this.mineCount = DEFAULT_MINE_COUNT;
+
+        values = PropertiesController.readFileProperties();
+        int tmp = Integer.parseInt(values[0]);
+        this.mineCount = tmp > 81 || tmp < 1 ? DEFAULT_MINE_COUNT : tmp;
         gameStarted = false;
         gameOver = false;
         gameWon = false;
+
     }
 
     public static GameModel getInstance() {
