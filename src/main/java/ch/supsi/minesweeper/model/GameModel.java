@@ -4,10 +4,7 @@ import ch.supsi.minesweeper.controller.PropertiesController;
 import javafx.application.Platform;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameModel extends AbstractModel implements GameEventHandler, PlayerEventHandler {
 
@@ -36,7 +33,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
             System.out.println(e.getMessage());
         }
 
-        int tmp = Integer.parseInt(values[0]);
+        int tmp = Integer.parseInt(Objects.requireNonNull(values)[0]);
 
         this.mineCount = tmp > 81 || tmp < 1 ? DEFAULT_MINE_COUNT : tmp;
         gameStarted = false;
@@ -52,17 +49,10 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         return myself;
     }
 
-    public void setMineCount(int mineCount) {
-        this.mineCount = Math.min(Math.max(mineCount, MIN_MINES), MAX_MINES);
-    }
-
     public int getMineCount() {
         return mineCount;
     }
 
-    public int getFlaggedCount() {
-        return flaggedCellCount;
-    }
 
     public int getRemainingMines() {
         return mineCount - flaggedCellCount;
@@ -130,7 +120,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
     private int placeMinesAround(int row, int col, int numBombsAround) {
-        Random random = new Random();
         int bombsPlaced = 0;
 
         List<int[]> validCells = new ArrayList<>();
@@ -191,12 +180,12 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         return count;
     }
 
-    public boolean revealCell(int row, int col) {
+    public void revealCell(int row, int col) {
         Cell cell = board[row][col];
 
         // Se la cella è già rivelata o contrassegnata, non fare nulla
         if (cell.isRevealed() || cell.isFlagged() || gameOver) {
-            return true;
+            return;
         }
 
         // Se non abbiamo ancora posizionato le mine, fallo ora
@@ -211,7 +200,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         if (cell.isMine()) {
             gameOver = true;
             revealAllMines();
-            return false;
+            return;
         }
 
         // Se non ci sono mine adiacenti, rivela automaticamente le celle adiacenti
@@ -228,7 +217,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         // Controlla se il gioco è vinto
         checkWinCondition();
 
-        return true;
     }
 
     private void revealAllMines() {
@@ -249,22 +237,22 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         }
     }
 
-    public boolean toggleFlag(int row, int col) {
+    public void toggleFlag(int row, int col) {
         if (!gameStarted || gameOver) {
-            return false;
+            return;
         }
 
         Cell cell = board[row][col];
 
         // Non consentire di contrassegnare celle già rivelate
         if (cell.isRevealed()) {
-            return false;
+            return;
         }
 
         // Gestisce il conteggio delle bandierine
         if (!cell.isFlagged() && flaggedCellCount >= mineCount) {
             // Non puoi inserire più bandierine del numero di mine
-            return false;
+            return;
         }
 
         // Toggle flag
@@ -278,7 +266,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
             flaggedCellCount--;
         }
 
-        return true;
     }
 
     @Override
@@ -304,6 +291,11 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         gameWon = false;
 
         Platform.exit();
+    }
+
+    @Override
+    public void open() {
+
     }
 
     @Override

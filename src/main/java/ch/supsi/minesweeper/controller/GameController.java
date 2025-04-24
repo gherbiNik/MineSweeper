@@ -11,7 +11,7 @@ import java.util.List;
 public class GameController implements GameEventHandler, PlayerEventHandler {
 
     private static GameController myself;
-    private GameModel gameModel;
+    private final GameModel gameModel;
     private List<DataView> views;
     private MainFx mainFx;
 
@@ -38,7 +38,7 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     public void newGame() {
         gameModel.newGame();
         mainFx.switchGameBoard();
-        this.views.forEach(view -> view.newGameMessage());
+        this.views.forEach(DataView::newGameMessage);
     }
 
     @Override
@@ -56,6 +56,11 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     public void quit(){
         gameModel.quit();
 
+    }
+
+    @Override
+    public void open() {
+        gameModel.open();
     }
 
     @Override

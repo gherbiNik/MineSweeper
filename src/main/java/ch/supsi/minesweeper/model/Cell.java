@@ -17,14 +17,6 @@ public class Cell {
         this.adjacentMines = 0;
     }
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
     public boolean isMine() {
         return isMine;
     }

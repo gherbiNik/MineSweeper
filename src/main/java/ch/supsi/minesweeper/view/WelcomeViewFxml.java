@@ -14,6 +14,7 @@ import java.net.URL;
 
 public class WelcomeViewFxml implements UncontrolledFxView{
     private static WelcomeViewFxml myself;
+    private GameModel gameModel;
 
     @FXML
     private Label label;
@@ -24,7 +25,7 @@ public class WelcomeViewFxml implements UncontrolledFxView{
     @FXML
     private VBox vBox;
 
-    private GameModel gameModel;
+
 
     @Override
     public Node getNode() {
