@@ -8,7 +8,8 @@ public interface GameEventHandler extends EventHandler {
 
     void save();
 
+    void quit();
+
     // add all the relevant missing behaviours
     // ...
-
 }

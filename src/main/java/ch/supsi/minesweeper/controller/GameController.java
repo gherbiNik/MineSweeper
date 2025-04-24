@@ -53,6 +53,12 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     }
 
     @Override
+    public void quit(){
+        gameModel.quit();
+
+    }
+
+    @Override
     public void move(int row, int col, boolean isRightClick) {
         gameModel.move(row, col, isRightClick);
 

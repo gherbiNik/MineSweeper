@@ -1,6 +1,7 @@
 package ch.supsi.minesweeper.model;
 
 import ch.supsi.minesweeper.controller.PropertiesController;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,16 +50,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
             myself = new GameModel();
         }
         return myself;
-    }
-
-    @Override
-    public void newGame() {
-        mineCount = Math.min(Math.max(mineCount, MIN_MINES), MAX_MINES);
-        initializeBoard();
-        gameStarted = false;
-        gameOver = false;
-        gameWon = false;
-        flaggedCellCount = 0;
     }
 
     public void setMineCount(int mineCount) {
@@ -291,8 +282,28 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
     @Override
+    public void newGame() {
+        mineCount = Math.min(Math.max(mineCount, MIN_MINES), MAX_MINES);
+        initializeBoard();
+        gameStarted = false;
+        gameOver = false;
+        gameWon = false;
+        flaggedCellCount = 0;
+    }
+
+    @Override
     public void save() {
         // Implementa il salvataggio del gioco
+    }
+
+    @Override
+    public void quit() {
+        //Chiedere al giocatore se salvare o no
+        gameStarted = false;
+        gameOver = false;
+        gameWon = false;
+
+        Platform.exit();
     }
 
     @Override

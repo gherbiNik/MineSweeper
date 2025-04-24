@@ -95,11 +95,12 @@ public class MenuBarViewFxml implements ControlledFxView {
         });
 
         // quit
-        this.quitMenuItem.setOnAction(event -> {
+        this.quitMenuItem.setOnAction(
+                event -> this.gameEventHandler.quit()
             // Implementare la logica per uscire dall'applicazione
             // Per esempio:
             // Platform.exit();
-        });
+        );
     }
 
     @Override
