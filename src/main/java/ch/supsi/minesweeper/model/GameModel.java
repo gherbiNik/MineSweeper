@@ -11,7 +11,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private static GameModel myself;
     private Cell[][] board;
     private String[] values;
-    private int mineCount;
+    private final int mineCount;
     private int revealedCellCount;
     private int flaggedCellCount;
     private boolean gameStarted;
@@ -35,7 +35,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
         int tmp = Integer.parseInt(Objects.requireNonNull(values)[0]);
 
-        this.mineCount = tmp > 81 || tmp < 1 ? DEFAULT_MINE_COUNT : tmp;
+        this.mineCount = tmp > MAX_MINES || tmp < MIN_MINES ? DEFAULT_MINE_COUNT : tmp;
         gameStarted = false;
         gameOver = false;
         gameWon = false;
@@ -270,7 +270,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     @Override
     public void newGame() {
-        mineCount = Math.min(Math.max(mineCount, MIN_MINES), MAX_MINES);
+
         initializeBoard();
         gameStarted = false;
         gameOver = false;

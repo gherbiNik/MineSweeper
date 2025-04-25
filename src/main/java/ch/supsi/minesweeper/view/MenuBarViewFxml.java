@@ -110,10 +110,6 @@ public class MenuBarViewFxml implements ControlledFxView {
 
     @Override
     public void update() {
-        // get your data from the model, if needed
-        // then update this view here
-        System.out.println(this.getClass().getSimpleName() + " updated..." + System.currentTimeMillis());
-
         // Aggiorna lo stato dei menu in base allo stato del gioco
         boolean gameStarted = gameModel.isGameStarted();
         boolean gameOver = gameModel.isGameOver();
@@ -125,36 +121,14 @@ public class MenuBarViewFxml implements ControlledFxView {
 
     @Override
     public void newGameMessage() {
-        System.out.println("New Game Created" + System.currentTimeMillis());
-
         // Abilita/disabilita elementi del menu quando viene creato un nuovo gioco
         saveMenuItem.setDisable(false);
         saveAsMenuItem.setDisable(false);
     }
 
     @Override
-    public void flagUpdateMessage(int remainingMines) {
-        // Nel caso del MenuBar, potremmo non dover fare nulla di specifico
-        // quando viene aggiornato il conteggio delle bandierine,
-        // ma implementiamo comunque il metodo come richiesto dall'interfaccia
-        System.out.println("MenuBar: Flag update - Remaining mines: " + remainingMines);
-
-        // Se vogliamo, possiamo aggiornare qualche elemento del menu
-        // ad esempio, aggiungere il numero di mine rimanenti nel titolo di un menu
-        // fileMenu.setText("File (" + remainingMines + " mines left)");
-    }
+    public void flagUpdateMessage(int remainingMines) {}
 
     @Override
-    public void gameOverMessage(String message) {
-        System.out.println("MenuBar: Game over - " + message);
-
-        // Quando il gioco è finito, possiamo aggiornare lo stato dei menu
-        // Ad esempio, disabilitare il salvataggio ma abilitare nuovo gioco
-        saveMenuItem.setDisable(true);
-        saveAsMenuItem.setDisable(true);
-
-        // Potremmo anche visualizzare un messaggio o cambiare qualche elemento visivo
-        // ad esempio, cambiare il titolo di un menu o il colore di sfondo
-        // fileMenu.setStyle("-fx-background-color: " + (message.contains("vinto") ? "lightgreen" : "lightpink") + ";");
-    }
+    public void gameOverMessage(String message) {}
 }
