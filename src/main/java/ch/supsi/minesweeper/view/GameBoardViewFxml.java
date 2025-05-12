@@ -105,7 +105,6 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     @Override
     public void initialize(EventHandler eventHandler, AbstractModel model) {
-        this.createBehaviour();
         this.playerEventHandler = (PlayerEventHandler) eventHandler;
         this.gameModel = (GameModel) model;
     }
@@ -131,6 +130,7 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     @Override
     public void update() {
+
         // Aggiorna la visualizzazione della griglia in base allo stato del modello
         for (int i = 0; i < GameModel.GRID_SIZE; i++) {
             for (int j = 0; j < GameModel.GRID_SIZE; j++) {
@@ -178,8 +178,17 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     @Override
     public void newGameMessage() {
-        System.out.println("New Game Created");
+        activateCell();
+        createBehaviour();
         update();
+    }
+
+    private void activateCell() {
+        for (int i = 0; i < GameModel.GRID_SIZE; i++) {
+            for (int j = 0; j < GameModel.GRID_SIZE; j++) {
+                cells[i][j].setDisable(false);
+            }
+        }
     }
 
     @Override
