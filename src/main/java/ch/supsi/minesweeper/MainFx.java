@@ -22,7 +22,7 @@ public class MainFx extends Application {
     private final AbstractModel gameModel;
     private final ControlledFxView menuBarView;
     private final ControlledFxView gameBoardView;
-    private final UncontrolledFxView welcomeView;
+    //private final UncontrolledFxView welcomeView;
     private final UncontrolledFxView userFeedbackView;
     private final GameEventHandler gameEventHandler;
     private final PlayerEventHandler playerEventHandler;
@@ -36,7 +36,7 @@ public class MainFx extends Application {
         this.menuBarView = MenuBarViewFxml.getInstance();
         this.gameBoardView = GameBoardViewFxml.getInstance();
         this.userFeedbackView = UserFeedbackViewFxml.getInstance();
-        this.welcomeView = WelcomeViewFxml.getInstance();
+        //this.welcomeView = WelcomeViewFxml.getInstance();
 
         // CONTROLLERS
         this.gameEventHandler = GameController.getInstance();
@@ -46,15 +46,15 @@ public class MainFx extends Application {
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel);
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel);
         this.userFeedbackView.initialize(this.gameModel);
-        this.welcomeView.initialize(this.gameModel);
-        GameController.getInstance().setMainFx(this);
-        GameController.getInstance().initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView, this.welcomeView));
+        //this.welcomeView.initialize(this.gameModel);
+        //GameController.getInstance().setMainFx(this);
+        GameController.getInstance().initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
 
     }
 
-    public  void switchGameBoard() {
-        mainBorderPane.setCenter(this.gameBoardView.getNode());
-    }
+//    public  void switchGameBoard() {
+//        mainBorderPane.setCenter(this.gameBoardView.getNode());
+//    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -81,7 +81,7 @@ public class MainFx extends Application {
         // SCAFFOLDING OF MAIN PANE
         mainBorderPane = new BorderPane();
         mainBorderPane.setTop(this.menuBarView.getNode());
-        mainBorderPane.setCenter(this.welcomeView.getNode());
+        mainBorderPane.setCenter(this.gameBoardView.getNode());
         mainBorderPane.setBottom(this.userFeedbackView.getNode());
 
         // SCENE

@@ -13,7 +13,6 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     private static GameController myself;
     private final GameModel gameModel;
     private List<DataView> views;
-    private MainFx mainFx;
 
     private GameController() {
         this.gameModel = GameModel.getInstance();
@@ -30,14 +29,10 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         this.views = views;
     }
 
-    public void setMainFx(MainFx mainFx) {
-        this.mainFx = mainFx;
-    }
-
     @Override
     public void newGame() {
         gameModel.newGame();
-        mainFx.switchGameBoard();
+        //mainFx.switchGameBoard();
         this.views.forEach(DataView::newGameMessage);
     }
 
