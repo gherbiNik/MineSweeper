@@ -27,15 +27,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private MinePlacementStrategy bombPlacer;
     private CellAction mineRevealer;
 
-    public Cell[][] getBoard() {
-        return board;
-    }
-
-
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
-    }
-
     private GameModel() {
 
         try {
@@ -53,6 +44,16 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     }
 
+    public Cell[][] getBoard() {
+        return board;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+
+    //TODO togliere i new e usare Dependency Injection
     public static GameModel getInstance() {
         if (myself == null) {
             myself = new GameModel();
@@ -65,6 +66,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     public int getMineCount() {
         return mineCount;
     }
+
 
 
     public int getRemainingMines() {
@@ -83,28 +85,8 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         return gameOver;
     }
 
-    public static GameModel getMyself() {
-        return myself;
-    }
-
-    public String[] getValues() {
-        return values;
-    }
-
     public int getFlaggedCellCount() {
         return flaggedCellCount;
-    }
-
-    public MinePlacementStrategy getBombPlacer() {
-        return bombPlacer;
-    }
-
-    public void setBombPlacer(MinePlacementStrategy bombPlacer) {
-        this.bombPlacer = bombPlacer;
-    }
-
-    public void setGameWon(boolean gameWon) {
-        this.gameWon = gameWon;
     }
 
     public void setGameOver(boolean gameOver) {
@@ -117,18 +99,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     public void setRevealedCellCount(int revealedCellCount) {
         this.revealedCellCount = revealedCellCount;
-    }
-
-    public void setValues(String[] values) {
-        this.values = values;
-    }
-
-    public void setBoard(Cell[][] board) {
-        this.board = board;
-    }
-
-    public static void setMyself(GameModel myself) {
-        GameModel.myself = myself;
     }
 
     public boolean isGameWon() {
@@ -165,7 +135,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     @Override
     public void newGame() {
-
         initializeBoard();
         gameStarted = false;
         gameOver = false;
@@ -184,7 +153,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         gameStarted = false;
         gameOver = false;
         gameWon = false;
-
+        //TODO SISTEMARE METTENDO POPUP
         Platform.exit();
     }
 
@@ -194,11 +163,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
     @Override
-    public void move() {
-        // Questo metodo dovrà essere implementato nella versione concreta
-    }
-
-    // Aggiungi un metodo per eseguire una mossa con coordinata specifica
     public void move(int row, int col, boolean isRightClick) {
         if (isRightClick) {
             mineRevealer.toggleFlag(this ,row, col);

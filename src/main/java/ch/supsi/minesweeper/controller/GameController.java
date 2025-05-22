@@ -42,10 +42,6 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         this.views.forEach(DataView::update);
     }
 
-    @Override
-    public void move() {
-        // Metodo generico, non utilizzato direttamente
-    }
 
     @Override
     public void quit(){
