@@ -40,7 +40,6 @@ public class MineRevealer implements CellAction{
 
         // Controlla se il gioco è vinto
         model.checkWinCondition();
-
     }
 
     public void revealAllMines(AbstractModel model) {

@@ -14,13 +14,13 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     private final GameModel gameModel;
     private List<DataView> views;
 
-    private GameController() {
-        this.gameModel = GameModel.getInstance();
+    private GameController(GameModel gameModel) {
+        this.gameModel = gameModel;
     }
 
-    public static GameController getInstance() {
+    public static GameController getInstance(GameModel gameModel) {
         if (myself == null) {
-            myself = new GameController();
+            myself = new GameController(gameModel);
         }
         return myself;
     }

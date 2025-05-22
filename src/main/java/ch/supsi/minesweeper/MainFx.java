@@ -1,10 +1,7 @@
 package ch.supsi.minesweeper;
 
 import ch.supsi.minesweeper.controller.GameController;
-import ch.supsi.minesweeper.model.AbstractModel;
-import ch.supsi.minesweeper.model.GameEventHandler;
-import ch.supsi.minesweeper.model.GameModel;
-import ch.supsi.minesweeper.model.PlayerEventHandler;
+import ch.supsi.minesweeper.model.*;
 import ch.supsi.minesweeper.view.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +27,9 @@ public class MainFx extends Application {
 
     public MainFx() {
         // GAME MODEL
-        this.gameModel = GameModel.getInstance();
+        MinePlacementStrategy bombPlacer = new BombPlacer();
+        CellAction mineRevealer = new MineRevealer();
+        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer);
 
         // VIEWS
         this.menuBarView = MenuBarViewFxml.getInstance();
@@ -39,8 +38,10 @@ public class MainFx extends Application {
         //this.welcomeView = WelcomeViewFxml.getInstance();
 
         // CONTROLLERS
-        this.gameEventHandler = GameController.getInstance();
-        this.playerEventHandler = GameController.getInstance();
+        //TODO casting corretto? - Opzione: dichiarare gameModel col tipo specifico (e non AbstractModel)
+        GameController controller = GameController.getInstance((GameModel) gameModel);
+        this.gameEventHandler = controller;
+        this.playerEventHandler = controller;
 
         // SCAFFOLDING of M-V-C
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel);
@@ -48,7 +49,7 @@ public class MainFx extends Application {
         this.userFeedbackView.initialize(this.gameModel);
         //this.welcomeView.initialize(this.gameModel);
         //GameController.getInstance().setMainFx(this);
-        GameController.getInstance().initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
+        controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
 
     }
 

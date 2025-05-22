@@ -27,7 +27,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private MinePlacementStrategy bombPlacer;
     private CellAction mineRevealer;
 
-    private GameModel() {
+    private GameModel(MinePlacementStrategy bombPlacer, CellAction mineRevealer) {
 
         try {
             values = PropertiesController.readFileProperties();
@@ -41,7 +41,8 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         gameStarted = false;
         gameOver = false;
         gameWon = false;
-
+        this.bombPlacer = bombPlacer;
+        this.mineRevealer = mineRevealer;
     }
 
     public Cell[][] getBoard() {
@@ -53,15 +54,15 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
 
-    //TODO togliere i new e usare Dependency Injection
-    public static GameModel getInstance() {
+    public static GameModel getInstance(MinePlacementStrategy bombPlacer, CellAction mineRevealer) {
         if (myself == null) {
-            myself = new GameModel();
-            myself.bombPlacer = new BombPlacer();
-            myself.mineRevealer = new MineRevealer();
+            myself = new GameModel(bombPlacer, mineRevealer);
+
         }
         return myself;
     }
+
+
 
     public int getMineCount() {
         return mineCount;
