@@ -1,17 +1,14 @@
-package ch.supsi.minesweeper.model;
+package ch.supsi.frontend.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static ch.supsi.minesweeper.model.GameModel.CLUSTER_DIM;
-import static ch.supsi.minesweeper.model.GameModel.GRID_SIZE;
+import static ch.supsi.frontend.model.GameModel.CLUSTER_DIM;
+import static ch.supsi.frontend.model.GameModel.GRID_SIZE;
 
-public class BombPlacer implements MinePlacementStrategy{
-
-
-
+public class BombPlacer implements MinePlacementStrategy {
 
 
     @Override

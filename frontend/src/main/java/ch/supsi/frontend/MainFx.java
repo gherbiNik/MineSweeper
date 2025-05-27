@@ -1,8 +1,8 @@
-package ch.supsi.minesweeper;
+package ch.supsi.frontend;
 
-import ch.supsi.minesweeper.controller.GameController;
-import ch.supsi.minesweeper.model.*;
-import ch.supsi.minesweeper.view.*;
+import ch.supsi.frontend.controller.GameController;
+import ch.supsi.frontend.model.*;
+import ch.supsi.frontend.view.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -97,7 +97,7 @@ public class MainFx extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(args);
     }
 
 }

@@ -1,9 +1,9 @@
-package ch.supsi.minesweeper.view;
+package ch.supsi.frontend.view;
 
-import ch.supsi.minesweeper.controller.EventHandler;
-import ch.supsi.minesweeper.model.AbstractModel;
-import ch.supsi.minesweeper.model.GameEventHandler;
-import ch.supsi.minesweeper.model.GameModel;
+import ch.supsi.frontend.controller.EventHandler;
+import ch.supsi.frontend.model.AbstractModel;
+import ch.supsi.frontend.model.GameEventHandler;
+import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -48,7 +48,8 @@ public class MenuBarViewFxml implements ControlledFxView {
     @FXML
     private MenuItem helpMenuItem;
 
-    private MenuBarViewFxml() {}
+    private MenuBarViewFxml() {
+    }
 
     public static MenuBarViewFxml getInstance() {
         if (myself == null) {
@@ -97,9 +98,9 @@ public class MenuBarViewFxml implements ControlledFxView {
         // quit
         this.quitMenuItem.setOnAction(
                 event -> this.gameEventHandler.quit()
-            // Implementare la logica per uscire dall'applicazione
-            // Per esempio:
-            // Platform.exit();
+                // Implementare la logica per uscire dall'applicazione
+                // Per esempio:
+                // Platform.exit();
         );
     }
 
@@ -127,8 +128,10 @@ public class MenuBarViewFxml implements ControlledFxView {
     }
 
     @Override
-    public void flagUpdateMessage(int remainingMines) {}
+    public void flagUpdateMessage(int remainingMines) {
+    }
 
     @Override
-    public void gameOverMessage(String message) {}
+    public void gameOverMessage(String message) {
+    }
 }

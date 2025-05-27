@@ -1,10 +1,10 @@
-package ch.supsi.minesweeper.model;
+package ch.supsi.frontend.model;
 
-import static ch.supsi.minesweeper.model.GameModel.GRID_SIZE;
+import static ch.supsi.frontend.model.GameModel.GRID_SIZE;
 
-public class MineRevealer implements CellAction{
+public class MineRevealer implements CellAction {
 
-    public void revealCell(AbstractModel model, MinePlacementStrategy bombPlacer,int row, int col) {
+    public void revealCell(AbstractModel model, MinePlacementStrategy bombPlacer, int row, int col) {
         Cell cell = model.getBoard()[row][col];
 
         // Se la cella è già rivelata o contrassegnata, non fare nulla

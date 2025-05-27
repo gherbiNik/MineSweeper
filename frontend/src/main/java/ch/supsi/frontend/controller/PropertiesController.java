@@ -1,6 +1,6 @@
-package ch.supsi.minesweeper.controller;
+package ch.supsi.frontend.controller;
 
-import ch.supsi.minesweeper.model.GameModel;
+import ch.supsi.frontend.model.GameModel;
 
 import java.io.*;
 import java.util.Properties;

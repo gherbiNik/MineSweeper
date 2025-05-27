@@ -1,6 +1,6 @@
-package ch.supsi.minesweeper.view;
+package ch.supsi.frontend.view;
 
-import ch.supsi.minesweeper.model.AbstractModel;
+import ch.supsi.frontend.model.AbstractModel;
 
 public interface UncontrolledView extends DataView {
 

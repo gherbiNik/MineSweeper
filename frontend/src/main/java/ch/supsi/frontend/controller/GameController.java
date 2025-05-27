@@ -1,10 +1,10 @@
-package ch.supsi.minesweeper.controller;
+package ch.supsi.frontend.controller;
 
-import ch.supsi.minesweeper.MainFx;
-import ch.supsi.minesweeper.model.GameEventHandler;
-import ch.supsi.minesweeper.model.GameModel;
-import ch.supsi.minesweeper.model.PlayerEventHandler;
-import ch.supsi.minesweeper.view.DataView;
+import ch.supsi.frontend.MainFx;
+import ch.supsi.frontend.model.GameEventHandler;
+import ch.supsi.frontend.model.GameModel;
+import ch.supsi.frontend.model.PlayerEventHandler;
+import ch.supsi.frontend.view.DataView;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
 
 
     @Override
-    public void quit(){
+    public void quit() {
         gameModel.quit();
 
     }

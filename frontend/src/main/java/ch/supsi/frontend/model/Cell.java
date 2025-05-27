@@ -1,4 +1,4 @@
-package ch.supsi.minesweeper.model;
+package ch.supsi.frontend.model;
 
 public class Cell {
     private final int row;

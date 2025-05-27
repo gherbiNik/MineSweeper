@@ -1,7 +1,7 @@
-package ch.supsi.minesweeper.view;
+package ch.supsi.frontend.view;
 
-import ch.supsi.minesweeper.model.AbstractModel;
-import ch.supsi.minesweeper.model.GameModel;
+import ch.supsi.frontend.model.AbstractModel;
+import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,7 +22,8 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
     @FXML
     private Text userFeedbackBar;
 
-    private UserFeedbackViewFxml() {}
+    private UserFeedbackViewFxml() {
+    }
 
     public static UserFeedbackViewFxml getInstance() {
         if (myself == null) {

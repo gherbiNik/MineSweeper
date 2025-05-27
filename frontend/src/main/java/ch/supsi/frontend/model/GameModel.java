@@ -1,6 +1,6 @@
-package ch.supsi.minesweeper.model;
+package ch.supsi.frontend.model;
 
-import ch.supsi.minesweeper.controller.PropertiesController;
+import ch.supsi.frontend.controller.PropertiesController;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -63,11 +63,9 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
 
-
     public int getMineCount() {
         return mineCount;
     }
-
 
 
     public int getRemainingMines() {
@@ -166,7 +164,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     @Override
     public void move(int row, int col, boolean isRightClick) {
         if (isRightClick) {
-            mineRevealer.toggleFlag(this ,row, col);
+            mineRevealer.toggleFlag(this, row, col);
         } else {
             mineRevealer.revealCell(this, bombPlacer, row, col);
         }

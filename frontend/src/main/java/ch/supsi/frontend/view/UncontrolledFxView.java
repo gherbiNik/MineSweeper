@@ -1,4 +1,4 @@
-package ch.supsi.minesweeper.view;
+package ch.supsi.frontend.view;
 
 import javafx.scene.Node;
 
