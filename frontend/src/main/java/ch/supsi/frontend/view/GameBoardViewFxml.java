@@ -1,8 +1,9 @@
 package ch.supsi.frontend.view;
 
+import ch.supsi.backend.data.Cell;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.frontend.model.AbstractModel;
-import ch.supsi.frontend.model.Cell;
+
 import ch.supsi.frontend.model.GameModel;
 import ch.supsi.frontend.model.PlayerEventHandler;
 import javafx.fxml.FXML;
@@ -11,13 +12,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class GameBoardViewFxml implements ControlledFxView {
 

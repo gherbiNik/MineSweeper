@@ -1,7 +1,9 @@
 package ch.supsi.frontend.model;
 
+import ch.supsi.backend.data.Cell;
 import ch.supsi.frontend.controller.PropertiesController;
 import javafx.application.Platform;
+
 
 import java.io.IOException;
 import java.util.*;

@@ -1,5 +1,7 @@
 package ch.supsi.frontend.model;
 
+import ch.supsi.backend.data.Cell;
+
 import static ch.supsi.frontend.model.GameModel.GRID_SIZE;
 
 public class MineRevealer implements CellAction {

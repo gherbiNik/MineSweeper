@@ -1,4 +1,4 @@
-package ch.supsi.frontend.model;
+package ch.supsi.backend.data;
 
 public class Cell {
     private final int row;
