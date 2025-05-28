@@ -46,7 +46,7 @@ public class TranslationsModel implements TranslationsBusinessInterface {
     public boolean changeLanguage(String languageTag) {
         //crea un oggetto locale a partire da un tag
         //TODO DA CAPIRE SE CAMBIARE O NO
-        this.translations = translationsDao.getTranslations(new Locale(languageTag));
+        this.translations = translationsDao.getTranslations(Locale.forLanguageTag(languageTag));
 
         return this.translations != null;
     }

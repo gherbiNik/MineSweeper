@@ -11,7 +11,7 @@ public class TranslationsController {
 
     private final PreferencesBusinessInterface preferencesModel;
 
-    protected TranslationsController() {
+    public TranslationsController() {
         this.preferencesModel = PreferencesModel.getInstance();
         this.translationsModel = TranslationsModel.getInstance();
 
