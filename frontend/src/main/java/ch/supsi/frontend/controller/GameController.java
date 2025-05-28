@@ -1,5 +1,6 @@
 package ch.supsi.frontend.controller;
 
+import ch.supsi.backend.application.l10n.TranslationsController;
 import ch.supsi.frontend.MainFx;
 import ch.supsi.frontend.model.GameEventHandler;
 import ch.supsi.frontend.model.GameModel;
@@ -13,9 +14,11 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     private static GameController myself;
     private final GameModel gameModel;
     private List<DataView> views;
+    private final TranslationsController translationsController;
 
     private GameController(GameModel gameModel) {
         this.gameModel = gameModel;
+        this.translationsController = TranslationsController.getInstance();
     }
 
     public static GameController getInstance(GameModel gameModel) {
@@ -61,9 +64,9 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         // Aggiorna le viste con lo stato attuale
         if (gameModel.isGameOver()) {
             if (gameModel.isGameWon()) {
-                this.views.forEach(view -> view.gameOverMessage("Complimenti! Hai vinto!"));
+                this.views.forEach(view -> view.gameOverMessage(translationsController.translate("label.winGame")));
             } else {
-                this.views.forEach(view -> view.gameOverMessage("Game Over! Hai perso."));
+                this.views.forEach(view -> view.gameOverMessage(translationsController.translate("label.gameOver")));
             }
         } else if (isRightClick) {
             this.views.forEach(view -> view.flagUpdateMessage(gameModel.getRemainingMines()));

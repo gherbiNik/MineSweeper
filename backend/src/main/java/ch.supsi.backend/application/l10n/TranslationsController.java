@@ -6,7 +6,7 @@ import ch.supsi.backend.business.preferences.PreferencesModel;
 
 public class TranslationsController {
     private static TranslationsController myself;
-
+    //viene creato cosi però l'interfaccia coi metodi viene implementata nel translationsModel.
     private final TranslationsBusinessInterface translationsModel;
 
     private final PreferencesBusinessInterface preferencesModel;
@@ -33,6 +33,7 @@ public class TranslationsController {
      * @param key
      * @return String
      */
+    //returna un translations mode
     public String translate(String key) {
         return this.translationsModel.translate(key);
     }

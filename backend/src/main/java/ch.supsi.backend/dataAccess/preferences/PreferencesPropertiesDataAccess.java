@@ -37,14 +37,17 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         return dao;
     }
 
+    //questo metodo serve per unire i due path userHomeDirectory e preferences directory
     private Path getUserPreferencesDirectoryPath() {
         return Path.of(userHomeDirectory, preferencesDirectory);
     }
 
+    //mi dice se esiste preferences direcoty
     private boolean userPreferencesDirectoryExists() {
         return Files.exists(this.getUserPreferencesDirectoryPath());
     }
 
+    // serve per precerea la directory se non esiste
     private Path createUserPreferencesDirectory() {
         try {
             return Files.createDirectories(this.getUserPreferencesDirectoryPath());
@@ -56,10 +59,12 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         return null;
     }
 
+    //restituisce il percorso del path finale
     private Path getUserPreferencesFilePath() {
         return Path.of(userHomeDirectory, preferencesDirectory, preferencesFile);
     }
 
+    //vede se este il file di preferenze
     private boolean userPreferencesFileExists() {
         return Files.exists(this.getUserPreferencesFilePath());
     }
@@ -106,6 +111,7 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         return defaultPreferences;
     }
 
+    //serve per caricare le preferenze
     private Properties loadPreferences(Path path) {
         Properties preferences = new Properties();
         try {
@@ -118,17 +124,18 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         return preferences;
     }
 
+    //Metodo per fornire le preferenze
     @Override
     public Properties getPreferences() {
         if (userPreferences != null) {
             return userPreferences;
         }
-
+        //se esiste il file di preferenze
         if (userPreferencesFileExists()) {
             userPreferences = this.loadPreferences(this.getUserPreferencesFilePath());
             return userPreferences;
         }
-
+        // se non esiste il file di preferenze
         userPreferences = this.loadDefaultPreferences();
         boolean rv = this.createUserPreferencesFile(userPreferences);
 

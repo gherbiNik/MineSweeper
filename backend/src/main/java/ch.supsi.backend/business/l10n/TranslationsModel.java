@@ -12,7 +12,7 @@ public class TranslationsModel implements TranslationsBusinessInterface {
     private static TranslationsModel myself;
 
     private final TranslationsDataAccessInterface translationsDao;
-
+    //lista dei tag supportati
     private final List<String> supportedLanguageTags;
 
     private Properties translations;
@@ -22,6 +22,7 @@ public class TranslationsModel implements TranslationsBusinessInterface {
         this.supportedLanguageTags = translationsDao.getSupportedLanguageTags();
     }
 
+    //da un istanza del translations model
     public static TranslationsModel getInstance() {
         if (myself == null) {
             myself = new TranslationsModel();
@@ -30,6 +31,7 @@ public class TranslationsModel implements TranslationsBusinessInterface {
         return myself;
     }
 
+    //verifica che il tag sia supportato
     @Override
     public boolean isSupportedLanguageTag(String languageTag) {
         if (!this.supportedLanguageTags.contains(languageTag)) {
@@ -39,8 +41,10 @@ public class TranslationsModel implements TranslationsBusinessInterface {
         return true;
     }
 
+    //funzione che server pa cambiare la lingua
     @Override
     public boolean changeLanguage(String languageTag) {
+        //crea un oggetto locale a partire da un tag
         this.translations = translationsDao.getTranslations(Locale.forLanguageTag(languageTag));
         return this.translations != null;
     }

@@ -2,6 +2,7 @@ package ch.supsi.backend.dataAccess.l10n;
 
 import ch.supsi.backend.business.l10n.TranslationsDataAccessInterface;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -32,6 +33,7 @@ public class TranslationsPropertiesDataAccess implements TranslationsDataAccessI
         Properties supportedLanguageTags = new Properties();
         try {
             InputStream supportedLanguageTagsStream = this.getClass().getResourceAsStream(supportedLanguagesPath);
+
             supportedLanguageTags.load(supportedLanguageTagsStream);
 
         } catch (IOException ignored) {
@@ -68,21 +70,8 @@ public class TranslationsPropertiesDataAccess implements TranslationsDataAccessI
 
         } catch (MissingResourceException mrex) {
             System.err.println("unsupported language tag..." + locale.toLanguageTag());
-
-            List<String> supportedLanguageTags = this.getSupportedLanguageTags();
-            String fallbackLanguageTag = supportedLanguageTags.get(0);
-            System.err.println("falling back to..." + fallbackLanguageTag);
-
-            bundle = ResourceBundle.getBundle(
-                    translationsResourceBundlePath,
-                    Locale.forLanguageTag(fallbackLanguageTag),
-                    ResourceBundle.Control.getNoFallbackControl(FORMAT_DEFAULT)
-            );
         }
 
-        for (String key : bundle.keySet()) {
-            translations.put(key, bundle.getString(key));
-        }
 
         return translations;
     }
