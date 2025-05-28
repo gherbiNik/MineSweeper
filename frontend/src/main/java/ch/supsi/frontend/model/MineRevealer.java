@@ -1,6 +1,6 @@
 package ch.supsi.frontend.model;
 
-import ch.supsi.backend.data.Cell;
+import ch.supsi.backend.business.Cell;
 
 import static ch.supsi.frontend.model.GameModel.GRID_SIZE;
 

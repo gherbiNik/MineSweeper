@@ -1,6 +1,6 @@
 package ch.supsi.frontend.view;
 
-import ch.supsi.backend.data.Cell;
+import ch.supsi.backend.business.Cell;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.frontend.model.AbstractModel;
 

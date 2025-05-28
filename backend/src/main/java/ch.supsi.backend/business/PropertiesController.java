@@ -1,6 +1,4 @@
-package ch.supsi.frontend.controller;
-
-import ch.supsi.frontend.model.GameModel;
+package ch.supsi.backend.business;
 
 import java.io.*;
 import java.util.Properties;

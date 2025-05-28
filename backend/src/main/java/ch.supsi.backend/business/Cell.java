@@ -1,4 +1,4 @@
-package ch.supsi.backend.data;
+package ch.supsi.backend.business;
 
 public class Cell {
     private final int row;

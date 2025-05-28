@@ -1,7 +1,7 @@
 package ch.supsi.frontend.model;
 
-import ch.supsi.backend.data.Cell;
-import ch.supsi.frontend.controller.PropertiesController;
+import ch.supsi.backend.business.Cell;
+import ch.supsi.backend.business.PropertiesController;
 import javafx.application.Platform;
 
 
