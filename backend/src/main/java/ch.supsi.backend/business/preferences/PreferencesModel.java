@@ -28,6 +28,7 @@ public class PreferencesModel implements PreferencesBusinessInterface {
 
     @Override
     public String getCurrentLanguage() {
+
         //con getProperty in base al tag capis cosa deve restituire
         return userPreferences.getProperty("language-tag");
     }

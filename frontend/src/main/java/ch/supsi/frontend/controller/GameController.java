@@ -1,10 +1,7 @@
 package ch.supsi.frontend.controller;
 
 import ch.supsi.backend.application.l10n.TranslationsController;
-import ch.supsi.frontend.MainFx;
-import ch.supsi.frontend.model.GameEventHandler;
 import ch.supsi.frontend.model.GameModel;
-import ch.supsi.frontend.model.PlayerEventHandler;
 import ch.supsi.frontend.view.DataView;
 
 import java.util.List;

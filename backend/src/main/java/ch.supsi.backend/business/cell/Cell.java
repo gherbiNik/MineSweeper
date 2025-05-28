@@ -1,6 +1,6 @@
-package ch.supsi.backend.business;
+package ch.supsi.backend.business.cell;
 
-public class Cell {
+public class Cell implements ICell{
     private final int row;
     private final int col;
     private boolean isMine;

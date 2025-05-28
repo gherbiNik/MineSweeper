@@ -1,8 +1,8 @@
 package ch.supsi.frontend.view;
 
 import ch.supsi.frontend.controller.EventHandler;
-import ch.supsi.frontend.model.AbstractModel;
-import ch.supsi.frontend.model.GameEventHandler;
+import ch.supsi.backend.business.model.AbstractModel;
+import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

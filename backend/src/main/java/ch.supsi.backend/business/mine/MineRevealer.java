@@ -1,10 +1,18 @@
-package ch.supsi.frontend.model;
+package ch.supsi.backend.business.mine;
 
-import ch.supsi.backend.business.Cell;
+import ch.supsi.backend.application.cell.CellActionApplication;
+import ch.supsi.backend.application.game.GameBoardInfo;
 
-import static ch.supsi.frontend.model.GameModel.GRID_SIZE;
+import ch.supsi.backend.business.cell.Cell;
+import ch.supsi.backend.business.model.AbstractModel;
 
-public class MineRevealer implements CellAction {
+
+public class MineRevealer implements CellActionApplication {
+    private GameBoardInfo gameInfo;
+
+    public MineRevealer(GameBoardInfo gameInfo) {
+        this.gameInfo = gameInfo;
+    }
 
     public void revealCell(AbstractModel model, MinePlacementStrategy bombPlacer, int row, int col) {
         Cell cell = model.getBoard()[row][col];
@@ -31,8 +39,8 @@ public class MineRevealer implements CellAction {
 
         // Se non ci sono mine adiacenti, rivela automaticamente le celle adiacenti
         if (cell.getAdjacentMines() == 0) {
-            for (int i = Math.max(0, row - 1); i <= Math.min(GRID_SIZE - 1, row + 1); i++) {
-                for (int j = Math.max(0, col - 1); j <= Math.min(GRID_SIZE - 1, col + 1); j++) {
+            for (int i = Math.max(0, row - 1); i <= Math.min(gameInfo.getSize() - 1, row + 1); i++) {
+                for (int j = Math.max(0, col - 1); j <= Math.min(gameInfo.getSize() - 1, col + 1); j++) {
                     if (!(i == row && j == col)) {
                         revealCell(model, bombPlacer, i, j);
                     }
@@ -45,8 +53,8 @@ public class MineRevealer implements CellAction {
     }
 
     public void revealAllMines(AbstractModel model) {
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
+        for (int i = 0; i < gameInfo.getSize(); i++) {
+            for (int j = 0; j < gameInfo.getSize(); j++) {
                 if (model.getBoard()[i][j].isMine()) {
                     model.getBoard()[i][j].setRevealed(true);
                 }

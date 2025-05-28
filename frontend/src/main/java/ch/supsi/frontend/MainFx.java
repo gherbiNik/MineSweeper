@@ -1,11 +1,18 @@
 package ch.supsi.frontend;
 
+import ch.supsi.backend.application.cell.CellActionApplication;
+import ch.supsi.backend.application.game.GameBoardApplication;
+import ch.supsi.backend.application.game.GameBombApplication;
+import ch.supsi.backend.business.mine.BombPlacer;
+import ch.supsi.backend.business.mine.MinePlacementStrategy;
+import ch.supsi.backend.business.mine.MineRevealer;
+import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameController;
+import ch.supsi.frontend.controller.GameEventHandler;
+import ch.supsi.frontend.controller.PlayerEventHandler;
 import ch.supsi.frontend.model.*;
 import ch.supsi.frontend.view.*;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -27,9 +34,15 @@ public class MainFx extends Application {
 
     public MainFx() {
         // GAME MODEL
-        MinePlacementStrategy bombPlacer = new BombPlacer();
-        CellAction mineRevealer = new MineRevealer();
-        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer);
+        GameBoardApplication gameBoardApplication = new GameBoardApplication();
+        gameBoardApplication.setDimensions(9);
+        MinePlacementStrategy bombPlacer = new BombPlacer(gameBoardApplication);
+        CellActionApplication mineRevealer = new MineRevealer(gameBoardApplication);
+        GameBombApplication gameBombApplication = new GameBombApplication();
+        gameBombApplication.setMinBomb(1);
+        gameBombApplication.setMaxBomb(80);
+
+        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication);
 
         // VIEWS
         this.menuBarView = MenuBarViewFxml.getInstance();

@@ -1,6 +1,6 @@
-package ch.supsi.frontend.model;
+package ch.supsi.backend.business.model;
 
-import ch.supsi.backend.business.Cell;
+import ch.supsi.backend.business.cell.Cell;
 
 public interface BoardAccess {
     Cell[][] getBoard();

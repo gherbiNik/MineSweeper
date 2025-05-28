@@ -1,6 +1,6 @@
 package ch.supsi.frontend.view;
 
-import ch.supsi.frontend.model.AbstractModel;
+import ch.supsi.backend.business.model.AbstractModel;
 
 public interface UncontrolledView extends DataView {
 

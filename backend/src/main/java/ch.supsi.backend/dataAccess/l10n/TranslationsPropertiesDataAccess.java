@@ -60,19 +60,22 @@ public class TranslationsPropertiesDataAccess implements TranslationsDataAccessI
     @Override
     public Properties getTranslations(Locale locale) {
         final Properties translations = new Properties();
-        ResourceBundle bundle;
         try {
-            bundle = ResourceBundle.getBundle(
+            ResourceBundle bundle = ResourceBundle.getBundle(
                     translationsResourceBundlePath,
                     locale,
-                    ResourceBundle.Control.getNoFallbackControl(FORMAT_DEFAULT)
+                    ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT)
             );
 
-        } catch (MissingResourceException mrex) {
-            System.err.println("unsupported language tag..." + locale.toLanguageTag());
-        }
+            for (String key : bundle.keySet()) {
+                translations.setProperty(key, bundle.getString(key));
+            }
 
+        } catch (MissingResourceException mrex) {
+            System.err.println("Unsupported language tag: " + locale.toLanguageTag());
+        }
 
         return translations;
     }
+
 }

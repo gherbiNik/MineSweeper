@@ -1,10 +1,10 @@
-package ch.supsi.frontend.model;
+package ch.supsi.backend.business.model;
 
 public abstract class AbstractModel implements GameState, BoardAccess, GameStatistics {
 
     public abstract void setRevealedCellCount(int revealedCellCount);
 
-    abstract void checkWinCondition();
+    public abstract void checkWinCondition();
 
     public abstract void setGameOver(boolean gameOver);
 

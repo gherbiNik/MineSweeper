@@ -1,6 +1,4 @@
-package ch.supsi.frontend.model;
-
-import ch.supsi.frontend.controller.EventHandler;
+package ch.supsi.frontend.controller;
 
 public interface PlayerEventHandler extends EventHandler {
 

@@ -1,4 +1,4 @@
-package ch.supsi.frontend.model;
+package ch.supsi.backend.business.model;
 
 public interface GameStatistics {
     int getMineCount();

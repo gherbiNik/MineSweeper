@@ -1,7 +1,14 @@
 package ch.supsi.frontend.model;
 
-import ch.supsi.backend.business.Cell;
+import ch.supsi.backend.application.cell.CellActionApplication;
+import ch.supsi.backend.application.game.GameBoardApplication;
+import ch.supsi.backend.application.game.GameBombApplication;
+import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.PropertiesController;
+import ch.supsi.backend.business.mine.MinePlacementStrategy;
+import ch.supsi.backend.business.model.AbstractModel;
+import ch.supsi.frontend.controller.GameEventHandler;
+import ch.supsi.frontend.controller.PlayerEventHandler;
 import javafx.application.Platform;
 
 
@@ -23,14 +30,14 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     public static final int CLUSTER_DIM = 2;
 
 
-    public static final int GRID_SIZE = 9;
-    public static final int MAX_MINES = GRID_SIZE * GRID_SIZE - 1;
-    public static final int MIN_MINES = 1;
     private MinePlacementStrategy bombPlacer;
-    private CellAction mineRevealer;
+    private CellActionApplication mineRevealer;
+    private GameBombApplication gameBombApplication;
+    private GameBoardApplication gameBoardApplication;
 
-    private GameModel(MinePlacementStrategy bombPlacer, CellAction mineRevealer) {
 
+
+    private GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
         try {
             values = PropertiesController.readFileProperties();
         } catch (IOException e) {
@@ -39,12 +46,16 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
         int tmp = Integer.parseInt(Objects.requireNonNull(values)[0]);
 
-        this.mineCount = tmp > MAX_MINES || tmp < MIN_MINES ? DEFAULT_MINE_COUNT : tmp;
+        this.gameBoardApplication = gameBoardApplication;
+        this.gameBombApplication = gameBombApplication;
+        this.bombPlacer = bombPlacer;
+        this.mineRevealer = mineRevealer;
+
+        this.mineCount = tmp > gameBombApplication.getMaxBomb() || tmp < gameBombApplication.getMinBomb() ? DEFAULT_MINE_COUNT : tmp;
         gameStarted = false;
         gameOver = false;
         gameWon = false;
-        this.bombPlacer = bombPlacer;
-        this.mineRevealer = mineRevealer;
+
     }
 
     public Cell[][] getBoard() {
@@ -56,9 +67,9 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
 
-    public static GameModel getInstance(MinePlacementStrategy bombPlacer, CellAction mineRevealer) {
+    public static GameModel getInstance(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
         if (myself == null) {
-            myself = new GameModel(bombPlacer, mineRevealer);
+            myself = new GameModel(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication);
 
         }
         return myself;
@@ -107,16 +118,16 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
     public Cell getCell(int row, int col) {
-        if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
+        if (row >= 0 && row < gameBoardApplication.getSize() && col >= 0 && col < gameBoardApplication.getSize()) {
             return board[row][col];
         }
         return null;
     }
 
     private void initializeBoard() {
-        board = new Cell[GRID_SIZE][GRID_SIZE];
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
+        board = new Cell[gameBoardApplication.getSize()][gameBoardApplication.getSize()];
+        for (int i = 0; i < gameBoardApplication.getSize(); i++) {
+            for (int j = 0; j < gameBoardApplication.getSize(); j++) {
                 board[i][j] = new Cell(i, j);
             }
         }
@@ -125,10 +136,10 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         flaggedCellCount = 0;
     }
 
-
+    @Override
     public void checkWinCondition() {
         // Il gioco è vinto se tutte le celle non mine sono rivelate
-        if (revealedCellCount == (GRID_SIZE * GRID_SIZE - mineCount)) {
+        if (revealedCellCount == (gameBoardApplication.getSize() * gameBoardApplication.getSize() - mineCount)) {
             gameWon = true;
             gameOver = true;
         }
