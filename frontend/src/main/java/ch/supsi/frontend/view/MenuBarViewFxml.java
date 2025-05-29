@@ -1,5 +1,6 @@
 package ch.supsi.frontend.view;
 
+import ch.supsi.backend.application.l10n.TranslationsController;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
@@ -73,9 +74,24 @@ public class MenuBarViewFxml implements ControlledFxView {
 
     @Override
     public void initialize(EventHandler eventHandler, AbstractModel model) {
+        this.changeLanguage();
         this.createBehaviour();
         this.gameEventHandler = (GameEventHandler) eventHandler;
         this.gameModel = (GameModel) model;
+    }
+
+    //TODO chiedere agli altri se va bene mettere cosi il translation controller
+    private void changeLanguage() {
+        TranslationsController translationsController = new TranslationsController();
+        this.newMenuItem.setText(translationsController.translate("label.new"));
+        this.saveAsMenuItem.setText(translationsController.translate("label.saveAs"));
+        this.saveMenuItem.setText(translationsController.translate("label.save"));
+        this.openMenuItem.setText(translationsController.translate("label.open"));
+        this.quitMenuItem.setText(translationsController.translate("label.quit"));
+        this.quitMenuItem.setText(translationsController.translate("label.quit"));
+        this.preferencesMenuItem.setText(translationsController.translate("label.preferences"));
+        this.editMenu.setText(translationsController.translate("label.edit"));
+        this.helpMenu.setText(translationsController.translate("label.help"));
     }
 
     private void createBehaviour() {

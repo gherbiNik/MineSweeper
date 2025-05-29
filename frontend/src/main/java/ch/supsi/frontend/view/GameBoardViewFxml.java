@@ -170,8 +170,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     private void createBehaviour() {
-        for (int i = 0; i < GameModel.GRID_SIZE; i++) {
-            for (int j = 0; j < GameModel.GRID_SIZE; j++) {
+        for (int i = 0; i < gameModel.getSize(); i++) {
+            for (int j = 0; j < gameModel.getSize(); j++) {
                 final int row = i;
                 final int col = j;
 
@@ -192,8 +192,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     public void update() {
 
         // Aggiorna la visualizzazione della griglia in base allo stato del modello
-        for (int i = 0; i < GameModel.GRID_SIZE; i++) {
-            for (int j = 0; j < GameModel.GRID_SIZE; j++) {
+        for (int i = 0; i < gameModel.getSize(); i++) {
+            for (int j = 0; j < gameModel.getSize(); j++) {
                 updateCellView(i, j);
             }
         }
@@ -254,8 +254,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     private void activateCell() {
-        for (int i = 0; i < GameModel.GRID_SIZE; i++) {
-            for (int j = 0; j < GameModel.GRID_SIZE; j++) {
+        for (int i = 0; i < gameModel.getSize(); i++) {
+            for (int j = 0; j < gameModel.getSize(); j++) {
                 cells[i][j].setDisable(false);
             }
         }

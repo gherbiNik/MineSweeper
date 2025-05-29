@@ -1,5 +1,6 @@
 package ch.supsi.frontend.view;
 
+import ch.supsi.backend.application.l10n.TranslationsController;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
@@ -15,6 +16,8 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
 
     private static UserFeedbackViewFxml myself;
     private GameModel gameModel;
+    // TODO vedere se cambiare o tenerlo cosi sia qui che per GameboardView
+    private TranslationsController translationsController = new TranslationsController();
 
     @FXML
     private ScrollPane containerPane;
@@ -58,18 +61,18 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
     @Override
     public void update() {
         if (gameModel.isGameStarted() && !gameModel.isGameOver()) {
-            this.userFeedbackBar.setText("Mine rimanenti: " + gameModel.getRemainingMines());
+            this.userFeedbackBar.setText(translationsController.translate("label.remainingMines") + ": " + gameModel.getRemainingMines());
         }
     }
 
     @Override
     public void newGameMessage() {
-        this.userFeedbackBar.setText("Nuovo gioco creato con " + gameModel.getMineCount() + " mine.");
+        this.userFeedbackBar.setText(translationsController.translate("label.startString") + ": " + gameModel.getMineCount() + translationsController.translate("label.mines"));
     }
 
     @Override
     public void flagUpdateMessage(int remainingMines) {
-        this.userFeedbackBar.setText("Mine rimanenti: " + remainingMines);
+        this.userFeedbackBar.setText(translationsController.translate("label.remainingMines") + ": " + remainingMines);
     }
 
     @Override

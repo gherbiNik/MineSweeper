@@ -3,6 +3,7 @@ package ch.supsi.frontend.model;
 import ch.supsi.backend.application.cell.CellActionApplication;
 import ch.supsi.backend.application.game.GameBoardApplication;
 import ch.supsi.backend.application.game.GameBombApplication;
+import ch.supsi.backend.application.l10n.TranslationsController;
 import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.PropertiesController;
 import ch.supsi.backend.business.mine.MinePlacementStrategy;
@@ -30,12 +31,10 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     public static final int CLUSTER_DIM = 2;
 
 
-    private MinePlacementStrategy bombPlacer;
-    private CellActionApplication mineRevealer;
-    private GameBombApplication gameBombApplication;
-    private GameBoardApplication gameBoardApplication;
-
-
+    private final MinePlacementStrategy bombPlacer;
+    private final CellActionApplication mineRevealer;
+    private final GameBombApplication gameBombApplication;
+    private final GameBoardApplication gameBoardApplication;
 
     private GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
         try {
@@ -50,7 +49,6 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         this.gameBombApplication = gameBombApplication;
         this.bombPlacer = bombPlacer;
         this.mineRevealer = mineRevealer;
-
         this.mineCount = tmp > gameBombApplication.getMaxBomb() || tmp < gameBombApplication.getMinBomb() ? DEFAULT_MINE_COUNT : tmp;
         gameStarted = false;
         gameOver = false;
@@ -115,6 +113,10 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     public boolean isGameWon() {
         return gameWon;
+    }
+
+    public int getSize() {
+        return gameBoardApplication.getSize();
     }
 
     public Cell getCell(int row, int col) {
