@@ -36,7 +36,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private final GameBombApplication gameBombApplication;
     private final GameBoardApplication gameBoardApplication;
 
-    private GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
+    GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
         try {
             values = PropertiesController.readFileProperties();
         } catch (IOException e) {
@@ -58,6 +58,10 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     public Cell[][] getBoard() {
         return board;
+    }
+
+    public void setBoard(Cell[][] board) {
+        this.board = board;
     }
 
     public void setGameStarted(boolean gameStarted) {
@@ -183,5 +187,17 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         } else {
             mineRevealer.revealCell(this, bombPlacer, row, col);
         }
+    }
+
+    public GameBombApplication getGameBombApplication() {
+        return gameBombApplication;
+    }
+
+    public GameBoardApplication getGameBoardApplication() {
+        return gameBoardApplication;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
 }

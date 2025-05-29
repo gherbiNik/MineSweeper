@@ -43,6 +43,18 @@ public class Cell implements ICell{
         }
     }
 
+    public void setFlagged(boolean flagged) {
+        isFlagged = flagged;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
     public int getAdjacentMines() {
         return adjacentMines;
     }

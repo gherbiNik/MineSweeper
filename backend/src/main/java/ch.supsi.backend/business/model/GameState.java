@@ -8,4 +8,8 @@ public interface GameState {
     boolean isGameStarted();
 
     void setGameStarted(boolean b);
+
+    void setGameWon(boolean gameWon);
+
+    void setGameOver(boolean gameOver);
 }
