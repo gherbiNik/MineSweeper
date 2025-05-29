@@ -1,9 +1,9 @@
-package ch.supsi.backend.application.dto;
+package ch.supsi.backend.business.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CellStateDTO {
+public class CellStateBusiness implements ICellStateBusiness {
     @JsonProperty("row")
     private final int row;
 
@@ -23,7 +23,7 @@ public class CellStateDTO {
     private final int adjacentMines;
 
     @JsonCreator
-    public CellStateDTO(
+    public CellStateBusiness(
             @JsonProperty("row") int row,
             @JsonProperty("col") int col,
             @JsonProperty("isMine") boolean isMine,

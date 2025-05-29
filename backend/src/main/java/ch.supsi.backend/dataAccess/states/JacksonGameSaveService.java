@@ -1,7 +1,7 @@
 package ch.supsi.backend.dataAccess.states;
 
-import ch.supsi.backend.application.dto.GameStateDTO;
-import ch.supsi.backend.business.service.GameSaveService;
+import ch.supsi.backend.business.dto.GameStateBusiness;
+import ch.supsi.backend.business.dto.IGameStateBusiness;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class JacksonGameSaveService implements GameSaveService {
+public class JacksonGameSaveService implements GameSaveData {
     private final ObjectMapper objectMapper;
     private final String saveDirectory;
 
@@ -35,7 +35,7 @@ public class JacksonGameSaveService implements GameSaveService {
     }
 
     @Override
-    public void saveGame(GameStateDTO gameState, String fileName){
+    public void saveGame(IGameStateBusiness gameState, String fileName){
         try {
             File saveFile = new File(saveDirectory, fileName + ".json");
             objectMapper.writeValue(saveFile, gameState);
@@ -45,13 +45,13 @@ public class JacksonGameSaveService implements GameSaveService {
     }
 
     @Override
-    public GameStateDTO loadGame(String fileName) {
+    public GameStateBusiness loadGame(String fileName) {
         try {
             File saveFile = new File(saveDirectory, fileName + ".json");
             if (!saveFile.exists()) {
                 System.out.println("File di salvataggio non trovato: " + fileName);
             }
-            return objectMapper.readValue(saveFile, GameStateDTO.class);
+            return objectMapper.readValue(saveFile, GameStateBusiness.class);
         } catch (IOException e) {
             System.out.println("Errore durante il caricamento del gioco: " + fileName);
         }

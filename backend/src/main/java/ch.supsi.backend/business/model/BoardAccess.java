@@ -6,4 +6,6 @@ public interface BoardAccess {
     Cell[][] getBoard();
 
     Cell getCell(int x, int y);
+
+    void setBoard(Cell[][] board);
 }

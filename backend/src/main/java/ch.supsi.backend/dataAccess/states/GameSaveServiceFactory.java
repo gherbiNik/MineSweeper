@@ -1,6 +1,5 @@
 package ch.supsi.backend.dataAccess.states;
 
-import ch.supsi.backend.business.service.GameSaveService;
 
 public class GameSaveServiceFactory {
 
@@ -8,11 +7,11 @@ public class GameSaveServiceFactory {
 
     private static final String preferencesDirectory = ".MineSweeperData";
 
-    public static GameSaveService createJacksonSaveService() {
+    public static JacksonGameSaveService createJacksonSaveService() {
         return new JacksonGameSaveService(preferencesDirectory);
     }
 
-    public static GameSaveService createJacksonSaveService(String customDirectory) {
+    public static JacksonGameSaveService createJacksonSaveService(String customDirectory) {
         return new JacksonGameSaveService(customDirectory);
     }
 }

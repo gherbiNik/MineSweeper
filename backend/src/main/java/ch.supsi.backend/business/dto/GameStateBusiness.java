@@ -1,11 +1,11 @@
-package ch.supsi.backend.application.dto;
+package ch.supsi.backend.business.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GameStateDTO {
+public class GameStateBusiness implements IGameStateBusiness {
     @JsonProperty("cells")
-    private final CellStateDTO[][] cells;
+    private final CellStateBusiness[][] cells;
 
     @JsonProperty("mineCount")
     private final int mineCount;
@@ -38,8 +38,8 @@ public class GameStateDTO {
     private final long timestamp;
 
     @JsonCreator
-    public GameStateDTO(
-            @JsonProperty("cells") CellStateDTO[][] cells,
+    public GameStateBusiness(
+            @JsonProperty("cells") CellStateBusiness[][] cells,
             @JsonProperty("mineCount") int mineCount,
             @JsonProperty("revealedCellCount") int revealedCellCount,
             @JsonProperty("flaggedCellCount") int flaggedCellCount,
@@ -63,7 +63,7 @@ public class GameStateDTO {
         this.timestamp = timestamp;
     }
 
-    public CellStateDTO[][] getCells() { return cells; }
+    public ICellStateBusiness[][] getCells() { return cells; }
     public int getMineCount() { return mineCount; }
     public int getRevealedCellCount() { return revealedCellCount; }
     public int getFlaggedCellCount() { return flaggedCellCount; }

@@ -3,6 +3,7 @@ package ch.supsi.frontend.model;
 import ch.supsi.backend.application.cell.CellActionApplication;
 import ch.supsi.backend.application.game.GameBoardApplication;
 import ch.supsi.backend.application.game.GameBombApplication;
+import ch.supsi.backend.application.gameMapper.IGameStateMapperApplication;
 import ch.supsi.backend.application.l10n.TranslationsController;
 import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.PropertiesController;
@@ -35,6 +36,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private final CellActionApplication mineRevealer;
     private final GameBombApplication gameBombApplication;
     private final GameBoardApplication gameBoardApplication;
+
 
     GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
         try {
@@ -160,10 +162,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         flaggedCellCount = 0;
     }
 
-    @Override
-    public void save() {
-        // Implementa il salvataggio del gioco
-    }
+
 
     @Override
     public void quit() {
@@ -175,10 +174,7 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
         Platform.exit();
     }
 
-    @Override
-    public void open() {
 
-    }
 
     @Override
     public void move(int row, int col, boolean isRightClick) {

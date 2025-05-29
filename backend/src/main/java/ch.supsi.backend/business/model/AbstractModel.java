@@ -13,4 +13,5 @@ public abstract class AbstractModel implements GameState, BoardAccess, GameStati
 
     public abstract int getFlaggedCellCount();
 
+
 }

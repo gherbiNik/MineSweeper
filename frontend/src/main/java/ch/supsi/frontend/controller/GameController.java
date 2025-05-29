@@ -36,11 +36,7 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         this.views.forEach(DataView::newGameMessage);
     }
 
-    @Override
-    public void save() {
-        gameModel.save();
-        this.views.forEach(DataView::update);
-    }
+
 
 
     @Override
@@ -49,10 +45,7 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
 
     }
 
-    @Override
-    public void open() {
-        gameModel.open();
-    }
+
 
     @Override
     public void move(int row, int col, boolean isRightClick) {

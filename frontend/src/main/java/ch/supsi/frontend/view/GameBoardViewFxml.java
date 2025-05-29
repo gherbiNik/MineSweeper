@@ -4,6 +4,7 @@ import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 
+import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.model.GameModel;
 import ch.supsi.frontend.controller.PlayerEventHandler;
 import javafx.fxml.FXML;
@@ -164,7 +165,7 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model) {
+    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameController) {
         this.playerEventHandler = (PlayerEventHandler) eventHandler;
         this.gameModel = (GameModel) model;
     }

@@ -4,6 +4,8 @@ import ch.supsi.backend.application.l10n.TranslationsController;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
+import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
+import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,7 @@ public class MenuBarViewFxml implements ControlledFxView {
     private static MenuBarViewFxml myself;
 
     private GameEventHandler gameEventHandler;
+    private IGameMapperController gameMapperController;
     private GameModel gameModel;
 
     @FXML
@@ -73,10 +76,11 @@ public class MenuBarViewFxml implements ControlledFxView {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model) {
+    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController) {
         this.changeLanguage();
         this.createBehaviour();
         this.gameEventHandler = (GameEventHandler) eventHandler;
+        this.gameMapperController = gameMapperController;
         this.gameModel = (GameModel) model;
     }
 
@@ -99,17 +103,13 @@ public class MenuBarViewFxml implements ControlledFxView {
         this.newMenuItem.setOnAction(event -> this.gameEventHandler.newGame());
 
         // save
-        this.saveMenuItem.setOnAction(event -> this.gameEventHandler.save());
+        this.saveMenuItem.setOnAction(event -> this.gameMapperController.save(gameModel, "fileSalavataggio"));
 
         // add event handlers for all necessary menu items
         // Aggiungi qui gestori eventi per altre voci di menu
 
         // open
-        this.openMenuItem.setOnAction(event -> {
-            // Implementare la logica per aprire un gioco salvato
-            // Per esempio:
-            // this.gameEventHandler.openGame();
-        });
+        this.openMenuItem.setOnAction(event -> { this.gameMapperController.open(gameModel, "fileSalavataggio"); ;});
 
         // quit
         this.quitMenuItem.setOnAction(
