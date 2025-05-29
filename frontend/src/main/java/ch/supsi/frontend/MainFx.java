@@ -62,6 +62,7 @@ public class MainFx extends Application {
         gameBombApplication.setMinBomb(1);
         gameBombApplication.setMaxBomb(80);
 
+
         this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication);
         this.gameMapperModel = GameMapperModel.getInstance(gameStateMapperApplication);
 
@@ -85,6 +86,7 @@ public class MainFx extends Application {
         //this.welcomeView.initialize(this.gameModel);
         //GameController.getInstance().setMainFx(this);
         controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
+        gameMapperController.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
 
 
     }

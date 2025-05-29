@@ -39,6 +39,7 @@ public class JacksonGameSaveService implements GameSaveData {
         try {
             File saveFile = new File(saveDirectory, fileName + ".json");
             objectMapper.writeValue(saveFile, gameState);
+            System.out.println("salav in " + saveDirectory + fileName);
         } catch (IOException e) {
             System.out.println("Errore durante il salvataggio del gioco: " + fileName);
         }
@@ -48,12 +49,14 @@ public class JacksonGameSaveService implements GameSaveData {
     public GameStateBusiness loadGame(String fileName) {
         try {
             File saveFile = new File(saveDirectory, fileName + ".json");
+            System.out.println("Mi arriva " + saveDirectory + fileName);
             if (!saveFile.exists()) {
                 System.out.println("File di salvataggio non trovato: " + fileName);
             }
             return objectMapper.readValue(saveFile, GameStateBusiness.class);
         } catch (IOException e) {
             System.out.println("Errore durante il caricamento del gioco: " + fileName);
+            e.printStackTrace();
         }
         return null;
     }

@@ -1,8 +1,13 @@
 package ch.supsi.backend.business.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+@JsonAutoDetect(
+        fieldVisibility = JsonAutoDetect.Visibility.ANY,      // prendi solo i campi
+        getterVisibility = JsonAutoDetect.Visibility.NONE,    // ignora i getter
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE   // ignora i boolean‐getter
+)
 public class CellStateBusiness implements ICellStateBusiness {
     @JsonProperty("row")
     private final int row;
