@@ -51,6 +51,7 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
     @Override
     public void initialize(AbstractModel model) {
         this.gameModel = (GameModel) model;
+        this.userFeedbackBar.setText(translationsController.translate("label.welcome"));
     }
 
     @Override

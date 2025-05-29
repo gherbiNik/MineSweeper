@@ -43,12 +43,7 @@ public class MainFx extends Application {
     private BorderPane mainBorderPane;
 
     public MainFx() {
-        try {
-            Class.forName("com.fasterxml.jackson.databind.ObjectMapper");
-            System.out.println("✅ Jackson ObjectMapper is available.");
-        } catch (ClassNotFoundException e) {
-            System.out.println("❌ Jackson ObjectMapper is NOT available at runtime.");
-        }
+
         // GAME MODEL
         GameBoardApplication gameBoardApplication = new GameBoardApplication();
         gameBoardApplication.setDimensions(9);
