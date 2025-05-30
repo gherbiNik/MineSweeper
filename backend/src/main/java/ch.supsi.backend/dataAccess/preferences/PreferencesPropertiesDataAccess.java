@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInterface {
-    private static final String defaultPreferencesPath = "/default-user-preferences.properties";
+
     private static final String userHomeDirectory = System.getProperty("user.home");
     private static final String preferencesDirectory = ".mineSweaper";
     private static final String preferencesFile = "preferences.properties";
@@ -87,25 +87,10 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
 
     private Properties loadDefaultPreferences() {
         Properties defaultPreferences = new Properties();
-        try {
-            // CORREZIONE: usa defaultPreferencesPath invece di getUserPreferencesDirectoryPath()
-            InputStream defaultPreferencesStream = this.getClass().getResourceAsStream(defaultPreferencesPath);
-            if (defaultPreferencesStream != null) {
-                defaultPreferences.load(defaultPreferencesStream);
-                defaultPreferencesStream.close();
-            } else {
-                // Se non trova il file di default, crea preferenze di base
-                System.out.println("File di preferenze di default non trovato, uso valori predefiniti");
-                defaultPreferences.setProperty("language-tag", "it-IT"); // valore di default
-                defaultPreferences.setProperty("bomb-number", "20");
-            }
-        } catch (IOException e) {
-            System.err.println("Errore nel caricamento delle preferenze di default: " + e.getMessage());
-            // Crea preferenze di base in caso di errore
-            defaultPreferences.setProperty("language-tag", "it-IT");
-            defaultPreferences.setProperty("bomb-number", "20");
 
-        }
+        // Create basic default preferences
+        defaultPreferences.setProperty("language-tag", "it-IT");
+        defaultPreferences.setProperty("bomb-number", "20");
 
         return defaultPreferences;
     }
@@ -124,30 +109,28 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         return preferences;
     }
 
-    //Metodo per fornire le preferenze
+    //Metodo per fornire le preferenze - ALWAYS uses userHomeDirectory+preferencesDirectory+preferencesFile
     @Override
     public Properties getPreferences() {
         if (userPreferences != null) {
             return userPreferences;
         }
 
-        // se esiste il file di preferenze dell'utente, caricalo
-        if (userPreferencesFileExists()) {
-            userPreferences = this.loadPreferences(this.getUserPreferencesFilePath());
-            if (userPreferences != null) {
-                return userPreferences;
-            }
+        // Always try to load from the user preferences file path first
+        userPreferences = this.loadPreferences(this.getUserPreferencesFilePath());
+        if (userPreferences != null) {
+            return userPreferences;
         }
 
-        // se non esiste il file o c'è stato un errore nel caricamento,
-        // carica le preferenze di default
+        // If user preferences file doesn't exist or failed to load,
+        // load default preferences and create the user file
         Properties defaultPreferences = this.loadDefaultPreferences();
 
-        // crea il file delle preferenze dell'utente con i valori di default
+        // Create the user preferences file with default values
         if (this.createUserPreferencesFile(defaultPreferences)) {
             userPreferences = defaultPreferences;
         } else {
-            // se fallisce la creazione del file, usa comunque le preferenze di default
+            // If file creation fails, still use the default preferences
             userPreferences = defaultPreferences;
         }
 
