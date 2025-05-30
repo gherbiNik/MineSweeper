@@ -2,25 +2,18 @@ package ch.supsi.backend.dataAccess.preferences;
 
 import ch.supsi.backend.business.preferences.PreferencesDataAccessInterface;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
 public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInterface {
     private static final String defaultPreferencesPath = "/default-user-preferences.properties";
-
     private static final String userHomeDirectory = System.getProperty("user.home");
-
-    private static final String preferencesDirectory = ".l10ndemo";
-
+    private static final String preferencesDirectory = ".mineSweaper";
     private static final String preferencesFile = "preferences.properties";
 
     public static PreferencesPropertiesDataAccess dao;
-
     private static Properties userPreferences;
 
     // protected default constructor to avoid a new instance being requested from clients
@@ -33,7 +26,6 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         if (dao == null) {
             dao = new PreferencesPropertiesDataAccess();
         }
-
         return dao;
     }
 
@@ -42,29 +34,27 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         return Path.of(userHomeDirectory, preferencesDirectory);
     }
 
-    //mi dice se esiste preferences direcoty
+    //mi dice se esiste preferences directory
     private boolean userPreferencesDirectoryExists() {
         return Files.exists(this.getUserPreferencesDirectoryPath());
     }
 
-    // serve per precerea la directory se non esiste
+    // serve per creare la directory se non esiste
     private Path createUserPreferencesDirectory() {
         try {
             return Files.createDirectories(this.getUserPreferencesDirectoryPath());
-
-        } catch (IOException ignoredForDemoPurposes) {
-            ;
+        } catch (IOException e) {
+            System.err.println("Errore nella creazione della directory delle preferenze: " + e.getMessage());
+            return null;
         }
-
-        return null;
     }
 
-    //restituisce il percorso del path finale
+    //restituisce il percorso del file finale
     private Path getUserPreferencesFilePath() {
         return Path.of(userHomeDirectory, preferencesDirectory, preferencesFile);
     }
 
-    //vede se este il file di preferenze
+    //vede se esiste il file di preferenze
     private boolean userPreferencesFileExists() {
         return Files.exists(this.getUserPreferencesFilePath());
     }
@@ -75,39 +65,48 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         }
 
         if (!userPreferencesDirectoryExists()) {
-            // user preferences directory does not exist
-            // create it
-            this.createUserPreferencesDirectory();
-        }
-
-        if (!userPreferencesFileExists()) {
-            // user preferences file does not exist
-            // create it
-            try {
-                // create user preferences file (with default preferences)
-                FileOutputStream outputStream = new FileOutputStream(String.valueOf(this.getUserPreferencesFilePath()));
-                defaultPreferences.store(outputStream, null);
-                return true;
-
-            } catch (IOException ignoredForDemoPurposes) {
+            if (this.createUserPreferencesDirectory() == null) {
                 return false;
             }
         }
 
+        if (!userPreferencesFileExists()) {
+            try {
+                // create user preferences file (with default preferences)
+                try (FileOutputStream outputStream = new FileOutputStream(this.getUserPreferencesFilePath().toFile())) {
+                    defaultPreferences.store(outputStream, "User Preferences");
+                }
+                return true;
+            } catch (IOException e) {
+                System.err.println("Errore nella creazione del file delle preferenze: " + e.getMessage());
+                return false;
+            }
+        }
         return true;
     }
 
     private Properties loadDefaultPreferences() {
         Properties defaultPreferences = new Properties();
         try {
+            // CORREZIONE: usa defaultPreferencesPath invece di getUserPreferencesDirectoryPath()
             InputStream defaultPreferencesStream = this.getClass().getResourceAsStream(defaultPreferencesPath);
-            defaultPreferences.load(defaultPreferencesStream);
+            if (defaultPreferencesStream != null) {
+                defaultPreferences.load(defaultPreferencesStream);
+                defaultPreferencesStream.close();
+            } else {
+                // Se non trova il file di default, crea preferenze di base
+                System.out.println("File di preferenze di default non trovato, uso valori predefiniti");
+                defaultPreferences.setProperty("language-tag", "it-IT"); // valore di default
+                defaultPreferences.setProperty("bomb-number", "20");
+            }
+        } catch (IOException e) {
+            System.err.println("Errore nel caricamento delle preferenze di default: " + e.getMessage());
+            // Crea preferenze di base in caso di errore
+            defaultPreferences.setProperty("language-tag", "it-IT");
+            defaultPreferences.setProperty("bomb-number", "20");
 
-        } catch (IOException ignored) {
-            ;
         }
 
-        // return the properties object with the loaded preferences
         return defaultPreferences;
     }
 
@@ -115,12 +114,13 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
     private Properties loadPreferences(Path path) {
         Properties preferences = new Properties();
         try {
-            preferences.load(new FileInputStream(String.valueOf(path)));
-
-        } catch (IOException ignoredForDemoPurposes) {
+            try (FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
+                preferences.load(fileInputStream);
+            }
+        } catch (IOException e) {
+            System.err.println("Errore nel caricamento delle preferenze: " + e.getMessage());
             return null;
         }
-
         return preferences;
     }
 
@@ -130,16 +130,27 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
         if (userPreferences != null) {
             return userPreferences;
         }
-        //se esiste il file di preferenze
+
+        // se esiste il file di preferenze dell'utente, caricalo
         if (userPreferencesFileExists()) {
             userPreferences = this.loadPreferences(this.getUserPreferencesFilePath());
-            return userPreferences;
+            if (userPreferences != null) {
+                return userPreferences;
+            }
         }
-        // se non esiste il file di preferenze
-        userPreferences = this.loadDefaultPreferences();
-        boolean rv = this.createUserPreferencesFile(userPreferences);
 
-        // return the properties object with the loaded preferences
+        // se non esiste il file o c'è stato un errore nel caricamento,
+        // carica le preferenze di default
+        Properties defaultPreferences = this.loadDefaultPreferences();
+
+        // crea il file delle preferenze dell'utente con i valori di default
+        if (this.createUserPreferencesFile(defaultPreferences)) {
+            userPreferences = defaultPreferences;
+        } else {
+            // se fallisce la creazione del file, usa comunque le preferenze di default
+            userPreferences = defaultPreferences;
+        }
+
         return userPreferences;
     }
 }

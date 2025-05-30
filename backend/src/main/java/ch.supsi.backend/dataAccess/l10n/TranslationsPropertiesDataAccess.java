@@ -39,7 +39,6 @@ public class TranslationsPropertiesDataAccess implements TranslationsDataAccessI
         } catch (IOException ignored) {
             ;
         }
-
         // return the properties object with the loaded preferences
         return supportedLanguageTags;
     }

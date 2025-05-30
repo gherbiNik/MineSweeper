@@ -27,7 +27,6 @@ public class TranslationsModel implements TranslationsBusinessInterface {
         if (myself == null) {
             myself = new TranslationsModel();
         }
-
         return myself;
     }
 
@@ -37,7 +36,6 @@ public class TranslationsModel implements TranslationsBusinessInterface {
         if (!this.supportedLanguageTags.contains(languageTag)) {
             return false;
         }
-
         return true;
     }
 

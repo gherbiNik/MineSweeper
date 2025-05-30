@@ -33,7 +33,7 @@ public class TranslationsController {
      * @param key
      * @return String
      */
-    //returna un translations mode
+    //La usiamo nella view
     public String translate(String key) {
         return this.translationsModel.translate(key);
     }
