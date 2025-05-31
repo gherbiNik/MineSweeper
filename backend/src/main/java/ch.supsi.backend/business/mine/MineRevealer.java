@@ -8,14 +8,33 @@ import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.model.AbstractModel;
 
 
-public class MineRevealer implements CellActionApplication {
+public class MineRevealer implements CellAction {
     private GameBoardInfo gameInfo;
+    private AbstractModel model;
+    private static  MineRevealer myself;
 
-    public MineRevealer(GameBoardInfo gameInfo) {
-        this.gameInfo = gameInfo;
+    private MineRevealer() {}
+
+    public static MineRevealer getInstance(GameBoardInfo gameInfo, AbstractModel model)
+    {
+        if(myself == null)
+        {
+            myself = new MineRevealer();
+            myself.initialize(gameInfo, model);
+        }
+        return myself;
     }
 
-    public void revealCell(AbstractModel model, MinePlacementStrategy bombPlacer, int row, int col) {
+    private void initialize(GameBoardInfo gameInfo, AbstractModel model)
+    {
+        this.gameInfo = gameInfo;
+        this.model = model;
+    }
+
+
+
+
+    public void revealCell(MinePlacementStrategy bombPlacer, int row, int col) {
         ICell cell = model.getBoard()[row][col];
 
         // Se la cella è già rivelata o contrassegnata, non fare nulla
@@ -34,7 +53,7 @@ public class MineRevealer implements CellActionApplication {
         // Se è una mina, il gioco è perso
         if (cell.isMine()) {
             model.setGameOver(true);
-            revealAllMines(model);
+            revealAllMines();
             return;
         }
 
@@ -43,7 +62,7 @@ public class MineRevealer implements CellActionApplication {
             for (int i = Math.max(0, row - 1); i <= Math.min(gameInfo.getSize() - 1, row + 1); i++) {
                 for (int j = Math.max(0, col - 1); j <= Math.min(gameInfo.getSize() - 1, col + 1); j++) {
                     if (!(i == row && j == col)) {
-                        revealCell(model, bombPlacer, i, j);
+                        revealCell(bombPlacer, i, j);
                     }
                 }
             }
@@ -53,7 +72,7 @@ public class MineRevealer implements CellActionApplication {
         model.checkWinCondition();
     }
 
-    public void revealAllMines(AbstractModel model) {
+    public void revealAllMines() {
         for (int i = 0; i < gameInfo.getSize(); i++) {
             for (int j = 0; j < gameInfo.getSize(); j++) {
                 if (model.getBoard()[i][j].isMine()) {
@@ -63,7 +82,7 @@ public class MineRevealer implements CellActionApplication {
         }
     }
 
-    public void toggleFlag(AbstractModel model, int row, int col) {
+    public void toggleFlag(int row, int col) {
         if (!model.isGameStarted() || model.isGameOver()) {
             return;
         }
@@ -76,10 +95,12 @@ public class MineRevealer implements CellActionApplication {
         }
 
         // Gestisce il conteggio delle bandierine
+        /*
         if (!cell.isFlagged() && model.getFlaggedCellCount() >= model.getMineCount()) {
             // Non puoi inserire più bandierine del numero di mine
             return;
         }
+        */
 
         // Toggle flag
         boolean wasFlagged = cell.isFlagged();

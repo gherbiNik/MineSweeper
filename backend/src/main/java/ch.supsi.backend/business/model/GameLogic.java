@@ -1,16 +1,12 @@
 package ch.supsi.backend.business.model;
 
 import ch.supsi.backend.business.cell.Cell;
-import ch.supsi.backend.business.event.IGameEventBusiness;
-import ch.supsi.backend.business.event.IPlayerEventBusiness;
-import ch.supsi.backend.business.game.GameBoardInfo;
 import ch.supsi.backend.business.cell.ICell;
+import ch.supsi.backend.business.game.GameBoardInfo;
 import ch.supsi.backend.business.game.GameBombInfo;
 import ch.supsi.backend.business.mine.CellAction;
 import ch.supsi.backend.business.mine.MinePlacementStrategy;
 import ch.supsi.backend.business.preferences.PreferencesBusinessInterface;
-
-import java.util.List;
 
 public class GameLogic extends AbstractModel  {
 
@@ -31,20 +27,18 @@ public class GameLogic extends AbstractModel  {
     private PreferencesBusinessInterface preferencesBusinessInterface;
 
 
-
-
     private GameLogic() {
     }
 
-    public static GameLogic getInstance(MinePlacementStrategy bombPlacer, CellAction mineRevealer, GameBoardInfo gameBoardBusiness, GameBombInfo gameBombBusiness, PreferencesBusinessInterface preferencesBusinessInterface) {
+    public static GameLogic getInstance(MinePlacementStrategy bombPlacer, GameBoardInfo gameBoardBusiness, GameBombInfo gameBombBusiness, PreferencesBusinessInterface preferencesBusinessInterface) {
         if (myself==null) {
             myself = new GameLogic();
-            myself.initialize(bombPlacer, mineRevealer, gameBoardBusiness, gameBombBusiness, preferencesBusinessInterface);
+            myself.initialize(bombPlacer, gameBoardBusiness, gameBombBusiness, preferencesBusinessInterface);
         }
         return myself;
     }
 
-    private void initialize (MinePlacementStrategy bombPlacer, CellAction mineRevealer, GameBoardInfo gameBoardBusiness, GameBombInfo gameBombBusiness, PreferencesBusinessInterface preferencesBusinessInterface) {
+    private void initialize (MinePlacementStrategy bombPlacer,GameBoardInfo gameBoardBusiness, GameBombInfo gameBombBusiness, PreferencesBusinessInterface preferencesBusinessInterface) {
         this.bombPlacer = bombPlacer;
         this.mineRevealer = mineRevealer;
         this.gameBoardBusiness = gameBoardBusiness;
@@ -55,7 +49,10 @@ public class GameLogic extends AbstractModel  {
             String valueStr = obj.toString(); // o (String) obj se sei sicuro che sia String
             this.mineCount = Integer.parseInt(valueStr);
         }
+    }
 
+    public void setMineRevealer(CellAction mineRevealer) {
+        this.mineRevealer = mineRevealer;
     }
 
     @Override
@@ -172,24 +169,25 @@ public class GameLogic extends AbstractModel  {
     @Override
     public void move(int row, int col, boolean isRightClick) {
         if (isRightClick) {
-            mineRevealer.toggleFlag(this, row, col);
+            mineRevealer.toggleFlag(row, col);
         } else {
-            mineRevealer.revealCell(this, bombPlacer, row, col);
+            mineRevealer.revealCell(bombPlacer, row, col);
         }
     }
 
     @Override
     public void newGame() {
         initializeBoard();
-        gameStarted = false;
+        gameStarted = true;
         gameOver = false;
         gameWon = false;
         flaggedCellCount = 0;
+        bombPlacer.placeMines(myself, mineCount);
     }
 
     @Override
     public void quit() {
-        //Chiedere al giocatore se salvare o no
+        //TODO Chiedere al giocatore se salvare o no
         gameStarted = false;
         gameOver = false;
         gameWon = false;

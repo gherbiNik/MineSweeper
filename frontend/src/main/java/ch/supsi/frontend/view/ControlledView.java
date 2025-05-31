@@ -5,6 +5,7 @@ import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.preferences.IPreferencesController;
+import ch.supsi.frontend.model.game.GameBoardModelInterface;
 import ch.supsi.frontend.model.game.GameModelInterface;
 
 public interface ControlledView extends DataView {
@@ -12,6 +13,6 @@ public interface ControlledView extends DataView {
    default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController){}
    default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView view, TranslationsApplicationInterface translationsApplicationInterface){}
    default void initialize(IPreferencesController preferencesController, TranslationsApplicationInterface translationsApplication){}
-
+   default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameController,GameBoardModelInterface gameBoardModelInterface){}
 
 }

@@ -7,9 +7,10 @@ public class GameApplication implements  GameApplicationInterface {
     private static GameApplication instance;
     private AbstractModel gameLogic;
 
-    public static GameApplication getInstance() {
+    public static GameApplication getInstance(AbstractModel gameLogic) {
         if (instance == null) {
             instance = new GameApplication();
+            instance.initialize(gameLogic);
         }
         return instance;
     }

@@ -3,6 +3,7 @@ package ch.supsi.frontend.view;
 import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.model.game.GameModel;
+import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,7 +16,7 @@ import java.net.URL;
 public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
 
     private static UserFeedbackViewFxml myself;
-    private GameModel gameModel;
+    private GameModelInterface gameModel;
     // TODO vedere se cambiare o tenerlo cosi sia qui che per GameboardView
     private TranslationsApplicationInterface translationsApplication;
 
@@ -49,8 +50,8 @@ public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
     }
 
     @Override
-    public void initialize(AbstractModel model, TranslationsApplicationInterface translationsApplication) {
-        this.gameModel = (GameModel) model;
+    public void initialize(GameModelInterface model, TranslationsApplicationInterface translationsApplication) {
+        this.gameModel = model;
         this.translationsApplication = translationsApplication;
         this.userFeedbackBar.setText(translationsApplication.translate("label.welcome"));
     }

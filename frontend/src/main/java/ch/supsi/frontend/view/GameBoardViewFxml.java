@@ -1,12 +1,15 @@
 package ch.supsi.frontend.view;
 
 import ch.supsi.backend.business.cell.Cell;
+import ch.supsi.backend.business.cell.ICell;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
+import ch.supsi.frontend.model.game.GameBoardModelInterface;
 import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.controller.PlayerEventHandler;
+import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,8 +24,9 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     private static GameBoardViewFxml myself;
     private PlayerEventHandler playerEventHandler;
-    private GameModel gameModel;
+    private GameModelInterface gameModel;
     private Button[][] cells;
+    private GameBoardModelInterface gameBoardModelInterface;
 
     @FXML
     private GridPane containerPane;
@@ -165,14 +169,16 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameController) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameController,GameBoardModelInterface gameBoardModelInterface) {
         this.playerEventHandler = (PlayerEventHandler) eventHandler;
-        this.gameModel = (GameModel) model;
+        this.gameModel = model;
+        this.gameBoardModelInterface = gameBoardModelInterface;
+
     }
 
     private void createBehaviour() {
-        for (int i = 0; i < gameModel.getSize(); i++) {
-            for (int j = 0; j < gameModel.getSize(); j++) {
+        for (int i = 0; i < gameBoardModelInterface.getSize(); i++) {
+            for (int j = 0; j < gameBoardModelInterface.getSize(); j++) {
                 final int row = i;
                 final int col = j;
 
@@ -193,8 +199,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     public void update() {
 
         // Aggiorna la visualizzazione della griglia in base allo stato del modello
-        for (int i = 0; i < gameModel.getSize(); i++) {
-            for (int j = 0; j < gameModel.getSize(); j++) {
+        for (int i = 0; i < gameBoardModelInterface.getSize(); i++) {
+            for (int j = 0; j < gameBoardModelInterface.getSize(); j++) {
                 updateCellView(i, j);
             }
         }
@@ -202,7 +208,7 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     private void updateCellView(int row, int col) {
         Button button = cells[row][col];
-        Cell cell = gameModel.getCell(row, col);
+        ICell cell = gameModel.getCell(row, col);
 
         if (cell == null) return;
 
@@ -255,8 +261,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     private void activateCell() {
-        for (int i = 0; i < gameModel.getSize(); i++) {
-            for (int j = 0; j < gameModel.getSize(); j++) {
+        for (int i = 0; i < gameBoardModelInterface.getSize(); i++) {
+            for (int j = 0; j < gameBoardModelInterface.getSize(); j++) {
                 cells[i][j].setDisable(false);
             }
         }
