@@ -17,6 +17,8 @@ import ch.supsi.frontend.controller.GameController;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.PlayerEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
+import ch.supsi.frontend.controller.gameMapperController.IInfoController;
+import ch.supsi.frontend.controller.gameMapperController.InfoController;
 import ch.supsi.frontend.model.*;
 import ch.supsi.frontend.model.gameMapperModel.GameMapperModel;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
@@ -74,12 +76,19 @@ public class MainFx extends Application {
         this.gameEventHandler = controller;
         this.playerEventHandler = controller;
 
+
+
         // SCAFFOLDING of M-V-C
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController);
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController);
         this.userFeedbackView.initialize(this.gameModel);
+
+        // INFO
+        IInfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
+        ((InfoViewInit) this.menuBarView).initialize(this.gameEventHandler, this.gameModel, gameMapperController, infoController);
+
         //this.welcomeView.initialize(this.gameModel);
         //GameController.getInstance().setMainFx(this);
+
         controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
         gameMapperController.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
 

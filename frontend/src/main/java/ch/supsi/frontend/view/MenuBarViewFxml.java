@@ -6,6 +6,8 @@ import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
+import ch.supsi.frontend.controller.gameMapperController.IInfoController;
+import ch.supsi.frontend.controller.gameMapperController.InfoController;
 import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +19,15 @@ import javafx.scene.control.MenuItem;
 import java.io.IOException;
 import java.net.URL;
 
-public class MenuBarViewFxml implements ControlledFxView {
+public class MenuBarViewFxml implements ControlledFxView, InfoViewInit{
 
     private static MenuBarViewFxml myself;
 
     private GameEventHandler gameEventHandler;
     private IGameMapperController gameMapperController;
     private GameModel gameModel;
+    private IInfoController infoController; // TODO creare sia interf che classe
+    private TranslationsController translationsController = new TranslationsController();
 
     @FXML
     private MenuBar menuBar;
@@ -75,14 +79,6 @@ public class MenuBarViewFxml implements ControlledFxView {
         return myself;
     }
 
-    @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController) {
-        this.changeLanguage();
-        this.createBehaviour();
-        this.gameEventHandler = (GameEventHandler) eventHandler;
-        this.gameMapperController = gameMapperController;
-        this.gameModel = (GameModel) model;
-    }
 
     //TODO chiedere agli altri se va bene mettere cosi il translation controller
     private void changeLanguage() {
@@ -91,7 +87,6 @@ public class MenuBarViewFxml implements ControlledFxView {
         this.saveAsMenuItem.setText(translationsController.translate("label.saveAs"));
         this.saveMenuItem.setText(translationsController.translate("label.save"));
         this.openMenuItem.setText(translationsController.translate("label.open"));
-        this.quitMenuItem.setText(translationsController.translate("label.quit"));
         this.quitMenuItem.setText(translationsController.translate("label.quit"));
         this.preferencesMenuItem.setText(translationsController.translate("label.preferences"));
         this.editMenu.setText(translationsController.translate("label.edit"));
@@ -118,6 +113,12 @@ public class MenuBarViewFxml implements ControlledFxView {
                 // Per esempio:
                 // Platform.exit();
         );
+
+        // help
+        this.helpMenuItem.setOnAction(event -> this.infoController.display(translationsController.translate("label.helpMessage")));
+        
+        // about
+        this.aboutMenuItem.setOnAction(event -> this.infoController.display(translationsController.translate("label.aboutMessage")));
     }
 
     @Override
@@ -143,11 +144,27 @@ public class MenuBarViewFxml implements ControlledFxView {
         saveAsMenuItem.setDisable(false);
     }
 
+
     @Override
     public void flagUpdateMessage(int remainingMines) {
     }
 
     @Override
     public void gameOverMessage(String message) {
+    }
+
+    @Override
+    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController) {
+        this.changeLanguage();
+        this.createBehaviour();
+        this.gameEventHandler = (GameEventHandler) eventHandler;
+        this.gameMapperController = gameMapperController;
+        this.gameModel = (GameModel) model;
+    }
+
+    @Override
+    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, IInfoController infoController) {
+        this.infoController = infoController;
+        this.initialize(eventHandler, model, gameMapperController);
     }
 }
