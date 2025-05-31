@@ -30,7 +30,7 @@ public class ExitView implements ShowView{
 
 
     public void initialize(TranslationsApplicationInterface translationsApplication) {
-        this.
+        this.translationsApplication = translationsApplication;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ExitView implements ShowView{
         try {
             Stage confirmationStage = new Stage();
 
-            confirmationStage.setTitle("Conferma uscita");
+            confirmationStage.setTitle(translationsApplication.translate("label.confirmExit"));
             confirmationStage.initModality(Modality.APPLICATION_MODAL);
             confirmationStage.setResizable(false);
 
@@ -47,10 +47,10 @@ public class ExitView implements ShowView{
             mainLayout.setAlignment(Pos.CENTER);
 
 
-            Label titleLabel = new Label("Sei sicuro di voler uscire?");
+            Label titleLabel = new Label(translationsApplication.translate("label.confirmExitQuestion"));
             titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-            Label messageLabel = new Label("Tutti i progressi non salvati andranno persi.");
+            Label messageLabel = new Label(translationsApplication.translate("label.alertProgress"));
             messageLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #666666;");
             messageLabel.setWrapText(true);
             messageLabel.setAlignment(Pos.CENTER);
@@ -58,8 +58,8 @@ public class ExitView implements ShowView{
             HBox buttonBox = new HBox(15);
             buttonBox.setAlignment(Pos.CENTER);
 
-            Button confirmButton = new Button("Sì, esci");
-            Button cancelButton = new Button("Annulla");
+            Button confirmButton = new Button(translationsApplication.translate("label.exit"));
+            Button cancelButton = new Button(translationsApplication.translate("label.cancel"));
 
             confirmButton.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-weight: bold;");
             cancelButton.setStyle("-fx-background-color: #1976d2; -fx-text-fill: white;");

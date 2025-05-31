@@ -123,7 +123,7 @@ public class MainFx extends Application {
 
 
         // SCAFFOLDING of M-V-C
-        this.exitView.initialize(); // todo future adds
+        this.exitView.initialize(translationsApplication);
         this.preferenceView.initialize(preferencesController, translationsApplication);
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication, exitView );
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController, gameBoardModel);
