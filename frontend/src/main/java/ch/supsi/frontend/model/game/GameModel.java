@@ -2,6 +2,7 @@ package ch.supsi.frontend.model.game;
 
 import ch.supsi.backend.application.game.GameApplicationInterface;
 import ch.supsi.backend.business.cell.ICell;
+import javafx.stage.Stage;
 
 public class GameModel implements GameModelInterface {
 
@@ -30,10 +31,6 @@ public class GameModel implements GameModelInterface {
         app.newGame();
     }
 
-    @Override
-    public void quit() {
-        app.quit();
-    }
 
     @Override
     public void move(int row, int col, boolean isRightClick) {

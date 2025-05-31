@@ -26,6 +26,7 @@ import ch.supsi.backend.dataAccess.l10n.TranslationsPropertiesDataAccess;
 import ch.supsi.backend.dataAccess.preferences.PreferencesDataAccess;
 import ch.supsi.backend.dataAccess.states.GameSaveServiceFactory;
 import ch.supsi.backend.dataAccess.states.JacksonGameSaveService;
+import ch.supsi.frontend.controller.ExitController;
 import ch.supsi.frontend.controller.GameController;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.PlayerEventHandler;
@@ -50,7 +51,7 @@ import java.util.List;
 public class MainFx extends Application {
 
     public static final String APP_TITLE = "mine sweeper";
-
+    private static Stage stageToClose;
     private final GameModel gameModel;
     private final IGameMapperModel gameMapperModel;
     private final ControlledFxView menuBarView;
@@ -123,15 +124,16 @@ public class MainFx extends Application {
 
 
         // SCAFFOLDING of M-V-C
-        this.exitView.initialize(translationsApplication);
+        ExitController exitController = ExitController.getInstance(stageToClose);
+        this.exitView.initialize(translationsApplication, exitController);
         this.preferenceView.initialize(preferencesController, translationsApplication);
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication, exitView );
+        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView, translationsApplication, exitView, exitController);
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController, gameBoardModel);
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
 
         // INFO
-        IInfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
-        ((InfoViewInit) this.menuBarView).initialize(this.gameEventHandler, this.gameModel, gameMapperController, infoController, preferenceView,translationsApplication, exitView);
+        InfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
+        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, preferenceView, translationsApplication, exitView, exitController, infoController);
 
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
         //this.welcomeView.initialize(this.gameModel);
@@ -157,6 +159,7 @@ public class MainFx extends Application {
         // handle the main window close request
         // in real life, this event should not be dealt with here!
         // it should actually be delegated to a suitable ExitController!
+        stageToClose = primaryStage;
         primaryStage.setOnCloseRequest(
                 windowEvent -> {
                     // consume the window event (the main window would be closed otherwise no matter what)
@@ -168,6 +171,7 @@ public class MainFx extends Application {
                     primaryStage.close();
                 }
         );
+
 
         // SCAFFOLDING OF MAIN PANE
         mainBorderPane = new BorderPane();

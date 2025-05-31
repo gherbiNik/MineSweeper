@@ -187,7 +187,6 @@ public class GameLogic extends AbstractModel  {
 
     @Override
     public void quit() {
-        //TODO Chiedere al giocatore se salvare o no
         gameStarted = false;
         gameOver = false;
         gameWon = false;

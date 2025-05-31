@@ -6,6 +6,7 @@ import ch.supsi.backend.business.preferences.PreferencesBusinessInterface;
 import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import ch.supsi.frontend.view.DataView;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -40,16 +41,6 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         //mainFx.switchGameBoard();
         this.views.forEach(DataView::newGameMessage);
     }
-
-
-
-
-    @Override
-    public void quit() {
-        gameModel.quit();
-
-    }
-
 
 
     @Override

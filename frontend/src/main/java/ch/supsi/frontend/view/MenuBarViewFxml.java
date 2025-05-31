@@ -4,9 +4,11 @@ import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.backend.dataAccess.states.NoGameSavedEx;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
+import ch.supsi.frontend.controller.ExitController;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IInfoController;
+import ch.supsi.frontend.controller.gameMapperController.InfoController;
 import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
@@ -30,6 +32,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     private IInfoController infoController;
     private TranslationsApplicationInterface translationsApplication;
     private ExitView exitView;
+    private ExitController exitController;
 
     @FXML
     private MenuBar menuBar;
@@ -82,7 +85,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, ExitController exitController, InfoController infoController) {
         this.changeLanguage(translationsApplicationInterface);
         this.createBehaviour();
         this.gameEventHandler = (GameEventHandler) eventHandler;
@@ -91,13 +94,14 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         this.preferenceView = (PreferenceView) preferenceView;
         this.translationsApplication = translationsApplicationInterface;
         this.exitView = exitView;
+        this.exitController = exitController;
+        initialize(infoController);
     }
 
 
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView) {
+    public void initialize(InfoController infoController) {
         this.infoController = infoController;
-        this.initialize(eventHandler, model, gameMapperController, preferenceView, translationsApplicationInterface, exitView);
     }
 
 
@@ -140,7 +144,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         this.quitMenuItem.setOnAction(
                 event -> {
                     this.exitView.showView();
-                    this.gameEventHandler.quit();
+                    this.exitController.quit();
                 }
                 // Implementare la logica per uscire dall'applicazione
                 // Per esempio:

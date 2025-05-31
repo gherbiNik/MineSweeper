@@ -1,6 +1,8 @@
 package ch.supsi.frontend.view;
 
 import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
+import ch.supsi.frontend.controller.ExitController;
+import ch.supsi.frontend.controller.GameController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,7 +15,8 @@ import javafx.stage.Stage;
 
 public class ExitView implements ShowView{
     private TranslationsApplicationInterface translationsApplication;
-    //Controller
+    private ExitController exitController;
+
 
     private static ExitView instance;
 
@@ -29,8 +32,9 @@ public class ExitView implements ShowView{
 
 
 
-    public void initialize(TranslationsApplicationInterface translationsApplication) {
+    public void initialize(TranslationsApplicationInterface translationsApplication, ExitController exitController) {
         this.translationsApplication = translationsApplication;
+        this.exitController = exitController;
     }
 
     @Override
@@ -71,7 +75,7 @@ public class ExitView implements ShowView{
 
             confirmButton.setOnAction(e -> {
                 confirmationStage.close();
-              //  performExit();
+                exitController.quit();
             });
 
             cancelButton.setOnAction(e -> {
@@ -93,7 +97,7 @@ public class ExitView implements ShowView{
 
         } catch (Exception e) {
             e.printStackTrace();
-            //performExit();
+            exitController.quit();
         }
     }
 }
