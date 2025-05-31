@@ -1,42 +1,43 @@
 package ch.supsi.backend.business.l10n;
 
-import ch.supsi.backend.application.l10n.TranslationsBusinessInterface;
+import ch.supsi.backend.dataAccess.l10n.TranslationsDataAccessInterface;
 import ch.supsi.backend.dataAccess.l10n.TranslationsPropertiesDataAccess;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
-public class TranslationsModel implements TranslationsBusinessInterface {
+public class TranslationsBusiness implements TranslationsBusinessInterface {
 
-    private static TranslationsModel myself;
+    private static TranslationsBusiness myself;
 
-    private final TranslationsDataAccessInterface translationsDao;
+    private  TranslationsDataAccessInterface translationsDao;
     //lista dei tag supportati
-    private final List<String> supportedLanguageTags;
+    private  List<String> supportedLanguageTags;
 
     private Properties translations;
 
-    protected TranslationsModel() {
-        this.translationsDao = TranslationsPropertiesDataAccess.getInstance();
-        this.supportedLanguageTags = translationsDao.getSupportedLanguageTags();
+    private TranslationsBusiness() {
     }
 
     //da un istanza del translations model
-    public static TranslationsModel getInstance() {
+    public static TranslationsBusiness getInstance(TranslationsDataAccessInterface translationsDao) {
         if (myself == null) {
-            myself = new TranslationsModel();
+            myself = new TranslationsBusiness();
+            myself.initialize(translationsDao);
         }
         return myself;
+    }
+
+    private void initialize(TranslationsDataAccessInterface translationsDao) {
+        this.translationsDao = TranslationsPropertiesDataAccess.getInstance();
+        this.supportedLanguageTags = translationsDao.getSupportedLanguageTags();
     }
 
     //verifica che il tag sia supportato
     @Override
     public boolean isSupportedLanguageTag(String languageTag) {
-        if (!this.supportedLanguageTags.contains(languageTag)) {
-            return false;
-        }
-        return true;
+        return this.supportedLanguageTags.contains(languageTag);
     }
 
     //funzione che server pa cambiare la lingua

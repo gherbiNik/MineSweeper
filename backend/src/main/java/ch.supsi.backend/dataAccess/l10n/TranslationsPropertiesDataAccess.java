@@ -1,13 +1,8 @@
 package ch.supsi.backend.dataAccess.l10n;
 
-import ch.supsi.backend.business.l10n.TranslationsDataAccessInterface;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-
-import static java.util.ResourceBundle.Control.FORMAT_DEFAULT;
 
 public class TranslationsPropertiesDataAccess implements TranslationsDataAccessInterface {
     private static final String translationsResourceBundlePath = "i18n.labels";
@@ -16,7 +11,7 @@ public class TranslationsPropertiesDataAccess implements TranslationsDataAccessI
 
     public static TranslationsPropertiesDataAccess myself;
 
-    protected TranslationsPropertiesDataAccess() {
+    private TranslationsPropertiesDataAccess() {
     }
 
     // singleton instantiation of this data access object

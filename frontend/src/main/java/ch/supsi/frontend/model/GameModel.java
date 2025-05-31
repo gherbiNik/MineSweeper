@@ -3,8 +3,7 @@ package ch.supsi.frontend.model;
 import ch.supsi.backend.application.cell.CellActionApplication;
 import ch.supsi.backend.application.game.GameBoardApplication;
 import ch.supsi.backend.application.game.GameBombApplication;
-import ch.supsi.backend.application.gameMapper.IGameStateMapperApplication;
-import ch.supsi.backend.application.l10n.TranslationsController;
+import ch.supsi.backend.application.preferences.PreferencesApplication;
 import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.PropertiesController;
 import ch.supsi.backend.business.mine.MinePlacementStrategy;
@@ -21,8 +20,8 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
 
     private static GameModel myself;
     private Cell[][] board;
-    private String[] values;
-    private final int mineCount;
+
+    private int mineCount;
     private int revealedCellCount;
     private int flaggedCellCount;
     private boolean gameStarted;
@@ -38,20 +37,22 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     private final GameBoardApplication gameBoardApplication;
 
 
-    GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
-        try {
-            values = PropertiesController.readFileProperties();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    GameModel(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication, PreferencesApplication preferencesApplication) {
 
-        int tmp = Integer.parseInt(Objects.requireNonNull(values)[0]);
+
+
 
         this.gameBoardApplication = gameBoardApplication;
         this.gameBombApplication = gameBombApplication;
         this.bombPlacer = bombPlacer;
         this.mineRevealer = mineRevealer;
-        this.mineCount = tmp > gameBombApplication.getMaxBomb() || tmp < gameBombApplication.getMinBomb() ? DEFAULT_MINE_COUNT : tmp;
+        //TODO SISTEMARE
+        Object obj = preferencesApplication.getPreference("bomb-number");
+        if (obj != null) {
+            String valueStr = obj.toString(); // o (String) obj se sei sicuro che sia String
+            this.mineCount = Integer.parseInt(valueStr);
+        }
+
         gameStarted = false;
         gameOver = false;
         gameWon = false;
@@ -71,9 +72,9 @@ public class GameModel extends AbstractModel implements GameEventHandler, Player
     }
 
 
-    public static GameModel getInstance(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication) {
+    public static GameModel getInstance(MinePlacementStrategy bombPlacer, CellActionApplication mineRevealer, GameBombApplication gameBombApplication, GameBoardApplication gameBoardApplication, PreferencesApplication preferencesApplication) {
         if (myself == null) {
-            myself = new GameModel(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication);
+            myself = new GameModel(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication, preferencesApplication);
 
         }
         return myself;

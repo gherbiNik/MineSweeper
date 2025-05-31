@@ -1,4 +1,4 @@
-package ch.supsi.backend.application.l10n;
+package ch.supsi.backend.business.l10n;
 
 public interface TranslationsBusinessInterface {
 

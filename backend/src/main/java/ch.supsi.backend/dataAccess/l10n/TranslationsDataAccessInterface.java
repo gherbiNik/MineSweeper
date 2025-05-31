@@ -1,4 +1,4 @@
-package ch.supsi.backend.business.l10n;
+package ch.supsi.backend.dataAccess.l10n;
 
 import java.util.List;
 import java.util.Locale;

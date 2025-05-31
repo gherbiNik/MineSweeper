@@ -1,10 +1,10 @@
 package ch.supsi.frontend.view;
 
-import ch.supsi.backend.application.l10n.TranslationsController;
+import ch.supsi.backend.application.l10n.TranslationsApplication;
+import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
-import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.model.GameModel;
 import javafx.fxml.FXML;
@@ -24,6 +24,7 @@ public class MenuBarViewFxml implements ControlledFxView {
     private GameEventHandler gameEventHandler;
     private IGameMapperController gameMapperController;
     private GameModel gameModel;
+    private PreferenceView preferenceView;
 
     @FXML
     private MenuBar menuBar;
@@ -76,26 +77,27 @@ public class MenuBarViewFxml implements ControlledFxView {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController) {
-        this.changeLanguage();
+    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface) {
+        this.changeLanguage(translationsApplicationInterface);
         this.createBehaviour();
         this.gameEventHandler = (GameEventHandler) eventHandler;
         this.gameMapperController = gameMapperController;
         this.gameModel = (GameModel) model;
+        this.preferenceView = (PreferenceView) preferenceView;
     }
 
-    //TODO chiedere agli altri se va bene mettere cosi il translation controller
-    private void changeLanguage() {
-        TranslationsController translationsController = new TranslationsController();
-        this.newMenuItem.setText(translationsController.translate("label.new"));
-        this.saveAsMenuItem.setText(translationsController.translate("label.saveAs"));
-        this.saveMenuItem.setText(translationsController.translate("label.save"));
-        this.openMenuItem.setText(translationsController.translate("label.open"));
-        this.quitMenuItem.setText(translationsController.translate("label.quit"));
-        this.quitMenuItem.setText(translationsController.translate("label.quit"));
-        this.preferencesMenuItem.setText(translationsController.translate("label.preferences"));
-        this.editMenu.setText(translationsController.translate("label.edit"));
-        this.helpMenu.setText(translationsController.translate("label.help"));
+    //TODO IMPLEMENTARE IN MODO CORRETTO RISPETTANDO ARCHITETTURA
+    private void changeLanguage(TranslationsApplicationInterface translationsApplicationInterface) {
+
+        this.newMenuItem.setText(translationsApplicationInterface.translate("label.new"));
+        this.saveAsMenuItem.setText(translationsApplicationInterface.translate("label.saveAs"));
+        this.saveMenuItem.setText(translationsApplicationInterface.translate("label.save"));
+        this.openMenuItem.setText(translationsApplicationInterface.translate("label.open"));
+        this.quitMenuItem.setText(translationsApplicationInterface.translate("label.quit"));
+        this.quitMenuItem.setText(translationsApplicationInterface.translate("label.quit"));
+        this.preferencesMenuItem.setText(translationsApplicationInterface.translate("label.preferences"));
+        this.editMenu.setText(translationsApplicationInterface.translate("label.edit"));
+        this.helpMenu.setText(translationsApplicationInterface.translate("label.help"));
     }
 
     private void createBehaviour() {
@@ -118,6 +120,9 @@ public class MenuBarViewFxml implements ControlledFxView {
                 // Per esempio:
                 // Platform.exit();
         );
+        this.preferencesMenuItem.setOnAction(event -> {
+            this.preferenceView.showView();
+        });
     }
 
     @Override

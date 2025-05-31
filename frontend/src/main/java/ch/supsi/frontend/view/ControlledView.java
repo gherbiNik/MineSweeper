@@ -1,11 +1,16 @@
 package ch.supsi.frontend.view;
 
+import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
+import ch.supsi.frontend.controller.preferences.IPreferencesController;
 
 public interface ControlledView extends DataView {
 
-    void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController);
+   default void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController){}
+   default void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, ShowView view, TranslationsApplicationInterface translationsApplicationInterface){}
+   default void initialize(IPreferencesController preferencesController){}
+
 
 }

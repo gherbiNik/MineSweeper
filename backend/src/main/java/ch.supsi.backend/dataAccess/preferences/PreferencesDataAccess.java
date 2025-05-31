@@ -1,32 +1,30 @@
 package ch.supsi.backend.dataAccess.preferences;
 
-import ch.supsi.backend.business.preferences.PreferencesDataAccessInterface;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInterface {
+public class PreferencesDataAccess implements PreferencesDataAccessInterface {
 
     private static final String userHomeDirectory = System.getProperty("user.home");
     private static final String preferencesDirectory = ".mineSweaper";
     private static final String preferencesFile = "preferences.properties";
 
-    public static PreferencesPropertiesDataAccess dao;
+    public static PreferencesDataAccess myself;
     private static Properties userPreferences;
 
     // protected default constructor to avoid a new instance being requested from clients
-    protected PreferencesPropertiesDataAccess() {
+    private PreferencesDataAccess() {
     }
 
     // singleton instantiation of this data access object
     // guarantees only a single instance exists in the life of the application
-    public static PreferencesPropertiesDataAccess getInstance() {
-        if (dao == null) {
-            dao = new PreferencesPropertiesDataAccess();
+    public static PreferencesDataAccess getInstance() {
+        if (myself == null) {
+            myself = new PreferencesDataAccess();
         }
-        return dao;
+        return myself;
     }
 
     //questo metodo serve per unire i due path userHomeDirectory e preferences directory
@@ -136,4 +134,28 @@ public class PreferencesPropertiesDataAccess implements PreferencesDataAccessInt
 
         return userPreferences;
     }
+
+    @Override
+    public void setPreference(String key, String string) {
+
+        getPreferences().setProperty(key, string);
+        
+        savePreferences();
+    }
+
+    private void savePreferences() {
+        if (userPreferences == null) {
+            return;
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(getUserPreferencesFilePath().toFile())) {
+            userPreferences.store(fos, "User Preferences");
+            System.out.println("Preferences saved successfully");
+        } catch (IOException e) {
+            System.err.println("Failed to save preferences: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
 }

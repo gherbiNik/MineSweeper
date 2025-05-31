@@ -4,22 +4,29 @@ import ch.supsi.backend.application.cell.CellActionApplication;
 import ch.supsi.backend.application.game.GameBoardApplication;
 import ch.supsi.backend.application.game.GameBombApplication;
 import ch.supsi.backend.application.gameMapper.GameStateMapperApplication;
+import ch.supsi.backend.application.l10n.TranslationsApplication;
+import ch.supsi.backend.application.preferences.PreferencesApplication;
+import ch.supsi.backend.business.l10n.TranslationsBusiness;
 import ch.supsi.backend.business.mapper.GameStateMapper;
-import ch.supsi.backend.business.mapper.GameStateMapperBusiness;
 import ch.supsi.backend.business.mine.BombPlacer;
 import ch.supsi.backend.business.mine.MinePlacementStrategy;
 import ch.supsi.backend.business.mine.MineRevealer;
 import ch.supsi.backend.business.model.AbstractModel;
+import ch.supsi.backend.business.preferences.PreferencesBusiness;
 import ch.supsi.backend.business.service.GameSaveServiceBusiness;
+import ch.supsi.backend.dataAccess.l10n.TranslationsPropertiesDataAccess;
+import ch.supsi.backend.dataAccess.preferences.PreferencesDataAccess;
 import ch.supsi.backend.dataAccess.states.GameSaveServiceFactory;
 import ch.supsi.backend.dataAccess.states.JacksonGameSaveService;
 import ch.supsi.frontend.controller.GameController;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.PlayerEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
+import ch.supsi.frontend.controller.preferences.PreferencesController;
 import ch.supsi.frontend.model.*;
 import ch.supsi.frontend.model.gameMapperModel.GameMapperModel;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
+import ch.supsi.frontend.model.preferences.PreferencesModel;
 import ch.supsi.frontend.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -36,7 +43,7 @@ public class MainFx extends Application {
     private final IGameMapperModel gameMapperModel;
     private final ControlledFxView menuBarView;
     private final ControlledFxView gameBoardView;
-    //private final UncontrolledFxView welcomeView;
+    private final PreferenceView preferenceView;
     private final UncontrolledFxView userFeedbackView;
     private final GameEventHandler gameEventHandler;
     private final PlayerEventHandler playerEventHandler;
@@ -46,7 +53,7 @@ public class MainFx extends Application {
 
         // GAME MODEL
         GameBoardApplication gameBoardApplication = new GameBoardApplication();
-        gameBoardApplication.setDimensions(9);
+
         MinePlacementStrategy bombPlacer = new BombPlacer(gameBoardApplication);
         CellActionApplication mineRevealer = new MineRevealer(gameBoardApplication);
         GameBombApplication gameBombApplication = new GameBombApplication();
@@ -54,18 +61,31 @@ public class MainFx extends Application {
         GameSaveServiceBusiness gameSaveServiceBusiness = new GameSaveServiceBusiness(jacksonGameSaveService);
         GameStateMapper gameStateMapper = new GameStateMapper(gameSaveServiceBusiness);
         GameStateMapperApplication gameStateMapperApplication = new GameStateMapperApplication(gameStateMapper);
+
+        PreferencesDataAccess preferencesDataAccess = PreferencesDataAccess.getInstance();
+        PreferencesBusiness preferencesBusiness = PreferencesBusiness.getInstance(preferencesDataAccess);
+        PreferencesApplication preferencesApplication = PreferencesApplication.getInstance(preferencesBusiness);
+        PreferencesModel preferencesModel = PreferencesModel.getInstance(preferencesApplication);
+        PreferencesController preferencesController=PreferencesController.getInstance(preferencesModel);
+
+        TranslationsPropertiesDataAccess translationsPropertiesDataAccess = TranslationsPropertiesDataAccess.getInstance();
+        TranslationsBusiness translationsBusiness = TranslationsBusiness.getInstance(translationsPropertiesDataAccess);
+        TranslationsApplication translationsApplication = TranslationsApplication.getInstance(preferencesBusiness, translationsBusiness);
+
+
+        gameBoardApplication.setDimensions(9);
         gameBombApplication.setMinBomb(1);
         gameBombApplication.setMaxBomb(80);
 
 
-        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication);
+        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication, preferencesApplication);
         this.gameMapperModel = GameMapperModel.getInstance(gameStateMapperApplication);
 
         // VIEWS
         this.menuBarView = MenuBarViewFxml.getInstance();
         this.gameBoardView = GameBoardViewFxml.getInstance();
         this.userFeedbackView = UserFeedbackViewFxml.getInstance();
-        //this.welcomeView = WelcomeViewFxml.getInstance();
+        this.preferenceView = PreferenceView.getInstance();
 
         // CONTROLLERS
         //TODO casting corretto? - Opzione: dichiarare gameModel col tipo specifico (e non AbstractModel)
@@ -74,21 +94,25 @@ public class MainFx extends Application {
         this.gameEventHandler = controller;
         this.playerEventHandler = controller;
 
+
+
+
+
+
+
         // SCAFFOLDING of M-V-C
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController);
+        this.preferenceView.initialize(preferencesController);
+        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication );
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController);
-        this.userFeedbackView.initialize(this.gameModel);
+        this.userFeedbackView.initialize(this.gameModel, translationsApplication);
         //this.welcomeView.initialize(this.gameModel);
         //GameController.getInstance().setMainFx(this);
-        controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
+        controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView), preferencesBusiness, translationsBusiness);
         gameMapperController.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
 
 
     }
 
-//    public  void switchGameBoard() {
-//        mainBorderPane.setCenter(this.gameBoardView.getNode());
-//    }
 
     @Override
     public void start(Stage primaryStage) {

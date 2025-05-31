@@ -1,6 +1,8 @@
 package ch.supsi.frontend.controller;
 
-import ch.supsi.backend.application.l10n.TranslationsController;
+import ch.supsi.backend.application.l10n.TranslationsApplication;
+import ch.supsi.backend.business.l10n.TranslationsBusinessInterface;
+import ch.supsi.backend.business.preferences.PreferencesBusinessInterface;
 import ch.supsi.frontend.model.GameModel;
 import ch.supsi.frontend.view.DataView;
 
@@ -11,11 +13,11 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
     private static GameController myself;
     private final GameModel gameModel;
     private List<DataView> views;
-    private final TranslationsController translationsController;
+    private TranslationsApplication translationsApplication;
 
     private GameController(GameModel gameModel) {
         this.gameModel = gameModel;
-        this.translationsController = TranslationsController.getInstance();
+
     }
 
     public static GameController getInstance(GameModel gameModel) {
@@ -25,8 +27,10 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         return myself;
     }
 
-    public void initialize(List<DataView> views) {
+    public void initialize(List<DataView> views, PreferencesBusinessInterface preferencesBusinessInterface, TranslationsBusinessInterface translationsBusinessInterface) {
         this.views = views;
+        this.translationsApplication = TranslationsApplication.getInstance(preferencesBusinessInterface, translationsBusinessInterface);
+
     }
 
     @Override
@@ -54,9 +58,9 @@ public class GameController implements GameEventHandler, PlayerEventHandler {
         // Aggiorna le viste con lo stato attuale
         if (gameModel.isGameOver()) {
             if (gameModel.isGameWon()) {
-                this.views.forEach(view -> view.gameOverMessage(translationsController.translate("label.winGame")));
+                this.views.forEach(view -> view.gameOverMessage(translationsApplication.translate("label.winGame")));
             } else {
-                this.views.forEach(view -> view.gameOverMessage(translationsController.translate("label.gameOver")));
+                this.views.forEach(view -> view.gameOverMessage(translationsApplication.translate("label.gameOver")));
             }
         } else if (isRightClick) {
             this.views.forEach(view -> view.flagUpdateMessage(gameModel.getRemainingMines()));
