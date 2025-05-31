@@ -1,5 +1,6 @@
 package ch.supsi.backend.business.mapper;
 
+import ch.supsi.backend.business.cell.ICell;
 import ch.supsi.backend.business.dto.CellStateBusiness;
 import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.business.cell.Cell;
@@ -11,22 +12,37 @@ import ch.supsi.backend.business.service.IGameSaveServiceBusiness;
 
 public class GameStateMapper implements GameStateMapperBusiness{
 
-    private final IGameSaveServiceBusiness gameSaveServiceBusiness;
+    public static GameStateMapper myself;
+    private IGameSaveServiceBusiness gameSaveServiceBusiness;
+    private AbstractModel gameModel;
 
-    public GameStateMapper(IGameSaveServiceBusiness gameSaveServiceBusiness) {
+
+    private GameStateMapper() {
+    }
+
+    public static GameStateMapper getInstance(IGameSaveServiceBusiness gameSaveServiceBusiness, AbstractModel model) {
+        if (myself == null) {
+            myself = new GameStateMapper();
+            myself.initialize(gameSaveServiceBusiness, model);
+        }
+        return myself;
+    }
+
+    private void initialize(IGameSaveServiceBusiness gameSaveServiceBusiness, AbstractModel model) {
         this.gameSaveServiceBusiness = gameSaveServiceBusiness;
+        this.gameModel = model;
     }
 
     @Override
-    public void toDTO(AbstractModel gameModel, String filename) {
-        Cell[][] board = gameModel.getBoard();
+    public void toDTO(String filename) {
+        ICell[][] board = gameModel.getBoard();
         int size = board.length;
 
         CellStateBusiness[][] cellStateBusinesses = new CellStateBusiness[size][size];
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Cell cell = board[i][j];
+                ICell cell = board[i][j];
                 cellStateBusinesses[i][j] = new CellStateBusiness(
                         cell.getRow(),
                         cell.getCol(),
@@ -46,18 +62,18 @@ public class GameStateMapper implements GameStateMapperBusiness{
                 gameModel.isGameStarted(),
                 gameModel.isGameOver(),
                 gameModel.isGameWon(),
-                gameModel.getGameBoardApplication().getSize(),
-                gameModel.getGameBombApplication().getMaxBomb(),
-                gameModel.getGameBombApplication().getMinBomb(),
+                gameModel.getGameBoardBusiness().getSize(),
+                gameModel.getGameBombBusiness().getMaxBomb(),
+                gameModel.getGameBombBusiness().getMinBomb(),
                 System.currentTimeMillis()
         );
         gameSaveServiceBusiness.saveGame(t,filename);
     }
 
     @Override
-    public void fromDTO(AbstractModel gameModel, String filename) {
+    public void fromDTO(String filename) {
         IGameStateBusiness gameStateBusiness = gameSaveServiceBusiness.loadGame(filename);
-        ICellStateBusiness[][] cellDTOs = gameStateBusiness.getCells();
+            ICellStateBusiness[][] cellDTOs = gameStateBusiness.getCells();
         int size = cellDTOs.length;
         Cell[][] board = new Cell[size][size];
 
@@ -82,8 +98,8 @@ public class GameStateMapper implements GameStateMapperBusiness{
         gameModel.setGameOver(gameStateBusiness.isGameOver());
         gameModel.setGameWon(gameStateBusiness.isGameWon());
 
-        gameModel.getGameBoardApplication().setDimensions(gameStateBusiness.getBoardSize());
-        gameModel.getGameBombApplication().setMaxBomb(gameStateBusiness.getMaxBomb());
-        gameModel.getGameBombApplication().setMinBomb(gameStateBusiness.getMinBomb());
+        gameModel.getGameBoardBusiness().setDimensions(gameStateBusiness.getBoardSize());
+        gameModel.getGameBombBusiness().setMaxBomb(gameStateBusiness.getMaxBomb());
+        gameModel.getGameBombBusiness().setMinBomb(gameStateBusiness.getMinBomb());
     }
 }

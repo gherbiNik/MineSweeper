@@ -1,9 +1,6 @@
 package ch.supsi.frontend.model.gameMapperModel;
 
-import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.application.gameMapper.IGameStateMapperApplication;
-import ch.supsi.backend.business.model.AbstractModel;
-import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
 
 public class GameMapperModel implements IGameMapperModel{
 
@@ -24,13 +21,13 @@ public class GameMapperModel implements IGameMapperModel{
 
 
     @Override
-    public void save(AbstractModel model, String fileName) {
-        gameStateMapperApplication.toDTO(model, fileName);
+    public void save(String fileName) {
+        gameStateMapperApplication.toDTO(fileName);
     }
 
     @Override
-    public void open(AbstractModel gameModel, String fileName) {
-        gameStateMapperApplication.fromDTO(gameModel, fileName);
+    public void open(String fileName) {
+        gameStateMapperApplication.fromDTO(fileName);
 
     }
 }

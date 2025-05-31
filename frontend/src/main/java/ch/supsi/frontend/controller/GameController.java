@@ -3,7 +3,8 @@ package ch.supsi.frontend.controller;
 import ch.supsi.backend.application.l10n.TranslationsApplication;
 import ch.supsi.backend.business.l10n.TranslationsBusinessInterface;
 import ch.supsi.backend.business.preferences.PreferencesBusinessInterface;
-import ch.supsi.frontend.model.GameModel;
+import ch.supsi.frontend.model.game.GameModel;
+import ch.supsi.frontend.model.game.GameModelInterface;
 import ch.supsi.frontend.view.DataView;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class GameController implements GameEventHandler, PlayerEventHandler {
 
     private static GameController myself;
-    private final GameModel gameModel;
+    private final GameModelInterface gameModel;
     private List<DataView> views;
     private TranslationsApplication translationsApplication;
 

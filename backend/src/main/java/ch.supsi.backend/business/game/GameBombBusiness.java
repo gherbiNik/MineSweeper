@@ -1,6 +1,6 @@
-package ch.supsi.backend.application.game;
+package ch.supsi.backend.business.game;
 
-public class GameBombApplication implements GameBombInfo {
+public class GameBombBusiness implements GameBombInfo {
     private int maxBomb;
     private int minBomb;
     @Override

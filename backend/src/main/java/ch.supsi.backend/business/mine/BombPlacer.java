@@ -1,6 +1,6 @@
 package ch.supsi.backend.business.mine;
 
-import ch.supsi.backend.application.game.GameBoardInfo;
+import ch.supsi.backend.business.game.GameBoardInfo;
 import ch.supsi.backend.business.model.AbstractModel;
 
 import java.util.ArrayList;

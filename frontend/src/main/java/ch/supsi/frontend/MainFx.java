@@ -1,8 +1,8 @@
 package ch.supsi.frontend;
 
 import ch.supsi.backend.application.cell.CellActionApplication;
-import ch.supsi.backend.application.game.GameBoardApplication;
-import ch.supsi.backend.application.game.GameBombApplication;
+import ch.supsi.backend.business.game.GameBoardBusiness;
+import ch.supsi.backend.business.game.GameBombBusiness;
 import ch.supsi.backend.application.gameMapper.GameStateMapperApplication;
 import ch.supsi.backend.application.l10n.TranslationsApplication;
 import ch.supsi.backend.application.preferences.PreferencesApplication;
@@ -25,7 +25,7 @@ import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IInfoController;
 import ch.supsi.frontend.controller.gameMapperController.InfoController;
 import ch.supsi.frontend.controller.preferences.PreferencesController;
-import ch.supsi.frontend.model.*;
+import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.gameMapperModel.GameMapperModel;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
 import ch.supsi.frontend.model.preferences.PreferencesModel;
@@ -54,11 +54,11 @@ public class MainFx extends Application {
     public MainFx() {
 
         // GAME MODEL
-        GameBoardApplication gameBoardApplication = new GameBoardApplication();
+        GameBoardBusiness gameBoardBusiness = new GameBoardBusiness();
 
-        MinePlacementStrategy bombPlacer = new BombPlacer(gameBoardApplication);
-        CellActionApplication mineRevealer = new MineRevealer(gameBoardApplication);
-        GameBombApplication gameBombApplication = new GameBombApplication();
+        MinePlacementStrategy bombPlacer = new BombPlacer(gameBoardBusiness);
+        CellActionApplication mineRevealer = new MineRevealer(gameBoardBusiness);
+        GameBombBusiness gameBombBusiness = new GameBombBusiness();
         JacksonGameSaveService jacksonGameSaveService = GameSaveServiceFactory.createJacksonSaveService();
         GameSaveServiceBusiness gameSaveServiceBusiness = new GameSaveServiceBusiness(jacksonGameSaveService);
         GameStateMapper gameStateMapper = new GameStateMapper(gameSaveServiceBusiness);
@@ -75,12 +75,12 @@ public class MainFx extends Application {
         TranslationsApplication translationsApplication = TranslationsApplication.getInstance(preferencesBusiness, translationsBusiness);
 
 
-        gameBoardApplication.setDimensions(9);
-        gameBombApplication.setMinBomb(1);
-        gameBombApplication.setMaxBomb(80);
+        gameBoardBusiness.setDimensions(9);
+        gameBombBusiness.setMinBomb(1);
+        gameBombBusiness.setMaxBomb(80);
 
 
-        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer, gameBombApplication, gameBoardApplication, preferencesApplication);
+        this.gameModel = GameModel.getInstance(bombPlacer, mineRevealer, gameBombBusiness, gameBoardBusiness, preferencesApplication);
         this.gameMapperModel = GameMapperModel.getInstance(gameStateMapperApplication);
 
         // VIEWS

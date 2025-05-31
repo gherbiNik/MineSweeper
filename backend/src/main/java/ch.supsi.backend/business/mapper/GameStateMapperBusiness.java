@@ -5,7 +5,7 @@ import ch.supsi.backend.business.dto.IGameStateBusiness;
 import ch.supsi.backend.business.model.AbstractModel;
 
 public interface GameStateMapperBusiness {
-    void toDTO(AbstractModel gameModel, String fileName);
-    void fromDTO(AbstractModel gameModel, String fileName);
+    void toDTO(String fileName);
+    void fromDTO(String fileName);
 
 }

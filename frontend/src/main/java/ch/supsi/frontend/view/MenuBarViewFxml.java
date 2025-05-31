@@ -1,16 +1,14 @@
 package ch.supsi.frontend.view;
 
-import ch.supsi.backend.application.l10n.TranslationsApplication;
 import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
-import ch.supsi.backend.business.l10n.TranslationsBusinessInterface;
 import ch.supsi.backend.dataAccess.states.NoGameSavedEx;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IInfoController;
-import ch.supsi.frontend.controller.gameMapperController.InfoController;
-import ch.supsi.frontend.model.GameModel;
+import ch.supsi.frontend.model.game.GameModel;
+import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,9 +25,9 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
 
     private GameEventHandler gameEventHandler;
     private IGameMapperController gameMapperController;
-    private GameModel gameModel;
+    private GameModelInterface gameModel;
     private PreferenceView preferenceView;
-    private IInfoController infoController; // TODO creare sia interf che classe
+    private IInfoController infoController;
     private TranslationsApplicationInterface translationsApplication;
 
     @FXML
@@ -83,19 +81,19 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface) {
         this.changeLanguage(translationsApplicationInterface);
         this.createBehaviour();
         this.gameEventHandler = (GameEventHandler) eventHandler;
         this.gameMapperController = gameMapperController;
-        this.gameModel = (GameModel) model;
+        this.gameModel = model;
         this.preferenceView = (PreferenceView) preferenceView;
         this.translationsApplication = translationsApplicationInterface;
     }
 
 
     @Override
-    public void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface) {
         this.infoController = infoController;
         this.initialize(eventHandler, model, gameMapperController, preferenceView, translationsApplicationInterface);
     }
@@ -120,7 +118,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         this.newMenuItem.setOnAction(event -> this.gameEventHandler.newGame());
 
         // save
-        this.saveMenuItem.setOnAction(event -> this.gameMapperController.save(gameModel, "fileSalavataggio"));
+        this.saveMenuItem.setOnAction(event -> this.gameMapperController.save("fileSalavataggio"));
 
         // add event handlers for all necessary menu items
         // Aggiungi qui gestori eventi per altre voci di menu
@@ -128,7 +126,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         // open
         this.openMenuItem.setOnAction(event -> {
             try {
-                this.gameMapperController.open(gameModel, "fileSalavataggio");
+                this.gameMapperController.open("fileSalavataggio");
             } catch (NoGameSavedEx e)
             {
                 this.infoController.display(translationsApplication.translate("label.noGameFound"));

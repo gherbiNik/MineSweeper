@@ -1,6 +1,6 @@
-package ch.supsi.backend.application.game;
+package ch.supsi.backend.business.game;
 
-public class GameBoardApplication implements GameBoardInfo {
+public class GameBoardBusiness implements GameBoardInfo {
     private int size;
 
     @Override

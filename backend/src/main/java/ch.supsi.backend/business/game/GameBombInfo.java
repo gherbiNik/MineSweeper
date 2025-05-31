@@ -1,4 +1,4 @@
-package ch.supsi.backend.application.game;
+package ch.supsi.backend.business.game;
 
 public interface GameBombInfo {
     void setMaxBomb(int maxBomb);

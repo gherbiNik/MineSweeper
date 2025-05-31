@@ -5,7 +5,8 @@ import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IInfoController;
+import ch.supsi.frontend.model.game.GameModelInterface;
 
 public interface InfoViewInit {
-    void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface);
+    void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface);
 }

@@ -5,8 +5,7 @@ import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
-import ch.supsi.frontend.controller.gameMapperController.IInfoController;
-import ch.supsi.frontend.model.GameModel;
+import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.controller.PlayerEventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

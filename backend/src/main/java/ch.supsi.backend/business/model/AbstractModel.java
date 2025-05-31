@@ -1,9 +1,9 @@
 package ch.supsi.backend.business.model;
 
-import ch.supsi.backend.application.game.GameBoardApplication;
-import ch.supsi.backend.application.game.GameBombApplication;
+import ch.supsi.backend.business.event.IGameEventBusiness;
+import ch.supsi.backend.business.event.IPlayerEventBusiness;
 
-public abstract class AbstractModel implements GameState, BoardAccess, GameStatistics {
+public abstract class AbstractModel implements GameState, BoardAccess, GameStatistics, IPlayerEventBusiness, IGameEventBusiness {
 
     public abstract void setRevealedCellCount(int revealedCellCount);
 
@@ -12,6 +12,8 @@ public abstract class AbstractModel implements GameState, BoardAccess, GameStati
     public abstract void setFlaggedCellCount(int flaggedCellCount);
 
     public abstract int getFlaggedCellCount();
+
+    public abstract void initializeBoard();
 
 
 }

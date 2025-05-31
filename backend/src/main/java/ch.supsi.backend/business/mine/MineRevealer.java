@@ -1,7 +1,8 @@
 package ch.supsi.backend.business.mine;
 
 import ch.supsi.backend.application.cell.CellActionApplication;
-import ch.supsi.backend.application.game.GameBoardInfo;
+import ch.supsi.backend.business.cell.ICell;
+import ch.supsi.backend.business.game.GameBoardInfo;
 
 import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.model.AbstractModel;
@@ -15,7 +16,7 @@ public class MineRevealer implements CellActionApplication {
     }
 
     public void revealCell(AbstractModel model, MinePlacementStrategy bombPlacer, int row, int col) {
-        Cell cell = model.getBoard()[row][col];
+        ICell cell = model.getBoard()[row][col];
 
         // Se la cella è già rivelata o contrassegnata, non fare nulla
         if (cell.isRevealed() || cell.isFlagged() || model.isGameOver()) {
@@ -67,7 +68,7 @@ public class MineRevealer implements CellActionApplication {
             return;
         }
 
-        Cell cell = model.getBoard()[row][col];
+        ICell cell = model.getBoard()[row][col];
 
         // Non consentire di contrassegnare celle già rivelate
         if (cell.isRevealed()) {

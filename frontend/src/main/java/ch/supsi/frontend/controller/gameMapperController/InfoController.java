@@ -1,9 +1,6 @@
 package ch.supsi.frontend.controller.gameMapperController;
 
-import ch.supsi.frontend.controller.GameController;
-import ch.supsi.frontend.model.GameModel;
 import ch.supsi.frontend.view.InfoView;
-import ch.supsi.frontend.view.UncontrolledFxView;
 
 public class InfoController implements IInfoController{
 

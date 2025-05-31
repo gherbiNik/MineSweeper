@@ -1,8 +1,5 @@
 package ch.supsi.frontend.controller.gameMapperController;
 
-import ch.supsi.backend.business.dto.GameStateBusiness;
-import ch.supsi.backend.business.model.AbstractModel;
-import ch.supsi.backend.dataAccess.states.NoGameSavedEx;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
 import ch.supsi.frontend.view.DataView;
 
@@ -31,14 +28,14 @@ public class GameMapperController implements IGameMapperController{
 
 
     @Override
-    public void save(AbstractModel model, String fileName) {
-        gameMapperModel.save(model, fileName);
+    public void save(String fileName) {
+        gameMapperModel.save(fileName);
         this.views.forEach(DataView::update);
     }
 
     @Override
-    public void open(AbstractModel model, String fileName) {
-        gameMapperModel.open(model, fileName);
+    public void open(String fileName) {
+        gameMapperModel.open(fileName);
         this.views.forEach(DataView::update);
     }
 }

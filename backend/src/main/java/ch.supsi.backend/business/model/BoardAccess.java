@@ -1,11 +1,12 @@
 package ch.supsi.backend.business.model;
 
 import ch.supsi.backend.business.cell.Cell;
+import ch.supsi.backend.business.cell.ICell;
 
 public interface BoardAccess {
-    Cell[][] getBoard();
+    ICell[][] getBoard();
 
-    Cell getCell(int x, int y);
+    ICell getCell(int x, int y);
 
-    void setBoard(Cell[][] board);
+    void setBoard(ICell[][] board);
 }
