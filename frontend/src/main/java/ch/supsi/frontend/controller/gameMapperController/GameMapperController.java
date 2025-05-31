@@ -2,6 +2,7 @@ package ch.supsi.frontend.controller.gameMapperController;
 
 import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.business.model.AbstractModel;
+import ch.supsi.backend.dataAccess.states.NoGameSavedEx;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
 import ch.supsi.frontend.view.DataView;
 

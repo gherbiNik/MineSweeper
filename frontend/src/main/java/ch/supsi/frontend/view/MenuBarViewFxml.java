@@ -3,6 +3,7 @@ package ch.supsi.frontend.view;
 import ch.supsi.backend.application.l10n.TranslationsApplication;
 import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.backend.business.l10n.TranslationsBusinessInterface;
+import ch.supsi.backend.dataAccess.states.NoGameSavedEx;
 import ch.supsi.frontend.controller.EventHandler;
 import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
@@ -126,8 +127,13 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
 
         // open
         this.openMenuItem.setOnAction(event -> {
-            this.gameMapperController.open(gameModel, "fileSalavataggio");
-            ;
+            try {
+                this.gameMapperController.open(gameModel, "fileSalavataggio");
+            } catch (NoGameSavedEx e)
+            {
+                this.infoController.display(translationsApplication.translate("label.noGameFound"));
+            }
+
         });
 
         // quit

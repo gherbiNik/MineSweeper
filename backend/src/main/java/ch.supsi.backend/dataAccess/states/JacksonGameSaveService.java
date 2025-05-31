@@ -52,6 +52,7 @@ public class JacksonGameSaveService implements GameSaveData {
             System.out.println("Mi arriva " + saveDirectory + fileName);
             if (!saveFile.exists()) {
                 System.out.println("File di salvataggio non trovato: " + fileName);
+                throw new NoGameSavedEx("Nessun salvataggio presente");
             }
             return objectMapper.readValue(saveFile, GameStateBusiness.class);
         } catch (IOException e) {
