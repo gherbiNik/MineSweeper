@@ -22,6 +22,8 @@ import ch.supsi.frontend.controller.GameController;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.PlayerEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
+import ch.supsi.frontend.controller.gameMapperController.IInfoController;
+import ch.supsi.frontend.controller.gameMapperController.InfoController;
 import ch.supsi.frontend.controller.preferences.PreferencesController;
 import ch.supsi.frontend.model.*;
 import ch.supsi.frontend.model.gameMapperModel.GameMapperModel;
@@ -100,19 +102,31 @@ public class MainFx extends Application {
 
 
 
+
+
         // SCAFFOLDING of M-V-C
         this.preferenceView.initialize(preferencesController);
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication );
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController);
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
+
+        // INFO
+        IInfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
+        ((InfoViewInit) this.menuBarView).initialize(this.gameEventHandler, this.gameModel, gameMapperController, infoController, preferenceView,translationsApplication);
+
+        this.userFeedbackView.initialize(this.gameModel, translationsApplication);
         //this.welcomeView.initialize(this.gameModel);
         //GameController.getInstance().setMainFx(this);
         controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView), preferencesBusiness, translationsBusiness);
+
         gameMapperController.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
 
 
     }
 
+//    public  void switchGameBoard() {
+//        mainBorderPane.setCenter(this.gameBoardView.getNode());
+//    }
 
     @Override
     public void start(Stage primaryStage) {

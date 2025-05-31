@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.net.URL;
 
-public class UserFeedbackViewFxml implements UncontrolledFxView {
+public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
 
     private static UserFeedbackViewFxml myself;
     private GameModel gameModel;
@@ -82,4 +82,19 @@ public class UserFeedbackViewFxml implements UncontrolledFxView {
     public void gameOverMessage(String message) {
         this.userFeedbackBar.setText(message);
     }
+
+    @Override
+    public void display(String infos) {
+        this.userFeedbackBar.setText(infos); // devo passargli delle label gia da fuori
+    }
+
+    /*@Override
+    public void help() {
+        this.userFeedbackBar.setText(translationsController.translate("label.helpMessage"));
+    }
+
+    @Override
+    public void about() {
+        this.userFeedbackBar.setText(translationsController.translate("label.aboutMessage"));
+    }*/
 }

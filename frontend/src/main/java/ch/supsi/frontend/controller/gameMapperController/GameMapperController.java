@@ -38,5 +38,6 @@ public class GameMapperController implements IGameMapperController{
     @Override
     public void open(AbstractModel model, String fileName) {
         gameMapperModel.open(model, fileName);
+        this.views.forEach(DataView::update);
     }
 }
