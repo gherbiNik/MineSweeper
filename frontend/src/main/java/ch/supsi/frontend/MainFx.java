@@ -59,6 +59,7 @@ public class MainFx extends Application {
     private final UncontrolledFxView userFeedbackView;
     private final GameEventHandler gameEventHandler;
     private final PlayerEventHandler playerEventHandler;
+    private final ExitView exitView;
     private BorderPane mainBorderPane;
 
     public MainFx() {
@@ -111,6 +112,7 @@ public class MainFx extends Application {
         this.gameBoardView = GameBoardViewFxml.getInstance();
         this.userFeedbackView = UserFeedbackViewFxml.getInstance();
         this.preferenceView = PreferenceView.getInstance();
+        this.exitView = ExitView.getInstance();
 
         // CONTROLLERS
         //TODO casting corretto? - Opzione: dichiarare gameModel col tipo specifico (e non AbstractModel)
@@ -119,15 +121,17 @@ public class MainFx extends Application {
         this.gameEventHandler = controller;
         this.playerEventHandler = controller;
 
+
         // SCAFFOLDING of M-V-C
+        this.exitView.initialize(); // todo future adds
         this.preferenceView.initialize(preferencesController, translationsApplication);
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication );
+        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication, exitView );
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController, gameBoardModel);
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
 
         // INFO
         IInfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
-        ((InfoViewInit) this.menuBarView).initialize(this.gameEventHandler, this.gameModel, gameMapperController, infoController, preferenceView,translationsApplication);
+        ((InfoViewInit) this.menuBarView).initialize(this.gameEventHandler, this.gameModel, gameMapperController, infoController, preferenceView,translationsApplication, exitView);
 
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
         //this.welcomeView.initialize(this.gameModel);

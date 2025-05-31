@@ -85,16 +85,7 @@ public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
 
     @Override
     public void display(String infos) {
-        this.userFeedbackBar.setText(infos); // devo passargli delle label gia da fuori
+        this.userFeedbackBar.setText(infos);
     }
 
-    /*@Override
-    public void help() {
-        this.userFeedbackBar.setText(translationsController.translate("label.helpMessage"));
-    }
-
-    @Override
-    public void about() {
-        this.userFeedbackBar.setText(translationsController.translate("label.aboutMessage"));
-    }*/
 }
