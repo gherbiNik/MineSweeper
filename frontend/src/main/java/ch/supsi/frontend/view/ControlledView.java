@@ -10,7 +10,7 @@ public interface ControlledView extends DataView {
 
    default void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController){}
    default void initialize(EventHandler eventHandler, AbstractModel model, IGameMapperController gameMapperController, ShowView view, TranslationsApplicationInterface translationsApplicationInterface){}
-   default void initialize(IPreferencesController preferencesController){}
+   default void initialize(IPreferencesController preferencesController, TranslationsApplicationInterface translationsApplication){}
 
 
 }

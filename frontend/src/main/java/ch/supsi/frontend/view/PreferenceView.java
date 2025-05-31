@@ -1,5 +1,6 @@
 package ch.supsi.frontend.view;
 
+import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.frontend.controller.preferences.IPreferencesController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,14 @@ public class PreferenceView implements ShowView, ControlledView {
 
     private static PreferenceView myself;
     private IPreferencesController preferencesController;
+    private TranslationsApplicationInterface translationsApplication;
+    private String btnSave;
+    private String btnCancel;
+    private String languageL;
+    private String preferenceL;
+    private String nBombsL;
+
+
 
     private PreferenceView() {
     }
@@ -30,8 +39,16 @@ public class PreferenceView implements ShowView, ControlledView {
         return myself;
     }
     @Override
-    public void initialize(IPreferencesController preferencesController){
+    public void initialize(IPreferencesController preferencesController, TranslationsApplicationInterface translationsApplication){
         this.preferencesController = preferencesController;
+        this.translationsApplication = translationsApplication;
+        btnSave = translationsApplication.translate("label.save");
+        btnCancel = translationsApplication.translate("label.cancel");
+        languageL = translationsApplication.translate("label.languageLabel");
+
+        preferenceL = translationsApplication.translate("label.preferences");
+        nBombsL = translationsApplication.translate("label.nBombsLabel");
+
     }
 
 
@@ -64,7 +81,7 @@ public class PreferenceView implements ShowView, ControlledView {
             Stage preferencesStage = new Stage();
 
             // Configura le proprietà della finestra
-            preferencesStage.setTitle("Preferences");
+            preferencesStage.setTitle(preferenceL);
             preferencesStage.initModality(Modality.APPLICATION_MODAL);
             preferencesStage.setResizable(false);
 
@@ -76,16 +93,15 @@ public class PreferenceView implements ShowView, ControlledView {
             // Selezione lingua
             HBox languageBox = new HBox(10);
             languageBox.setAlignment(Pos.CENTER);
-            Label languageLabel = new Label("Lingua:");
+            Label languageLabel = new Label(languageL);
             ComboBox<String> languageComboBox = new ComboBox<>();
             languageComboBox.getItems().addAll("it-IT", "en-EN");
-            languageComboBox.setValue("it-IT"); // Valore di default
             languageBox.getChildren().addAll(languageLabel, languageComboBox);
 
             // Slider per numero bombe
             VBox bombsBox = new VBox(10);
             bombsBox.setAlignment(Pos.CENTER);
-            Label bombsLabel = new Label("Numero di bombe:");
+            Label bombsLabel = new Label(nBombsL);
             Slider bombsSlider = new Slider(1, 81, 10); // min, max, default
             bombsSlider.setShowTickLabels(true);
             bombsSlider.setShowTickMarks(true);
@@ -104,8 +120,8 @@ public class PreferenceView implements ShowView, ControlledView {
             // Pulsanti
             HBox buttonBox = new HBox(10);
             buttonBox.setAlignment(Pos.CENTER);
-            Button saveButton = new Button("Salva");
-            Button cancelButton = new Button("Annulla");
+            Button saveButton = new Button(btnSave);
+            Button cancelButton = new Button(btnCancel);
             buttonBox.getChildren().addAll(cancelButton, saveButton);
 
             // Event handlers

@@ -96,16 +96,8 @@ public class MainFx extends Application {
         this.gameEventHandler = controller;
         this.playerEventHandler = controller;
 
-
-
-
-
-
-
-
-
         // SCAFFOLDING of M-V-C
-        this.preferenceView.initialize(preferencesController);
+        this.preferenceView.initialize(preferencesController, translationsApplication);
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView,translationsApplication );
         this.gameBoardView.initialize(this.playerEventHandler, this.gameModel, gameMapperController);
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
@@ -120,7 +112,6 @@ public class MainFx extends Application {
         controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView), preferencesBusiness, translationsBusiness);
 
         gameMapperController.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView));
-
 
     }
 
