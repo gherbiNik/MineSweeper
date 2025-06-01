@@ -40,7 +40,6 @@ public class GameLogic extends AbstractModel  {
 
     private void initialize (MinePlacementStrategy bombPlacer,GameBoardInfo gameBoardBusiness, GameBombInfo gameBombBusiness, PreferencesBusinessInterface preferencesBusinessInterface) {
         this.bombPlacer = bombPlacer;
-        this.mineRevealer = mineRevealer;
         this.gameBoardBusiness = gameBoardBusiness;
         this.gameBombBusiness = gameBombBusiness;
         this.preferencesBusinessInterface = preferencesBusinessInterface;
@@ -75,7 +74,7 @@ public class GameLogic extends AbstractModel  {
 
     @Override
     public void checkWinCondition() {
-        if (revealedCellCount == (gameBoardBusiness.getSize() * gameBoardBusiness.getSize() - mineCount)) {
+        if (revealedCellCount == (gameBoardBusiness.getSize() * gameBoardBusiness.getSize() - mineCount) && flaggedCellCount == mineCount) {
             gameWon = true;
             gameOver = true;
         }

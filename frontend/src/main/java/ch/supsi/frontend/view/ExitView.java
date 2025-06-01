@@ -82,9 +82,7 @@ public class ExitView implements ShowView{
                 confirmationStage.close();
             });
 
-            confirmationStage.setOnCloseRequest(e -> {
-                confirmationStage.close();
-            });
+            confirmationStage.setOnCloseRequest(e -> confirmationStage.close());
 
             mainLayout.getChildren().addAll(titleLabel, messageLabel, buttonBox);
 

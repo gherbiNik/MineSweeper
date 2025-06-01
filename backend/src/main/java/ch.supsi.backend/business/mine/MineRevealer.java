@@ -113,5 +113,7 @@ public class MineRevealer implements CellAction {
             model.setFlaggedCellCount(model.getFlaggedCellCount() - 1);
         }
 
+        model.checkWinCondition();
+
     }
 }

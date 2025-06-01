@@ -3,9 +3,9 @@ package ch.supsi.frontend.view;
 public interface DataView {
     void update();
 
-    void newGameMessage();
+    default void newGameMessage(){};
 
-    void flagUpdateMessage(int remainingMines);
+    default void flagUpdateMessage(int remainingMines){};
 
-    void gameOverMessage(String message);
+    default void gameOverMessage(String message){};
 }

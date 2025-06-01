@@ -2,6 +2,7 @@ package ch.supsi.frontend.view;
 
 import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
 import ch.supsi.backend.business.model.AbstractModel;
+import ch.supsi.frontend.controller.l10n.TranslationControllerInterface;
 import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
@@ -17,8 +18,8 @@ public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
 
     private static UserFeedbackViewFxml myself;
     private GameModelInterface gameModel;
-    // TODO vedere se cambiare o tenerlo cosi sia qui che per GameboardView
-    private TranslationsApplicationInterface translationsApplication;
+
+    private TranslationControllerInterface translationController;
 
     @FXML
     private ScrollPane containerPane;
@@ -50,10 +51,10 @@ public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
     }
 
     @Override
-    public void initialize(GameModelInterface model, TranslationsApplicationInterface translationsApplication) {
+    public void initialize(GameModelInterface model, TranslationControllerInterface translationController) {
         this.gameModel = model;
-        this.translationsApplication = translationsApplication;
-        this.userFeedbackBar.setText(translationsApplication.translate("label.welcome"));
+        this.translationController = translationController;
+        this.userFeedbackBar.setText(translationController.translate("label.welcome"));
     }
 
     @Override
@@ -64,18 +65,18 @@ public class UserFeedbackViewFxml implements UncontrolledFxView, InfoView {
     @Override
     public void update() {
         if (gameModel.isGameStarted() && !gameModel.isGameOver()) {
-            this.userFeedbackBar.setText(translationsApplication.translate("label.remainingMines") + ": " + gameModel.getRemainingMines());
+            this.userFeedbackBar.setText(translationController.translate("label.remainingMines") + ": " + gameModel.getRemainingMines());
         }
     }
 
     @Override
     public void newGameMessage() {
-        this.userFeedbackBar.setText(translationsApplication.translate("label.startString") + ": " + gameModel.getMineCount() + translationsApplication.translate("label.mines"));
+        this.userFeedbackBar.setText(translationController.translate("label.startString") + ": " + gameModel.getMineCount() + translationController.translate("label.mines"));
     }
 
     @Override
     public void flagUpdateMessage(int remainingMines) {
-        this.userFeedbackBar.setText(translationsApplication.translate("label.remainingMines") + ": " + remainingMines);
+        this.userFeedbackBar.setText(translationController.translate("label.remainingMines") + ": " + remainingMines);
     }
 
     @Override

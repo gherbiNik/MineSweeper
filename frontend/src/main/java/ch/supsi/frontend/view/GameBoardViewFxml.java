@@ -272,7 +272,6 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     @Override
     public void flagUpdateMessage(int remainingMines) {
-        System.out.println("Remaining mines: " + remainingMines);
         update();
     }
 

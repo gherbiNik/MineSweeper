@@ -6,7 +6,7 @@ import ch.supsi.frontend.controller.ExitController;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.IInfoController;
-import ch.supsi.frontend.controller.InfoController;
+import ch.supsi.frontend.controller.l10n.TranslationControllerInterface;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +27,8 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     private GameModelInterface gameModel;
     private PreferenceView preferenceView;
     private IInfoController infoController;
-    private TranslationsApplicationInterface translationsApplication;
+    private TranslationControllerInterface translationController;
     private ExitView exitView;
-    private ExitController exitController;
     private OpenGameView openGameView;
     private SaveAsView saveAsView;
 
@@ -84,23 +83,20 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, ExitController exitController, IInfoController infoController, OpenGameView openGameView, SaveAsView saveAsView) {
-        this.changeLanguage(translationsApplicationInterface);
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationControllerInterface translationControllerInterface, ExitView exitView, IInfoController infoController, OpenGameView openGameView, SaveAsView saveAsView) {
+        this.changeLanguage(translationControllerInterface);
         initialize(infoController);
         this.gameEventHandler = (GameEventHandler) eventHandler;
         this.gameMapperController = gameMapperController;
         this.gameModel = model;
         this.preferenceView = (PreferenceView) preferenceView;
-        this.translationsApplication = translationsApplicationInterface;
+        this.translationController = translationControllerInterface;
         this.exitView = exitView;
-        this.exitController = exitController;
         this.openGameView = openGameView;
         this.saveAsView = saveAsView;
         this.createBehaviour();
 
-
     }
-
 
     @Override
     public void initialize(IInfoController infoController) {
@@ -108,18 +104,19 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     }
 
 
-    //TODO IMPLEMENTARE IN MODO CORRETTO RISPETTANDO ARCHITETTURA
-    private void changeLanguage(TranslationsApplicationInterface translationsApplicationInterface) {
 
-        this.newMenuItem.setText(translationsApplicationInterface.translate("label.new"));
-        this.saveAsMenuItem.setText(translationsApplicationInterface.translate("label.saveAs"));
-        this.saveMenuItem.setText(translationsApplicationInterface.translate("label.save"));
-        this.openMenuItem.setText(translationsApplicationInterface.translate("label.open"));
-        this.quitMenuItem.setText(translationsApplicationInterface.translate("label.quit"));
-        this.quitMenuItem.setText(translationsApplicationInterface.translate("label.quit"));
-        this.preferencesMenuItem.setText(translationsApplicationInterface.translate("label.preferences"));
-        this.editMenu.setText(translationsApplicationInterface.translate("label.edit"));
-        this.helpMenu.setText(translationsApplicationInterface.translate("label.help"));
+
+    private void changeLanguage(TranslationControllerInterface translationControllerInterface) {
+
+        this.newMenuItem.setText(translationControllerInterface.translate("label.new"));
+        this.saveAsMenuItem.setText(translationControllerInterface.translate("label.saveAs"));
+        this.saveMenuItem.setText(translationControllerInterface.translate("label.save"));
+        this.openMenuItem.setText(translationControllerInterface.translate("label.open"));
+        this.quitMenuItem.setText(translationControllerInterface.translate("label.quit"));
+        this.quitMenuItem.setText(translationControllerInterface.translate("label.quit"));
+        this.preferencesMenuItem.setText(translationControllerInterface.translate("label.preferences"));
+        this.editMenu.setText(translationControllerInterface.translate("label.edit"));
+        this.helpMenu.setText(translationControllerInterface.translate("label.help"));
     }
 
     private void createBehaviour() {
@@ -141,10 +138,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
 
         // quit
         this.quitMenuItem.setOnAction(
-                event -> {
-                    this.exitView.showView();
-                    this.exitController.quit();
-                }
+                event -> this.exitView.showView()
                 // Implementare la logica per uscire dall'applicazione
                 // Per esempio:
                 // Platform.exit();
@@ -153,10 +147,10 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         this.preferencesMenuItem.setOnAction(event -> this.preferenceView.showView());
 
         // help
-        this.helpMenuItem.setOnAction(event -> this.infoController.display(translationsApplication.translate("label.helpMessage")));
+        this.helpMenuItem.setOnAction(event -> this.infoController.display(translationController.translate("label.helpMessage")));
 
         // about
-        this.aboutMenuItem.setOnAction(event -> this.infoController.display(translationsApplication.translate("label.aboutMessage")));
+        this.aboutMenuItem.setOnAction(event -> this.infoController.display(translationController.translate("label.aboutMessage")));
     }
 
     @Override
@@ -182,11 +176,10 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         saveAsMenuItem.setDisable(false);
     }
 
-    @Override
-    public void flagUpdateMessage(int remainingMines) {
-    }
 
     @Override
     public void gameOverMessage(String message) {
+        saveMenuItem.setDisable(true);
+        saveAsMenuItem.setDisable(true);
     }
 }

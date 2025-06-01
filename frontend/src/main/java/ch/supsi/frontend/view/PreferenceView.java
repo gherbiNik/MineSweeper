@@ -1,6 +1,6 @@
 package ch.supsi.frontend.view;
 
-import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
+import ch.supsi.frontend.controller.l10n.TranslationControllerInterface;
 import ch.supsi.frontend.controller.preferences.IPreferencesController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,17 +11,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
 
-
-public class PreferenceView implements ShowView, ControlledView {
+public class PreferenceView implements ShowView{
 
     private static PreferenceView myself;
     private IPreferencesController preferencesController;
-    private TranslationsApplicationInterface translationsApplication;
+    private TranslationControllerInterface translationController;
     private String btnSave;
     private String btnCancel;
     private String languageL;
@@ -38,40 +33,18 @@ public class PreferenceView implements ShowView, ControlledView {
             myself = new PreferenceView();
         return myself;
     }
-    @Override
-    public void initialize(IPreferencesController preferencesController, TranslationsApplicationInterface translationsApplication){
+
+    public void initialize(IPreferencesController preferencesController, TranslationControllerInterface translationControllerInterface){
         this.preferencesController = preferencesController;
-        this.translationsApplication = translationsApplication;
-        btnSave = translationsApplication.translate("label.save");
-        btnCancel = translationsApplication.translate("label.cancel");
-        languageL = translationsApplication.translate("label.languageLabel");
+        this.translationController = translationControllerInterface;
+        btnSave = translationController.translate("label.save");
+        btnCancel = translationController.translate("label.cancel");
+        languageL = translationController.translate("label.languageLabel");
 
-        preferenceL = translationsApplication.translate("label.preferences");
-        nBombsL = translationsApplication.translate("label.nBombsLabel");
-
-    }
-
-
-    @Override
-    public void update() {
+        preferenceL = translationControllerInterface.translate("label.preferences");
+        nBombsL = translationControllerInterface.translate("label.nBombsLabel");
 
     }
-
-    @Override
-    public void newGameMessage() {
-
-    }
-
-    @Override
-    public void flagUpdateMessage(int remainingMines) {
-
-    }
-
-    @Override
-    public void gameOverMessage(String message) {
-
-    }
-
 
 
     @Override

@@ -25,11 +25,13 @@ import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.PlayerEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.GameMapperController;
 import ch.supsi.frontend.controller.InfoController;
+import ch.supsi.frontend.controller.l10n.TranslationController;
 import ch.supsi.frontend.controller.preferences.PreferencesController;
 import ch.supsi.frontend.model.game.GameBoardModel;
 import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.gameMapperModel.GameMapperModel;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
+import ch.supsi.frontend.model.l10n.TranslationModel;
 import ch.supsi.frontend.model.preferences.PreferencesModel;
 import ch.supsi.frontend.view.*;
 import javafx.application.Application;
@@ -76,6 +78,9 @@ public class MainFx extends Application {
         TranslationsPropertiesDataAccess translationsPropertiesDataAccess = TranslationsPropertiesDataAccess.getInstance();
         TranslationsBusiness translationsBusiness = TranslationsBusiness.getInstance(translationsPropertiesDataAccess);
         TranslationsApplication translationsApplication = TranslationsApplication.getInstance(preferencesBusiness, translationsBusiness);
+        TranslationModel translationModel = TranslationModel.getInstance(translationsApplication);
+        TranslationController translationController = TranslationController.getInstance(translationModel);
+
 
         JacksonGameSaveService jacksonGameSaveService = JacksonGameSaveService.getInstance(preferencesDataAccess);
         GameSaveServiceBusiness gameSaveServiceBusiness = new GameSaveServiceBusiness(jacksonGameSaveService);
@@ -112,7 +117,6 @@ public class MainFx extends Application {
 
 
         // CONTROLLERS
-        //TODO casting corretto? - Opzione: dichiarare gameModel col tipo specifico (e non AbstractModel)
         GameController controller = GameController.getInstance(gameModel);
         GameMapperController gameMapperController = GameMapperController.getInstance(gameMapperModel);
         this.gameEventHandler = controller;
@@ -124,14 +128,14 @@ public class MainFx extends Application {
         // SCAFFOLDING of M-V-C
         ExitController exitController = ExitController.getInstance();
         this.exitView.initialize(translationsApplication, exitController);
-        this.preferenceView.initialize(preferencesController, translationsApplication);
+        this.preferenceView.initialize(preferencesController, translationController);
         this.gameBoardView.initialize(gameBoardModel.getSize(), this.playerEventHandler, this.gameModel, gameMapperController);
 
         // INFO
         InfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
-        this.menuBarView.initialize(gameEventHandler,gameModel, gameMapperController, preferenceView,translationsApplication,exitView, exitController, infoController, openGameView, saveAsView);
+        this.menuBarView.initialize(gameEventHandler,gameModel, gameMapperController, preferenceView,translationController,exitView, infoController, openGameView, saveAsView);
 
-        this.userFeedbackView.initialize(this.gameModel, translationsApplication);
+        this.userFeedbackView.initialize(this.gameModel, translationController);
         //this.welcomeView.initialize(this.gameModel);
         //GameController.getInstance().setMainFx(this);
         controller.initialize(List.of(this.menuBarView, this.gameBoardView, this.userFeedbackView), preferencesBusiness, translationsBusiness);
