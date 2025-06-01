@@ -1,9 +1,6 @@
 package ch.supsi.frontend.view;
 
-import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
-import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.l10n.TranslationControllerInterface;
-import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

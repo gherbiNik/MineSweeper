@@ -4,4 +4,5 @@ public interface GameBoardInfo {
     void setDimensions(int size);
     int getSize();
 
+
 }

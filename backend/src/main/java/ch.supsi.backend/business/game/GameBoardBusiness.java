@@ -12,4 +12,6 @@ public class GameBoardBusiness implements GameBoardInfo {
     public int getSize() {
         return size;
     }
+
+
 }

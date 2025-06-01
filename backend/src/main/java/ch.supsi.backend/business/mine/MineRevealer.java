@@ -1,10 +1,8 @@
 package ch.supsi.backend.business.mine;
 
-import ch.supsi.backend.application.cell.CellActionApplication;
 import ch.supsi.backend.business.cell.ICell;
 import ch.supsi.backend.business.game.GameBoardInfo;
 
-import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.model.AbstractModel;
 
 

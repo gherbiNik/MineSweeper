@@ -2,7 +2,6 @@ package ch.supsi.backend.application.cell;
 
 import ch.supsi.backend.business.mine.MinePlacementStrategy;
 import ch.supsi.backend.business.mine.MineRevealer;
-import ch.supsi.backend.business.model.AbstractModel;
 
 public class MineRevealerApplication implements CellActionApplication{
     private MineRevealer mineRevealer;

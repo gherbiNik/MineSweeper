@@ -11,5 +11,4 @@ public interface IGameStateBusiness {
     int getBoardSize();
     int getMaxBomb();
     int getMinBomb();
-    long getTimestamp();
 }

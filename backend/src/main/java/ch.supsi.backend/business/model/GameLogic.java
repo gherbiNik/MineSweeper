@@ -146,6 +146,11 @@ public class GameLogic extends AbstractModel  {
     }
 
     @Override
+    public void setMineCount(int mineCount) {
+        this.mineCount = mineCount;
+    }
+
+    @Override
     public int getRemainingMines() {
         return mineCount - flaggedCellCount;
     }

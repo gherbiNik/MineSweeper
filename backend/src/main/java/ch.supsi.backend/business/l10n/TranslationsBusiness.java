@@ -34,11 +34,6 @@ public class TranslationsBusiness implements TranslationsBusinessInterface {
         this.supportedLanguageTags = translationsDao.getSupportedLanguageTags();
     }
 
-    //verifica che il tag sia supportato
-    @Override
-    public boolean isSupportedLanguageTag(String languageTag) {
-        return this.supportedLanguageTags.contains(languageTag);
-    }
 
     //funzione che server pa cambiare la lingua
     @Override

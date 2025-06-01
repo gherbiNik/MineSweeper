@@ -37,45 +37,16 @@ public class GameModel implements GameModelInterface {
         app.move(row, col, isRightClick);
     }
 
-    @Override
-    public void setRevealedCellCount(int revealedCellCount) {
-        app.setRevealedCellCount(revealedCellCount);
-    }
 
-    @Override
-    public void checkWinCondition() {
-        app.checkWinCondition();
-    }
 
-    @Override
-    public void setFlaggedCellCount(int flaggedCellCount) {
-        app.setFlaggedCellCount(flaggedCellCount);
-    }
 
-    @Override
-    public int getFlaggedCellCount() {
-        return app.getFlaggedCellCount();
-    }
-
-    @Override
-    public void initializeBoard() {
-        app.initializeBoard();
-    }
-
-    @Override
-    public ICell[][] getBoard() {
-        return app.getBoard();
-    }
 
     @Override
     public ICell getCell(int x, int y) {
         return app.getCell(x, y);
     }
 
-    @Override
-    public void setBoard(ICell[][] board) {
-        app.setBoard(board);
-    }
+
 
     @Override
     public int getMineCount() {
@@ -87,10 +58,7 @@ public class GameModel implements GameModelInterface {
         return app.getRemainingMines();
     }
 
-    @Override
-    public int getRevealedCellCount() {
-        return app.getRevealedCellCount();
-    }
+
 
     @Override
     public boolean isGameOver() {
@@ -107,18 +75,5 @@ public class GameModel implements GameModelInterface {
         return app.isGameStarted();
     }
 
-    @Override
-    public void setGameStarted(boolean b) {
-        app.setGameStarted(b);
-    }
 
-    @Override
-    public void setGameWon(boolean gameWon) {
-        app.setGameWon(gameWon);
-    }
-
-    @Override
-    public void setGameOver(boolean gameOver) {
-        app.setGameOver(gameOver);
-    }
 }

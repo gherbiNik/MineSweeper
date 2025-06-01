@@ -1,6 +1,5 @@
 package ch.supsi.backend.business.model;
 
-import ch.supsi.backend.business.cell.Cell;
 import ch.supsi.backend.business.cell.ICell;
 
 public interface BoardAccess {

@@ -1,9 +1,7 @@
 package ch.supsi.backend.application.gameMapper;
 
 import ch.supsi.backend.application.game.GameApplicationInterface;
-import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.business.mapper.GameStateMapperBusiness;
-import ch.supsi.backend.business.model.AbstractModel;
 
 import java.io.File;
 
@@ -15,7 +13,7 @@ public class GameStateMapperApplication implements IGameStateMapperApplication {
     private GameStateMapperApplication() {
     }
 
-    public static GameStateMapperApplication getInstance(GameApplicationInterface gameApplicationInterface, GameStateMapperBusiness gameStateMapperBusiness) {
+    public static GameStateMapperApplication getInstance(GameStateMapperBusiness gameStateMapperBusiness) {
         if (myself == null) {
             myself = new GameStateMapperApplication();
             myself.intialize(gameStateMapperBusiness);

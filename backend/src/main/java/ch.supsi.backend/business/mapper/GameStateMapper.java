@@ -68,7 +68,7 @@ public class GameStateMapper implements GameStateMapperBusiness{
         gameModel.setGameStarted(gameStateBusiness.isGameStarted());
         gameModel.setGameOver(gameStateBusiness.isGameOver());
         gameModel.setGameWon(gameStateBusiness.isGameWon());
-
+        gameModel.setMineCount(gameStateBusiness.getMineCount());
         gameModel.getGameBoardBusiness().setDimensions(gameStateBusiness.getBoardSize());
         gameModel.getGameBombBusiness().setMaxBomb(gameStateBusiness.getMaxBomb());
         gameModel.getGameBombBusiness().setMinBomb(gameStateBusiness.getMinBomb());

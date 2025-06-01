@@ -73,5 +73,5 @@ public class GameStateBusiness implements IGameStateBusiness {
     public int getBoardSize() { return boardSize; }
     public int getMaxBomb() { return maxBomb; }
     public int getMinBomb() { return minBomb; }
-    public long getTimestamp() { return timestamp; }
+
 }
