@@ -31,45 +31,13 @@ public class GameApplication implements  GameApplicationInterface {
         this.gameLogic.move(row, col, isRightClick);
     }
 
-    @Override
-    public void setRevealedCellCount(int revealedCellCount) {
-        this.gameLogic.setRevealedCellCount(revealedCellCount);
-    }
-
-    @Override
-    public void checkWinCondition() {
-        this.gameLogic.checkWinCondition();
-    }
-
-    @Override
-    public void setFlaggedCellCount(int flaggedCellCount) {
-        this.gameLogic.setFlaggedCellCount(flaggedCellCount);
-    }
-
-    @Override
-    public int getFlaggedCellCount() {
-        return this.gameLogic.getFlaggedCellCount();
-    }
-
-    @Override
-    public void initializeBoard() {
-        this.gameLogic.initializeBoard();
-    }
-
-    @Override
-    public ICell[][] getBoard() {
-        return this.gameLogic.getBoard();
-    }
 
     @Override
     public ICell getCell(int x, int y) {
         return this.gameLogic.getCell(x, y);
     }
 
-    @Override
-    public void setBoard(ICell[][] board) {
-        this.gameLogic.setBoard(board);
-    }
+
 
     @Override
     public int getMineCount() {
@@ -81,10 +49,7 @@ public class GameApplication implements  GameApplicationInterface {
         return this.gameLogic.getRemainingMines();
     }
 
-    @Override
-    public int getRevealedCellCount() {
-        return this.gameLogic.getRevealedCellCount();
-    }
+
 
 
     @Override
@@ -102,18 +67,5 @@ public class GameApplication implements  GameApplicationInterface {
         return gameLogic.isGameStarted();
     }
 
-    @Override
-    public void setGameStarted(boolean b) {
-        gameLogic.setGameStarted(b);
-    }
 
-    @Override
-    public void setGameWon(boolean gameWon) {
-        gameLogic.setGameWon(gameWon);
-    }
-
-    @Override
-    public void setGameOver(boolean gameOver) {
-        gameLogic.setGameOver(gameOver);
-    }
 }

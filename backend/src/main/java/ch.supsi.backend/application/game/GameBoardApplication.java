@@ -23,10 +23,6 @@ public class GameBoardApplication implements GameBoardInfoInterface{
     {
         this.gameBoardBusiness = gameBoardBusiness;
     }
-    @Override
-    public void setDimensions(int size) {
-        gameBoardBusiness.setDimensions(size);
-    }
 
     @Override
     public int getSize() {

@@ -1,6 +1,5 @@
 package ch.supsi.backend.business.service;
 
-import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.business.dto.IGameStateBusiness;
 
 import java.io.File;

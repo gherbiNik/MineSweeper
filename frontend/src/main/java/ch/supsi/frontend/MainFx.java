@@ -102,7 +102,7 @@ public class MainFx extends Application {
         GameBoardModel gameBoardModel = GameBoardModel.getInstance(gameBoardApplication);
         this.gameModel = GameModel.getInstance(gameApplicationInterface);
         GameStateMapper gameStateMapper = GameStateMapper.getInstance(gameSaveServiceBusiness, gameLogic);
-        GameStateMapperApplication gameStateMapperApplication = GameStateMapperApplication.getInstance(gameApplicationInterface, gameStateMapper);
+        GameStateMapperApplication gameStateMapperApplication = GameStateMapperApplication.getInstance(gameStateMapper);
         this.gameMapperModel = GameMapperModel.getInstance(gameStateMapperApplication);
 
 

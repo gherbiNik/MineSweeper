@@ -24,12 +24,6 @@ public class GameBoardModel implements GameBoardModelInterface{
         this.gameBoardApplication = gameBoardApplication;
     }
 
-
-    @Override
-    public void setDimensions(int size) {
-        gameBoardApplication.setDimensions(size);
-    }
-
     @Override
     public int getSize() {
         return gameBoardApplication.getSize();
