@@ -1,31 +1,24 @@
 package ch.supsi.frontend.controller;
 
-import ch.supsi.backend.application.l10n.TranslationsApplication;
-import ch.supsi.backend.business.l10n.TranslationsBusinessInterface;
-import ch.supsi.backend.business.preferences.PreferencesBusinessInterface;
-import ch.supsi.frontend.model.game.GameModel;
-import ch.supsi.frontend.view.DataView;
+import ch.supsi.frontend.MainFx;
 import javafx.stage.Stage;
-import java.util.List;
 
 public class ExitController {
 
-    private Stage primaryStage;
     private static ExitController myself;
 
-    private ExitController(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-
+    private ExitController() {
     }
 
-    public static ExitController getInstance(Stage primaryStage) {
+    public static ExitController getInstance() {
         if (myself == null) {
-            myself = new ExitController(primaryStage);
+            myself = new ExitController();
         }
         return myself;
     }
 
     public void quit() {
+        Stage primaryStage = MainFx.getStageToClose();
         if (primaryStage != null) {
             primaryStage.close();
         }

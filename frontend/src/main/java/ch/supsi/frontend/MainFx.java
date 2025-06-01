@@ -124,7 +124,7 @@ public class MainFx extends Application {
 
 
         // SCAFFOLDING of M-V-C
-        ExitController exitController = ExitController.getInstance(stageToClose);
+        ExitController exitController = ExitController.getInstance();
         this.exitView.initialize(translationsApplication, exitController);
         this.preferenceView.initialize(preferencesController, translationsApplication);
         this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView, translationsApplication, exitView, exitController);
@@ -147,6 +147,11 @@ public class MainFx extends Application {
 //    public  void switchGameBoard() {
 //        mainBorderPane.setCenter(this.gameBoardView.getNode());
 //    }
+
+
+    public static Stage getStageToClose() {
+        return stageToClose;
+    }
 
     @Override
     public void start(Stage primaryStage) {
