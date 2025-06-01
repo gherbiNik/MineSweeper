@@ -56,25 +56,19 @@ public class JacksonGameSaveService implements GameSaveData {
         try {
             Path saveFilePath = Paths.get(preferencesDataAccess.getUserPreferencesDirectoryPath().toString(), saveDirectory, completeFileName);
             objectMapper.writeValue(saveFilePath.toFile(), gameState);
-            System.out.println("Gioco salvato in: " + saveFilePath);
         } catch (IOException e) {
-            System.out.println("Errore durante il salvataggio del gioco: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public void saveGameAs(IGameStateBusiness gameState, File file) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        String formattedDateTime = localDateTime.format(formatter);
-        String completeFileName = saveFileName + "_" + formattedDateTime + ".json";
 
         try {
-            Path saveFilePath = Paths.get(file.getPath(), completeFileName);
+            Path saveFilePath = Paths.get(file.getPath());
             objectMapper.writeValue(saveFilePath.toFile(), gameState);
-            System.out.println("Gioco salvato in: " + saveFilePath);
         } catch (IOException e) {
-            System.out.println("Errore durante il salvataggio del gioco: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -83,12 +77,10 @@ public class JacksonGameSaveService implements GameSaveData {
         try {
             Path saveFilePath = Paths.get(fileName);
             if (!Files.exists(saveFilePath)) {
-                System.out.println("File di salvataggio non trovato: " + fileName);
                 throw new NoGameSavedEx("Nessun salvataggio presente");
             }
             return objectMapper.readValue(saveFilePath.toFile(), GameStateBusiness.class);
         } catch (IOException e) {
-            System.out.println("Errore durante il caricamento del gioco: " + e.getMessage());
             return null;
         }
     }

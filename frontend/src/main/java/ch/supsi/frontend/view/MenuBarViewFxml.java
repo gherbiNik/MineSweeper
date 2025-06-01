@@ -99,7 +99,7 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     @Override
     public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, OpenGameView openGameView, SaveAsView saveAsView) {
         this.infoController = infoController;
-        this.initialize(eventHandler, model, gameMapperController, preferenceView, translationsApplicationInterface, exitView, openGameView);
+        this.initialize(eventHandler, model, gameMapperController, preferenceView, translationsApplicationInterface, exitView, openGameView, saveAsView);
     }
 
 

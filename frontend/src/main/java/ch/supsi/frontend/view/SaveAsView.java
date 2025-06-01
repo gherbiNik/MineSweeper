@@ -40,11 +40,11 @@ public class SaveAsView implements ShowView{
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
 
-        File selectedFile = fileChooser.showOpenDialog(null);
 
-        if (selectedFile != null) {
-            gameMapperController.saveAs(selectedFile);
+        File selectedfile = fileChooser.showSaveDialog(null);
 
+        if (selectedfile != null) {
+            gameMapperController.saveAs(selectedfile);
         } else {
             System.out.println("Nessun file selezionato");
             gameMapperController.save();
