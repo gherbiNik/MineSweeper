@@ -27,11 +27,6 @@ public class GameApplication implements  GameApplicationInterface {
     }
 
     @Override
-    public void quit() {
-        this.gameLogic.quit();
-    }
-
-    @Override
     public void move(int row, int col, boolean isRightClick) {
         this.gameLogic.move(row, col, isRightClick);
     }

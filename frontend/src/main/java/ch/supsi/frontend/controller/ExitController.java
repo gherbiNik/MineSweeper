@@ -18,13 +18,10 @@ public class ExitController {
     }
 
     public void quit() {
-        Stage primaryStage = MainFx.getStageToClose();
-        if (primaryStage != null) {
-            primaryStage.close();
+        Stage stageToClose = MainFx.getStageToClose();
+        if (stageToClose != null) {
+            stageToClose.close();
         }
-
-
-        System.out.println("wfjwoijfwoiwjw");
     }
 
 }

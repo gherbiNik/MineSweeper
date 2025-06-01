@@ -185,10 +185,4 @@ public class GameLogic extends AbstractModel  {
         bombPlacer.placeMines(myself, mineCount);
     }
 
-    @Override
-    public void quit() {
-        gameStarted = false;
-        gameOver = false;
-        gameWon = false;
-    }
 }
