@@ -18,7 +18,6 @@ import ch.supsi.backend.business.preferences.PreferencesBusiness;
 import ch.supsi.backend.business.service.GameSaveServiceBusiness;
 import ch.supsi.backend.dataAccess.l10n.TranslationsPropertiesDataAccess;
 import ch.supsi.backend.dataAccess.preferences.PreferencesDataAccess;
-import ch.supsi.backend.dataAccess.states.GameSaveServiceFactory;
 import ch.supsi.backend.dataAccess.states.JacksonGameSaveService;
 import ch.supsi.frontend.controller.ExitController;
 import ch.supsi.frontend.controller.GameController;
@@ -53,6 +52,8 @@ public class MainFx extends Application {
     private final GameEventHandler gameEventHandler;
     private final PlayerEventHandler playerEventHandler;
     private final ExitView exitView;
+    private final OpenGameView openGameView;
+    private final SaveAsView saveAsView;
     private BorderPane mainBorderPane;
 
     public MainFx() {
@@ -63,8 +64,7 @@ public class MainFx extends Application {
         MinePlacementStrategy bombPlacer = new BombPlacer(gameBoardBusiness);
 
         GameBombBusiness gameBombBusiness = new GameBombBusiness();
-        JacksonGameSaveService jacksonGameSaveService = GameSaveServiceFactory.createJacksonSaveService();
-        GameSaveServiceBusiness gameSaveServiceBusiness = new GameSaveServiceBusiness(jacksonGameSaveService);
+
 
 
         PreferencesDataAccess preferencesDataAccess = PreferencesDataAccess.getInstance();
@@ -77,6 +77,8 @@ public class MainFx extends Application {
         TranslationsBusiness translationsBusiness = TranslationsBusiness.getInstance(translationsPropertiesDataAccess);
         TranslationsApplication translationsApplication = TranslationsApplication.getInstance(preferencesBusiness, translationsBusiness);
 
+        JacksonGameSaveService jacksonGameSaveService = JacksonGameSaveService.getInstance(preferencesDataAccess);
+        GameSaveServiceBusiness gameSaveServiceBusiness = new GameSaveServiceBusiness(jacksonGameSaveService);
 
         gameBoardBusiness.setDimensions(9);
         gameBombBusiness.setMinBomb(1);
@@ -94,7 +96,7 @@ public class MainFx extends Application {
         GameBoardApplication gameBoardApplication = GameBoardApplication.getInstance(gameBoardBusiness);
         GameBoardModel gameBoardModel = GameBoardModel.getInstance(gameBoardApplication);
         this.gameModel = GameModel.getInstance(gameApplicationInterface);
-        GameStateMapper gameStateMapper = GameStateMapper.getInstance( gameSaveServiceBusiness, gameLogic);
+        GameStateMapper gameStateMapper = GameStateMapper.getInstance(gameSaveServiceBusiness, gameLogic);
         GameStateMapperApplication gameStateMapperApplication = GameStateMapperApplication.getInstance(gameApplicationInterface, gameStateMapper);
         this.gameMapperModel = GameMapperModel.getInstance(gameStateMapperApplication);
 
@@ -107,12 +109,16 @@ public class MainFx extends Application {
         this.preferenceView = PreferenceView.getInstance();
         this.exitView = ExitView.getInstance();
 
+
+
         // CONTROLLERS
         //TODO casting corretto? - Opzione: dichiarare gameModel col tipo specifico (e non AbstractModel)
-        GameController controller = GameController.getInstance((GameModel) gameModel);
+        GameController controller = GameController.getInstance(gameModel);
         GameMapperController gameMapperController = GameMapperController.getInstance(gameMapperModel);
         this.gameEventHandler = controller;
         this.playerEventHandler = controller;
+        this.openGameView = OpenGameView.getInstance(gameMapperController,preferencesModel);
+        this.saveAsView = SaveAsView.getInstance(gameMapperController,preferencesModel);
 
 
         // SCAFFOLDING of M-V-C
@@ -125,7 +131,7 @@ public class MainFx extends Application {
 
         // INFO
         InfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, preferenceView, translationsApplication, exitView, exitController, infoController);
+        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, preferenceView, translationsApplication, exitView, exitController, infoController, openGameView, saveAsView);
 
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
         //this.welcomeView.initialize(this.gameModel);

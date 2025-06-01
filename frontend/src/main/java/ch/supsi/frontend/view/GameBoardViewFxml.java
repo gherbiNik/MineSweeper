@@ -206,6 +206,8 @@ public class GameBoardViewFxml implements ControlledFxView {
                 updateCellView(i, j);
             }
         }
+        activateCell();
+        createBehaviour();
     }
 
     private void updateCellView(int row, int col) {
@@ -257,8 +259,6 @@ public class GameBoardViewFxml implements ControlledFxView {
 
     @Override
     public void newGameMessage() {
-        activateCell();
-        createBehaviour();
         update();
     }
 

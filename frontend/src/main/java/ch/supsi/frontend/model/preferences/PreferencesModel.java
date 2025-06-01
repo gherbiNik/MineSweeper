@@ -2,6 +2,8 @@ package ch.supsi.frontend.model.preferences;
 
 import ch.supsi.backend.application.preferences.PreferencesApplicationInterface;
 
+import java.nio.file.Path;
+
 public class PreferencesModel implements IPreferencesModel {
 
     private static PreferencesModel myself;
@@ -30,5 +32,10 @@ public class PreferencesModel implements IPreferencesModel {
     @Override
     public Object getPreferences(String key) {
         return preferences.getPreference(key);
+    }
+
+    @Override
+    public Path getUserPreferencesDirectoryPath() {
+        return preferences.getUserPreferencesDirectoryPath();
     }
 }

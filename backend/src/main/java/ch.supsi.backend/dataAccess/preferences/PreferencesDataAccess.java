@@ -28,7 +28,7 @@ public class PreferencesDataAccess implements PreferencesDataAccessInterface {
     }
 
     //questo metodo serve per unire i due path userHomeDirectory e preferences directory
-    private Path getUserPreferencesDirectoryPath() {
+    public Path getUserPreferencesDirectoryPath() {
         return Path.of(userHomeDirectory, preferencesDirectory);
     }
 
