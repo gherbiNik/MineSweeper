@@ -43,8 +43,7 @@ public class TranslationsBusiness implements TranslationsBusinessInterface {
     //funzione che server pa cambiare la lingua
     @Override
     public boolean changeLanguage(String languageTag) {
-        //crea un oggetto locale a partire da un tag
-        //TODO DA CAPIRE SE CAMBIARE O NO
+
         this.translations = translationsDao.getTranslations(Locale.forLanguageTag(languageTag));
 
         return this.translations != null;
