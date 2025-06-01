@@ -26,7 +26,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     private PlayerEventHandler playerEventHandler;
     private GameModelInterface gameModel;
     private Button[][] cells;
-    private GameBoardModelInterface gameBoardModelInterface;
+    private int boardSize;
+
 
     @FXML
     private GridPane containerPane;
@@ -168,17 +169,18 @@ public class GameBoardViewFxml implements ControlledFxView {
         cells[8][8] = cell88;
     }
 
+
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameController,GameBoardModelInterface gameBoardModelInterface) {
+    public void initialize(int boardSize, EventHandler eventHandler, GameModelInterface model, IGameMapperController gameController) {
+        this.boardSize = boardSize;
         this.playerEventHandler = (PlayerEventHandler) eventHandler;
         this.gameModel = model;
-        this.gameBoardModelInterface = gameBoardModelInterface;
 
     }
 
     private void createBehaviour() {
-        for (int i = 0; i < gameBoardModelInterface.getSize(); i++) {
-            for (int j = 0; j < gameBoardModelInterface.getSize(); j++) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
                 final int row = i;
                 final int col = j;
 
@@ -199,8 +201,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     public void update() {
 
         // Aggiorna la visualizzazione della griglia in base allo stato del modello
-        for (int i = 0; i < gameBoardModelInterface.getSize(); i++) {
-            for (int j = 0; j < gameBoardModelInterface.getSize(); j++) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
                 updateCellView(i, j);
             }
         }
@@ -261,8 +263,8 @@ public class GameBoardViewFxml implements ControlledFxView {
     }
 
     private void activateCell() {
-        for (int i = 0; i < gameBoardModelInterface.getSize(); i++) {
-            for (int j = 0; j < gameBoardModelInterface.getSize(); j++) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
                 cells[i][j].setDisable(false);
             }
         }
