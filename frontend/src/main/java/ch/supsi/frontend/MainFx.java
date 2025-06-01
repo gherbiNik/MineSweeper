@@ -125,13 +125,11 @@ public class MainFx extends Application {
         ExitController exitController = ExitController.getInstance();
         this.exitView.initialize(translationsApplication, exitController);
         this.preferenceView.initialize(preferencesController, translationsApplication);
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, this.preferenceView, translationsApplication, exitView, exitController);
         this.gameBoardView.initialize(gameBoardModel.getSize(), this.playerEventHandler, this.gameModel, gameMapperController);
-        this.userFeedbackView.initialize(this.gameModel, translationsApplication);
 
         // INFO
         InfoController infoController = InfoController.getInstance((InfoView) userFeedbackView);
-        this.menuBarView.initialize(this.gameEventHandler, this.gameModel, gameMapperController, preferenceView, translationsApplication, exitView, exitController, infoController, openGameView, saveAsView);
+        this.menuBarView.initialize(gameEventHandler,gameModel, gameMapperController, preferenceView,translationsApplication,exitView, exitController, infoController, openGameView, saveAsView);
 
         this.userFeedbackView.initialize(this.gameModel, translationsApplication);
         //this.welcomeView.initialize(this.gameModel);

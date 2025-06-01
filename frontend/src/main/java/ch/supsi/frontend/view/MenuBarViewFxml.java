@@ -7,7 +7,6 @@ import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.IInfoController;
 import ch.supsi.frontend.controller.InfoController;
-import ch.supsi.frontend.controller.gameMapperController.IInfoController;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,9 +84,9 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, ExitController exitController, InfoController infoController, OpenGameView openGameView, SaveAsView saveAsView) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, ExitController exitController, IInfoController infoController, OpenGameView openGameView, SaveAsView saveAsView) {
         this.changeLanguage(translationsApplicationInterface);
-
+        initialize(infoController);
         this.gameEventHandler = (GameEventHandler) eventHandler;
         this.gameMapperController = gameMapperController;
         this.gameModel = model;
@@ -97,13 +96,14 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         this.exitController = exitController;
         this.openGameView = openGameView;
         this.saveAsView = saveAsView;
-        initialize(infoController);
         this.createBehaviour();
+
+
     }
 
 
     @Override
-    public void initialize(InfoController infoController) {
+    public void initialize(IInfoController infoController) {
         this.infoController = infoController;
     }
 
