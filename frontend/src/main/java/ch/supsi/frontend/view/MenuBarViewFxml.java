@@ -184,9 +184,12 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
 
     @Override
     public void flagUpdateMessage(int remainingMines) {
+
     }
 
     @Override
     public void gameOverMessage(String message) {
+        saveMenuItem.setDisable(true);
+        saveAsMenuItem.setDisable(true);
     }
 }
