@@ -1,4 +1,4 @@
-package ch.supsi.frontend.controller.gameMapperController;
+package ch.supsi.frontend.controller;
 
 import ch.supsi.frontend.view.InfoView;
 
