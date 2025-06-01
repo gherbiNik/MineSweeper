@@ -3,6 +3,7 @@ package ch.supsi.frontend.controller.gameMapperController;
 import ch.supsi.frontend.model.gameMapperModel.IGameMapperModel;
 import ch.supsi.frontend.view.DataView;
 
+import java.io.File;
 import java.util.List;
 
 public class GameMapperController implements IGameMapperController{
@@ -28,14 +29,22 @@ public class GameMapperController implements IGameMapperController{
 
 
     @Override
-    public void save(String fileName) {
-        gameMapperModel.save(fileName);
+    public void save() {
+        gameMapperModel.save();
         this.views.forEach(DataView::update);
     }
+
+
 
     @Override
     public void open(String fileName) {
         gameMapperModel.open(fileName);
+        this.views.forEach(DataView::update);
+    }
+
+    @Override
+    public void saveAs(File file) {
+        gameMapperModel.saveAs(file);
         this.views.forEach(DataView::update);
     }
 }

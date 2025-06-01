@@ -2,6 +2,8 @@ package ch.supsi.frontend.model.gameMapperModel;
 
 import ch.supsi.backend.application.gameMapper.IGameStateMapperApplication;
 
+import java.io.File;
+
 public class GameMapperModel implements IGameMapperModel{
 
     private static GameMapperModel myself;
@@ -21,13 +23,18 @@ public class GameMapperModel implements IGameMapperModel{
 
 
     @Override
-    public void save(String fileName) {
-        gameStateMapperApplication.toDTO(fileName);
+    public void save() {
+        gameStateMapperApplication.toDTO();
     }
 
     @Override
     public void open(String fileName) {
         gameStateMapperApplication.fromDTO(fileName);
 
+    }
+
+    @Override
+    public void saveAs(File file) {
+        gameStateMapperApplication.toDTOas(file);
     }
 }

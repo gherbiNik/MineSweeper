@@ -2,30 +2,42 @@ package ch.supsi.backend.dataAccess.states;
 
 import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.business.dto.IGameStateBusiness;
+import ch.supsi.backend.dataAccess.preferences.PreferencesDataAccessInterface;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class JacksonGameSaveService implements GameSaveData {
+    private static JacksonGameSaveService myself;
     private final ObjectMapper objectMapper;
-    private final String saveDirectory;
+    private final String saveDirectory = "saves";
+    private final String saveFileName = "gameSaved";
+    private PreferencesDataAccessInterface preferencesDataAccess;
 
-    public JacksonGameSaveService(String saveDirectory) {
-        this.saveDirectory = saveDirectory;
+    private JacksonGameSaveService() {
         this.objectMapper = new ObjectMapper();
         this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
 
-        // Crea la directory di salvataggio se non esiste
-        createSaveDirectoryIfNotExists();
+    public static JacksonGameSaveService getInstance(PreferencesDataAccessInterface preferencesDataAccess) {
+        if (myself == null) {
+            myself = new JacksonGameSaveService();
+            myself.preferencesDataAccess = preferencesDataAccess;
+            myself.createSaveDirectoryIfNotExists();
+        }
+        return myself;
     }
 
     private void createSaveDirectoryIfNotExists() {
         try {
-            Path path = Paths.get(saveDirectory);
+            Path path = Paths.get(preferencesDataAccess.getUserPreferencesDirectoryPath().toString(), saveDirectory);
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
@@ -35,48 +47,49 @@ public class JacksonGameSaveService implements GameSaveData {
     }
 
     @Override
-    public void saveGame(IGameStateBusiness gameState, String fileName){
+    public void saveGame(IGameStateBusiness gameState) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String formattedDateTime = localDateTime.format(formatter);
+        String completeFileName = saveFileName + "_" + formattedDateTime + ".json";
+
         try {
-            File saveFile = new File(saveDirectory, fileName + ".json");
-            objectMapper.writeValue(saveFile, gameState);
-            System.out.println("salav in " + saveDirectory + fileName);
+            Path saveFilePath = Paths.get(preferencesDataAccess.getUserPreferencesDirectoryPath().toString(), saveDirectory, completeFileName);
+            objectMapper.writeValue(saveFilePath.toFile(), gameState);
+            System.out.println("Gioco salvato in: " + saveFilePath);
         } catch (IOException e) {
-            System.out.println("Errore durante il salvataggio del gioco: " + fileName);
+            System.out.println("Errore durante il salvataggio del gioco: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void saveGameAs(IGameStateBusiness gameState, File file) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String formattedDateTime = localDateTime.format(formatter);
+        String completeFileName = saveFileName + "_" + formattedDateTime + ".json";
+
+        try {
+            Path saveFilePath = Paths.get(file.getPath(), completeFileName);
+            objectMapper.writeValue(saveFilePath.toFile(), gameState);
+            System.out.println("Gioco salvato in: " + saveFilePath);
+        } catch (IOException e) {
+            System.out.println("Errore durante il salvataggio del gioco: " + e.getMessage());
         }
     }
 
     @Override
     public GameStateBusiness loadGame(String fileName) {
         try {
-            File saveFile = new File(saveDirectory, fileName + ".json");
-            System.out.println("Mi arriva " + saveDirectory + fileName);
-            if (!saveFile.exists()) {
+            Path saveFilePath = Paths.get(fileName);
+            if (!Files.exists(saveFilePath)) {
                 System.out.println("File di salvataggio non trovato: " + fileName);
                 throw new NoGameSavedEx("Nessun salvataggio presente");
             }
-            return objectMapper.readValue(saveFile, GameStateBusiness.class);
+            return objectMapper.readValue(saveFilePath.toFile(), GameStateBusiness.class);
         } catch (IOException e) {
-            System.out.println("Errore durante il caricamento del gioco: " + fileName);
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public boolean saveExists(String fileName) {
-        File saveFile = new File(saveDirectory, fileName + ".json");
-        return saveFile.exists();
-    }
-
-    @Override
-    public void deleteSave(String fileName) {
-        try {
-            File saveFile = new File(saveDirectory, fileName + ".json");
-            if (saveFile.exists() && !saveFile.delete()) {
-                System.out.println("Impossibile eliminare il file di salvataggio: " + fileName);
-            }
-        } catch (Exception e) {
-            System.out.println("Errore durante l'eliminazione del salvataggio: " + fileName);
+            System.out.println("Errore durante il caricamento del gioco: " + e.getMessage());
+            return null;
         }
     }
 }

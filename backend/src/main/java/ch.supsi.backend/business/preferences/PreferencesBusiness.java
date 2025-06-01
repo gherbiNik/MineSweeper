@@ -3,6 +3,7 @@ package ch.supsi.backend.business.preferences;
 import ch.supsi.backend.dataAccess.preferences.PreferencesDataAccessInterface;
 import ch.supsi.backend.dataAccess.preferences.PreferencesDataAccess;
 
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class PreferencesBusiness implements PreferencesBusinessInterface {
@@ -54,6 +55,11 @@ public class PreferencesBusiness implements PreferencesBusinessInterface {
     @Override
     public void setPreference(String key, Object value) {
         this.preferencesDao.setPreference(key, value.toString());
+    }
+
+    @Override
+    public Path getUserPreferencesDirectoryPath() {
+        return preferencesDao.getUserPreferencesDirectoryPath();
     }
 
 }

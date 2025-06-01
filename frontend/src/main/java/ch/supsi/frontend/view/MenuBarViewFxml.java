@@ -1,13 +1,10 @@
 package ch.supsi.frontend.view;
 
 import ch.supsi.backend.application.l10n.TranslationsApplicationInterface;
-import ch.supsi.backend.dataAccess.states.NoGameSavedEx;
 import ch.supsi.frontend.controller.EventHandler;
-import ch.supsi.backend.business.model.AbstractModel;
 import ch.supsi.frontend.controller.GameEventHandler;
 import ch.supsi.frontend.controller.gameMapperController.IGameMapperController;
 import ch.supsi.frontend.controller.gameMapperController.IInfoController;
-import ch.supsi.frontend.model.game.GameModel;
 import ch.supsi.frontend.model.game.GameModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +27,8 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     private IInfoController infoController;
     private TranslationsApplicationInterface translationsApplication;
     private ExitView exitView;
+    private OpenGameView openGameView;
+    private SaveAsView saveAsView;
 
     @FXML
     private MenuBar menuBar;
@@ -82,22 +81,25 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
     }
 
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, OpenGameView openGameView, SaveAsView saveAsView) {
         this.changeLanguage(translationsApplicationInterface);
-        this.createBehaviour();
+
         this.gameEventHandler = (GameEventHandler) eventHandler;
         this.gameMapperController = gameMapperController;
         this.gameModel = model;
         this.preferenceView = (PreferenceView) preferenceView;
         this.translationsApplication = translationsApplicationInterface;
         this.exitView = exitView;
+        this.openGameView = openGameView;
+        this.saveAsView = saveAsView;
+        this.createBehaviour();
     }
 
 
     @Override
-    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView) {
+    public void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, OpenGameView openGameView, SaveAsView saveAsView) {
         this.infoController = infoController;
-        this.initialize(eventHandler, model, gameMapperController, preferenceView, translationsApplicationInterface, exitView);
+        this.initialize(eventHandler, model, gameMapperController, preferenceView, translationsApplicationInterface, exitView, openGameView);
     }
 
 
@@ -120,21 +122,17 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
         this.newMenuItem.setOnAction(event -> this.gameEventHandler.newGame());
 
         // save
-        this.saveMenuItem.setOnAction(event -> this.gameMapperController.save("fileSalavataggio"));
+        this.saveMenuItem.setOnAction(event -> this.gameMapperController.save());
+
+        this.saveAsMenuItem.setOnAction(event -> this.saveAsView.showView());
+
+        //this.saveAsMenuItem.setOnAction();
 
         // add event handlers for all necessary menu items
         // Aggiungi qui gestori eventi per altre voci di menu
 
         // open
-        this.openMenuItem.setOnAction(event -> {
-            try {
-                this.gameMapperController.open("fileSalavataggio");
-            } catch (NoGameSavedEx e)
-            {
-                this.infoController.display(translationsApplication.translate("label.noGameFound"));
-            }
-
-        });
+        this.openMenuItem.setOnAction(event -> this.openGameView.showView());
 
         // quit
         this.quitMenuItem.setOnAction(
@@ -146,9 +144,8 @@ public class MenuBarViewFxml implements ControlledFxView, InfoViewInit {
                 // Per esempio:
                 // Platform.exit();
         );
-        this.preferencesMenuItem.setOnAction(event -> {
-            this.preferenceView.showView();
-        });
+
+        this.preferencesMenuItem.setOnAction(event -> this.preferenceView.showView());
 
         // help
         this.helpMenuItem.setOnAction(event -> this.infoController.display(translationsApplication.translate("label.helpMessage")));

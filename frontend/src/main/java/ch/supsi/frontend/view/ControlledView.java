@@ -14,8 +14,11 @@ public interface ControlledView extends DataView {
    default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController){}
    default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface){}
    default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView view, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView){}
+   default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView view, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, OpenGameView openGameView){}
+
    default void initialize(IPreferencesController preferencesController, TranslationsApplicationInterface translationsApplication, ExitView exitView){}
    default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameController,GameBoardModelInterface gameBoardModelInterface){}
    default  void initialize(IPreferencesController preferencesController, TranslationsApplicationInterface translationsApplication){}
+   default void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, ShowView view, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, OpenGameView openGameView, SaveAsView saveAsView){}
 
 }

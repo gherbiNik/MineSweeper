@@ -29,9 +29,9 @@ public class ExitView implements ShowView{
 
 
 
-    public void initialize(TranslationsApplicationInterface translationsApplication) {
-        this.
-    }
+//    public void initialize(TranslationsApplicationInterface translationsApplication) {
+//        this.
+//    }
 
     @Override
     public void showView() {

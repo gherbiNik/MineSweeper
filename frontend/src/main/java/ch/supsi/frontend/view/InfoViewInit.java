@@ -8,5 +8,5 @@ import ch.supsi.frontend.controller.gameMapperController.IInfoController;
 import ch.supsi.frontend.model.game.GameModelInterface;
 
 public interface InfoViewInit {
-    void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView);
+    void initialize(EventHandler eventHandler, GameModelInterface model, IGameMapperController gameMapperController, IInfoController infoController, ShowView preferenceView, TranslationsApplicationInterface translationsApplicationInterface, ExitView exitView, OpenGameView openGameView, SaveAsView saveAsView);
 }

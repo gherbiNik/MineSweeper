@@ -5,6 +5,8 @@ import ch.supsi.backend.business.dto.GameStateBusiness;
 import ch.supsi.backend.business.mapper.GameStateMapperBusiness;
 import ch.supsi.backend.business.model.AbstractModel;
 
+import java.io.File;
+
 public class GameStateMapperApplication implements IGameStateMapperApplication {
 
     private static GameStateMapperApplication myself;
@@ -25,12 +27,17 @@ public class GameStateMapperApplication implements IGameStateMapperApplication {
         this.gameStateMapperBusiness = gameStateMapperBusiness;
     }
     @Override
-    public void toDTO(String fileName) {
-        gameStateMapperBusiness.toDTO(fileName);
+    public void toDTO() {
+        gameStateMapperBusiness.toDTO();
     }
 
     @Override
     public void fromDTO(String fileName) {
         gameStateMapperBusiness.fromDTO(fileName);
+    }
+
+    @Override
+    public void toDTOas(File file) {
+        gameStateMapperBusiness.toDTOas(file);
     }
 }
