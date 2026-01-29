@@ -64,4 +64,3 @@ The deliverable is a standalone desktop application that implements the classic 
 ### Lifecycle model 
 Iterative and incremental development (short iterations with intermediate demos and reviews).
 
-## Build command:
